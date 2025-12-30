@@ -1,0 +1,81 @@
+[
+    {
+        "id": "SO_01",
+        "jmeno": "Vřískoun",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 4
+    },
+    {
+        "id": "SO_02",
+        "jmeno": "Sukuba",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 3,
+        "karty": 1
+    },
+    {
+        "id": "SO_03",
+        "jmeno": "Noční můra",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 5,
+        "body": 6
+    },
+    {
+        "id": "SO_04",
+        "jmeno": "Požírač snů",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 6,
+        "body": 5
+    },
+    {
+        "id": "SO_05",
+        "jmeno": "Měsíční netvor",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 7,
+        "body": 10,
+        "besneni": 1
+    },
+    {
+        "id": "SO_06",
+        "jmeno": "Sekáč podsvětní",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 8,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "SO_07",
+        "jmeno": "Belzebub",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 9,
+        "body": 10,
+        "besneni": 2,
+        "karty": 2
+    },
+    {
+        "id": "SO_08",
+        "jmeno": "Prastarý",
+        "barva": "fialova",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 10,
+        "body": 13,
+        "besneni": 3,
+        "karty": 2
+    }
+]

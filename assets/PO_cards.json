@@ -1,0 +1,136 @@
+[
+    {
+        "id": "PO_01",
+        "jmeno": "Poletucha",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "PO_02",
+        "jmeno": "Poletucha",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "PO_03",
+        "jmeno": "Poletucha",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "PO_04",
+        "jmeno": "Poletucha",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "PO_05",
+        "jmeno": "Harpyje",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 5,
+        "besneni": 1
+    },
+    {
+        "id": "PO_06",
+        "jmeno": "Křídloun",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 1,
+        "karty": 1
+    },
+    {
+        "id": "PO_07",
+        "jmeno": "Saň",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "PO_08",
+        "jmeno": "Saň",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "PO_09",
+        "jmeno": "Fénix",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 8,
+        "besneni": 1
+    },
+    {
+        "id": "PO_10",
+        "jmeno": "OmnividGryf",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 4,
+        "karty": 1
+    },
+    {
+        "id": "PO_11",
+        "jmeno": "Gryf",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "PO_12",
+        "jmeno": "Gryf",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "PO_13",
+        "jmeno": "Pavouk náhorní",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "PO_14",
+        "jmeno": "Quetzalcóatl",
+        "barva": "zlata",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 16,
+        "besneni": 2
+    }
+]

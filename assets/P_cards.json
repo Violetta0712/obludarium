@@ -1,0 +1,120 @@
+[
+    {
+        "id": "P_01",
+        "jmeno": "Yvetta Šnorchlová",
+        "podtitul": "Odbornice Na Hlubiny",
+        "text": "Kdykoli zahrajete obludu z Hlubin získáte 2 tolary.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_02",
+        "jmeno": "Jonatán Darker",
+        "podtitul": "Odborník Na Temnozem",
+        "text": "Kdykoli zahrajete obludu z Temnozemě získáte 2 tolary.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_03",
+        "jmeno": "Karel Wankel",
+        "podtitul": "Odborník Na Jeskyně",
+        "text": "Kdykoli zahrajete obludu z Jeskyní získáte 2 tolary.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_04",
+        "jmeno": "Robin Wood",
+        "podtitul": "Odborník Na Začarovaný les",
+        "text": "Kdykoli zahrajete obludu z Začarovaného lesa získáte 2 tolary.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_05",
+        "jmeno": "Zoja Hmlová",
+        "podtitul": "Odborník Na Povětří",
+        "text": "Kdykoli zahrajete obludu z Povětří získáte 2 tolary.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_06",
+        "jmeno": "Josef V. Pitek",
+        "podtitul": "Pořadatel",
+        "text": "Za každou kartu události, kterou zahrajete, získáte 1 tolar.",
+        "cena": 3,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_07",
+        "jmeno": "Marcus D. Jemňous",
+        "podtitul": "Krotitel oblud",
+        "text": "Za každý symbol běsnění obludy, kterou zahrajete, získáte 1 tolar.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_08",
+        "jmeno": "Jensen A. Winchester",
+        "podtitul": "Elitní lovec",
+        "text": "Každou sezónu můžete ignorovat jeden symbol běsnění.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_09",
+        "jmeno": "Michonne Fraserová",
+        "podtitul": "Elitní lovec",
+        "text": "Každou sezónu můžete ignorovat jeden symbol běsnění.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_10",
+        "jmeno": "Jiří Kolděda",
+        "podtitul": "Nebojácný průzkumník",
+        "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_11",
+        "jmeno": "Pan Dřibáň",
+        "podtitul": "Nebojácný průzkumník",
+        "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_12",
+        "jmeno": "Emílie Hrdličková",
+        "podtitul": "Nebojácná průzkumnice",
+        "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    },
+    {
+        "id": "P_13",
+        "jmeno": "Květa Hošek",
+        "podtitul": "Nebojácná průzkumnice",
+        "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
+        "cena": 2,
+        "typ": "P",
+        "mnozstvi": 1
+    }
+
+]

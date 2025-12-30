@@ -1,0 +1,48 @@
+[
+    {
+        "id": "DK_1",
+        "jmeno": "Mělčina",
+        "podtitul": "před Hlubinami",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "DK",
+        "mnozstvi": 2
+    },
+    {
+        "id": "DK_2",
+        "jmeno": "Portál",
+        "podtitul": "do Temnozemě",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "DK",
+        "mnozstvi": 2
+    },
+    {
+        "id": "DK_3",
+        "jmeno": "Vchod",
+        "podtitul": "do Jeskyní",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "DK",
+        "mnozstvi": 2
+    },
+    {
+        "id": "DK_4",
+        "jmeno": "Stezka",
+        "podtitul": "do Začarovaného lesa",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "DK",
+        "mnozstvi": 2
+    },
+    {
+        "id": "DK_5",
+        "jmeno": "Vzdušný proud",
+        "podtitul": "do Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "DK",
+        "mnozstvi": 2
+    }
+
+]

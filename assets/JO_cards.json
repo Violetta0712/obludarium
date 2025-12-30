@@ -1,0 +1,136 @@
+[
+    {
+        "id": "JO_01",
+        "jmeno": "Červor",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "JO_02",
+        "jmeno": "Červor",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "JO_03",
+        "jmeno": "Červor",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "JO_04",
+        "jmeno": "Červor",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "JO_05",
+        "jmeno": "Bazilišek",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 5,
+        "besneni": 1
+    },
+    {
+        "id": "JO_06",
+        "jmeno": "Houba masožravá",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 1,
+        "karty": 1
+    },
+    {
+        "id": "JO_07",
+        "jmeno": "Vlkopýr",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "JO_08",
+        "jmeno": "Vlkopýr",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "JO_09",
+        "jmeno": "Olgoj Chorchoj",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 8,
+        "besneni": 1
+    },
+    {
+        "id": "JO_10",
+        "jmeno": "Sklípkan bahenní",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 4,
+        "karty": 1
+    },
+    {
+        "id": "JO_11",
+        "jmeno": "Jeskynní troll",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "JO_12",
+        "jmeno": "Jeskynní troll",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "JO_13",
+        "jmeno": "Bezejmenný",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "JO_14",
+        "jmeno": "Magmonstrum",
+        "barva": "hneda",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 16,
+        "besneni": 2
+    }
+]

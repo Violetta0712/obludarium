@@ -1,0 +1,159 @@
+[
+    {
+        "id": "U_01",
+        "jmeno": "Prohlídka Hlubin",
+        "text": "Za každý svůj bod průzkumu Hlubin ve hře získáváte 1 tolar.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_02",
+        "jmeno": "Prohlídka Temnozemě",
+        "text": "Za každý svůj bod průzkumu Temnozemě ve hře získáváte 1 tolar.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_03",
+        "jmeno": "Prohlídka Jeskyní",
+        "text": "Za každý svůj bod průzkumu Jeskyní ve hře získáváte 1 tolar.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_04",
+        "jmeno": "Prohlídka Začarovaného lesa",
+        "text": "Za každý svůj bod průzkumu Začarovaného lesa ve hře získáváte 1 tolar.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_05",
+        "jmeno": "Prohlídka Povětří",
+        "text": "Za každý svůj bod průzkumu Povětří ve hře získáváte 1 tolar.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_06",
+        "jmeno": "Přednáška monstrologie",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_07",
+        "jmeno": "Báječné představení",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_08",
+        "jmeno": "Akademická expedice",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_09",
+        "jmeno": "Zámožní sponzoři",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_10",
+        "jmeno": "Objev roku",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_11",
+        "jmeno": "Nové vedení",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_12",
+        "jmeno": "Senzační vědecká prezentace",
+        "text": "Získáváte 2 tolary.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_13",
+        "jmeno": "Nejlepší obrana je útok",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_14",
+        "jmeno": "Vybroušená lovecká technika",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_15",
+        "jmeno": "Zoologický průzkum",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_16",
+        "jmeno": "Špičkové vybavení",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_17",
+        "jmeno": "Nejnovější vědecké objevy",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_18",
+        "jmeno": "Bezpečnostní opatření",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_19",
+        "jmeno": "Bezpečnostní trénink",
+        "text": "Získáváte 1 žeton lovce.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_20",
+        "jmeno": "Předpremiéra",
+        "text": "Ukažte libovolný počet OBLUD ze svých uložených karet (ne Obludária) a vraťte je mezi uložené. Získáváte 1 tolar za každou z nich.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_21",
+        "jmeno": "Představení pro novináře",
+        "text": "Ukažte libovolný počet OBLUD ze svých uložených karet (ne Obludária) a vraťte je mezi uložené. Získáváte 1 tolar za každou z nich.",
+        "typ": "U",
+        "mnozstvi": 1
+    },
+    {
+        "id": "U_22",
+        "jmeno": "Večírek pro zaměstnance",
+        "text": "Za každou vyloženou kartu personálu získáváte 2 tolary.", 
+        "typ": "U",
+        "mnozstvi": 1
+    }
+    
+    
+
+]

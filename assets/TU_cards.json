@@ -1,0 +1,128 @@
+[
+    {
+        "id": "TU_01",
+        "jmeno": "Specializuju se na mořský příšery",
+        "text": "2VB za každou obludu z Hlubin ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_02",
+        "jmeno": "Fascinujou mě ty strašidelný zrůdy",
+        "text": "2VB za každou obludu z Temnozemě ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_03",
+        "jmeno": "Zkoumám podzemní nestvůry",
+        "text": "2VB za každou obludu z Jeskyní ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_04",
+        "jmeno": "Studuju lesní tvory",
+        "text": "2VB za každou obludu ze Začarovaného lesa ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_05",
+        "jmeno": "Zbožňuju létající potvůrky",
+        "text": "2VB za každou obludu z Povětří ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_06",
+        "jmeno": "Obdivuju nadpřirozený stvoření",
+        "text": "2VB za každou obludu z Krajiny snů ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_07",
+        "jmeno": "Co je malý to je milý",
+        "text": "1VB za každou obludu úrovně 1 ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_08",
+        "jmeno": "Lovím vysokou",
+        "text": "2VB za každou obludu úrovně 3 a 3VB za každou obludu úrovně 4 a vyšší ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_09",
+        "jmeno": "Zaměstnavatel roku",
+        "text": "3VB za každou vaši vloženou kartu personálu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_10",
+        "jmeno": "Očividně posedlej",
+        "text": "7VB, máte-li ve hře alespoň 7 bodů průzkumu jednoho libovolného kraje (kromě Krajiny snů).",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_11",
+        "jmeno": "Náměsíčnej poutník",
+        "text": "2VB za každou vaši vyloženou kartu Krajin snů.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_12",
+        "jmeno": "Až na vrcholk hor",
+        "text": "2VB za každou vaši vyloženou kartu vzdáleného kraje.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_13",
+        "jmeno": "Devatero řemesel",
+        "text": "2VB za každý kraj, od něhož máte alespoň 2 body průzkumu (kromě Krajiny snů).",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_14",
+        "jmeno": "Specialista",
+        "text": "7VB, máte-li ve hře karty max. 3 různých krajů. 4VB, máte-li ve hře karty právě 4 různých krajů.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_15",
+        "jmeno": "Mně druhý místo stačí",
+        "text": "7VB, pokud jste po sečtení všech ostatních bodů na 2. místě nebo se dělíte o první.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_16",
+        "jmeno": "Administrátor",
+        "text": "2VB za každý váš tajný úkol kromě tohoto.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_17",
+        "jmeno": "Správnej zálesák",
+        "text": "2VB za každý žeton lovce, který vám zbyl na konci hry.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_18",
+        "jmeno": "Dobrý účty dělaj dobrý přátele",
+        "text": "2VB za každou vaši půjčku ve hře.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_19",
+        "jmeno": "Miluju adrenalin",
+        "text": "1VB za každý symbol běsnění oblud ve vašem Obludáriu.",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_20",
+        "jmeno": "Kdo šetří, má za tři",
+        "text": "6VB, nemáte-li žádné půjčky (Ani konsolidované).",
+        "mnozstvi": 1
+    },
+    {
+        "id": "TU_21",
+        "jmeno": "Na stříbrným podnose",
+        "text": "4VB.",
+        "mnozstvi": 1
+    }
+]

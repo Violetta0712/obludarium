@@ -1,0 +1,136 @@
+[
+    {
+        "id": "TO_01",
+        "jmeno": "Ghúl",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "TO_02",
+        "jmeno": "Ghúl",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "TO_03",
+        "jmeno": "Ghúl",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "TO_04",
+        "jmeno": "Ghúl",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "TO_05",
+        "jmeno": "Půlnoční trol",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 5,
+        "besneni": 1
+    },
+    {
+        "id": "TO_06",
+        "jmeno": "Stínová puma",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 1,
+        "karty": 1
+    },
+    {
+        "id": "TO_07",
+        "jmeno": "Dýmon",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "TO_08",
+        "jmeno": "Dýmon",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "TO_09",
+        "jmeno": "Dybuk",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 8,
+        "besneni": 1
+    },
+    {
+        "id": "TO_10",
+        "jmeno": "Zlověstník",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 4,
+        "karty": 1
+    },
+    {
+        "id": "TO_11",
+        "jmeno": "Žárantule",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "TO_12",
+        "jmeno": "Žárantule",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "TO_13",
+        "jmeno": "Padlý anděl",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "TO_14",
+        "jmeno": "Fantom noci",
+        "barva": "cerna",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 16,
+        "besneni": 2
+    }
+]

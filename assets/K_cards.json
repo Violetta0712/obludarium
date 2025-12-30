@@ -1,0 +1,200 @@
+[
+    {
+        "id": "K_01",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 10
+    },
+    {
+        "id": "K_02",
+        "jmeno": "Hlubiny",
+        "podtitul": "Zapomenutá flotila",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "modra",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_03",
+        "jmeno": "Hlubiny",
+        "podtitul": "Propast",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "modra",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_04",
+        "jmeno": "Hlubiny",
+        "podtitul": "Korálový hrad",
+        "pruzkum": 3,
+        "prerekvizity": 2,
+        "barva": "modra",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 10
+    },
+    {
+        "id": "K_06",
+        "jmeno": "Temnozem",
+        "podtitul": "Pevnost prokletých",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "cerna",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_07",
+        "jmeno": "Temnozem",
+        "podtitul": "Močál smrti",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "cerna",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_08",
+        "jmeno": "Temnozem",
+        "podtitul": "Brána do podsvětí",
+        "pruzkum": 3,
+        "prerekvizity": 2,
+        "barva": "cerna",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 10
+    },
+    {
+        "id": "K_10",
+        "jmeno": "Jeskyně",
+        "podtitul": "Houbová slůj",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "hneda",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_11",
+        "jmeno": "Jeskyně",
+        "podtitul": "Velká síň",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "hneda",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_12",
+        "jmeno": "Jeskyně",
+        "podtitul": "Lávotrysk",
+        "pruzkum": 3,
+        "prerekvizity": 2,
+        "barva": "hneda",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 10
+    },
+    {
+        "id": "K_14",
+        "jmeno": "Začarovaný les",
+        "podtitul": "Opuštěná svatyně",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "zelena",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_15",
+        "jmeno": "Začarovaný les",
+        "podtitul": "Tajuplné rozcestí",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "zelena",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_16",
+        "jmeno": "Začarovaný les",
+        "podtitul": "Prastrom života",
+        "pruzkum": 3,
+        "prerekvizity": 2,
+        "barva": "zelena",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 10
+    },
+    {
+        "id": "K_18",
+        "jmeno": "Povětří",
+        "podtitul": "Planoucí vulkán",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "zlata",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_19",
+        "jmeno": "Povětří",
+        "podtitul": "Schodiště bohů",
+        "pruzkum": 2,
+        "prerekvizity": 1,
+        "barva": "zlata",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_20",
+        "jmeno": "Povětří",
+        "podtitul": "Zámek v oblacích",
+        "pruzkum": 3,
+        "prerekvizity": 2,
+        "barva": "zlata",
+        "typ": "VK",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 7
+    }
+]

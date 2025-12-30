@@ -1,0 +1,136 @@
+[
+    {
+        "id": "HO_01",
+        "jmeno": "Rybstvo",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "HO_02",
+        "jmeno": "Rybstvo",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "HO_03",
+        "jmeno": "Rybstvo",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "HO_04",
+        "jmeno": "Rybstvo",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "HO_05",
+        "jmeno": "Krabouk",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 5,
+        "besneni": 1
+    },
+    {
+        "id": "HO_06",
+        "jmeno": "Kelpie",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 1,
+        "karty": 1
+    },
+    {
+        "id": "HO_07",
+        "jmeno": "Korýšolam",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "HO_08",
+        "jmeno": "Korýšolam",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "HO_09",
+        "jmeno": "Hydra",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 8,
+        "besneni": 1
+    },
+    {
+        "id": "HO_10",
+        "jmeno": "Měsíční žralok",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 4,
+        "karty": 1
+    },
+    {
+        "id": "HO_11",
+        "jmeno": "Mořský obr",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "HO_12",
+        "jmeno": "Mořský obr",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "HO_13",
+        "jmeno": "Kraken",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "HO_14",
+        "jmeno": "Leviathan",
+        "barva": "modra",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 16,
+        "besneni": 2
+    }
+]

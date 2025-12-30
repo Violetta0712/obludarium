@@ -1,0 +1,136 @@
+[
+    {
+        "id": "ZO_01",
+        "jmeno": "Jezinka",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "ZO_02",
+        "jmeno": "Jezinka",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "ZO_03",
+        "jmeno": "Jezinka",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "ZO_04",
+        "jmeno": "Jezinka",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 3
+    },
+    {
+        "id": "ZO_05",
+        "jmeno": "Pavouk stromovy",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 5,
+        "besneni": 1
+    },
+    {
+        "id": "ZO_06",
+        "jmeno": "Jožin",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 1,
+        "body": 1,
+        "karty": 1
+    },
+    {
+        "id": "ZO_07",
+        "jmeno": "Hejkal",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "ZO_08",
+        "jmeno": "Hejkal",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 6
+    },
+    {
+        "id": "ZO_09",
+        "jmeno": "Zlobr",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 8,
+        "besneni": 1
+    },
+    {
+        "id": "ZO_10",
+        "jmeno": "Lestie",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 2,
+        "body": 4,
+        "karty": 1
+    },
+    {
+        "id": "ZO_11",
+        "jmeno": "Ent",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "ZO_12",
+        "jmeno": "Ent",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 11,
+        "besneni": 1
+    },
+    {
+        "id": "ZO_13",
+        "jmeno": "Zmej",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 3,
+        "body": 13,
+        "besneni": 2
+    },
+    {
+        "id": "ZO_14",
+        "jmeno": "Wendigo",
+        "barva": "zelena",
+        "typ": "O",
+        "mnozstvi": 1,
+        "uroven": 4,
+        "body": 16,
+        "besneni": 2
+    }
+]

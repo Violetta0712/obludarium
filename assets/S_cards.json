@@ -1,0 +1,73 @@
+[
+    {
+        "id":"S_1",
+        "jmeno":"Sezóna Hlubin",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Hlubin v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Hlubin.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_2",
+        "jmeno":"Sezóna Temnozemě",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Temnozemě v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Temnozemě.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_3",
+        "jmeno":"Sezóna Jeskyní",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Jeskyní v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Jeskyní.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_4",
+        "jmeno":"Sezóna Začarovaného lesa",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Začarovaného lesa v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Začarovaného lesa.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_5",
+        "jmeno":"Sezóna Povětří",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Povětří v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Povětří.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_6",
+        "jmeno":"Vysněná sezóna",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou obludu z Krajiny snů v této sezóně.",
+        "trofej": "Nejvyšší součet VB oblud z Krajiny snů.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    },
+    {
+        "id":"S_7",
+        "jmeno":"Nebezpečná sezóna",
+        "text": "Každý hráč získá 2 tolary za svou první zahranou běsnící obludu v této sezóně.",
+        "trofej": "Nejvyšší počet symbolů běsnění.",
+        "typ":"S",
+        "mnozstvi":1,
+        "body":3
+
+    }
+    
+]
