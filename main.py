@@ -1,3 +1,5 @@
-import functions.functions as func
+import functions.functions as f
+import pandas as pd
+import json
 
-print("Welcome to Obludarium!")
+print(f.load_deck())
