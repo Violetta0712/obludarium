@@ -21,3 +21,5 @@ ZO_json = JSON_DIR / "ZO_cards.json"
 
 deck_jsons = [HO_json, JO_json, K_json, P_json, PO_json, SO_json,TO_json, TU_json, U_json, ZO_json]
 
+hand_size = 8
+
