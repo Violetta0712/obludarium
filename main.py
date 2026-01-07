@@ -7,29 +7,26 @@ import functions.ux as u
 import pygame
 import sys
 import classes.ux.Button as button
+import classes.ux.TextBox as textbox
 
 def main():
     pygame.init()
 
     screen = pygame.display.set_mode((0, 0), pygame.NOFRAME)
+    SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
     pygame.display.set_caption("Obludárium")
 
     clock = pygame.time.Clock()
     state = "menu"
     running = True
-
-    quit_button = button.Button(100, 100, 200, 50, "Quit Game", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
     while running:
         clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if quit_button.is_clicked():
-                running = False
-
-        screen.fill((30, 30, 30))
-        quit_button.draw(screen)
-        pygame.display.flip()
+        if state == "menu":
+            state, running = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+        elif state == "local_game":
+            state, running = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+        else:
+            running = False
 
     pygame.quit()
     sys.exit() 
