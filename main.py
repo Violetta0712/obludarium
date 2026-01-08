@@ -22,10 +22,13 @@ def main():
     while running:
         clock.tick(60)
         if state == "menu":
-            state, running = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+            state = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+        elif state == "local_game_menu":
+            state, players = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
         elif state == "local_game":
-            state, running = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+            state, players = u.draw_game(screen,SCREEN_WIDTH, SCREEN_HEIGHT, players)
         else:
+            print("EXITING because state =", state)
             running = False
 
     pygame.quit()

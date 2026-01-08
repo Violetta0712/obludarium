@@ -14,24 +14,51 @@ def draw_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
     local_button = button.Button(b_x, b_y, b_width, b_height, "Lokální hra", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))  
     b_y = b_y + b_height + b_interval
     quit_button = button.Button(b_x, b_y, b_width, b_height, "Ukončit", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if quit_button.is_clicked():
-            running = False
-        if local_button.is_clicked():
-            state = "local_game"
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif quit_button.is_clicked(event):
+                state = "terminate"
+                running = False
+            elif local_button.is_clicked(event):
+                state = "local_game_menu"
+                running = False
 
-        screen.fill((30, 30, 30))
-        quit_button.draw(screen)
-        local_button.draw(screen)
-        pygame.display.flip()
-    return state, running
+            screen.fill((30, 30, 30))
+            quit_button.draw(screen)
+            local_button.draw(screen)
+            pygame.display.flip()
+    return state
 
+def draw_game(screen, SCREEN_WIDTH, SCREEN_HEIGHT, players):
+    running = True
+    state = 'local_game'
+    b_width = SCREEN_HEIGHT // 4
+    b_height = SCREEN_HEIGHT // 12
+    b_x = (SCREEN_WIDTH - b_width) // 2
+    b_y = (SCREEN_HEIGHT - b_height) //2
+    back_b_width = SCREEN_WIDTH // 6
+    back_b_height = SCREEN_HEIGHT // 12
+    back_b_x = back_b_width // 4
+    back_b_y = back_b_height // 2
+    back_button = button.Button(back_b_x, back_b_y, back_b_width, back_b_height, "Back", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+    t1 = textbox.TextBox(b_x, b_y, b_width, b_height, str(players), pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif back_button.is_clicked(event):
+                running = False
+                state = "local_game_menu"
+            screen.fill((30, 30, 30))
+            back_button.draw(screen)
+            t1.draw(screen)
+            pygame.display.flip()
+    return state, players
 def draw_local_game_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
     running = True
-    running_menu = True
-    state = "local_game"
+    state = "local_game_menu"
     back_b_width = SCREEN_WIDTH // 6
     back_b_height = SCREEN_HEIGHT // 12
     back_b_x = back_b_width // 4
@@ -67,28 +94,33 @@ def draw_local_game_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
     b_y = b_y + b_height + b_interval
     b_x = (SCREEN_WIDTH - b_width) // 2
     startgame_button = button.Button(b_x, b_y, b_width, b_height, "Start Game", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
-    while running_menu:
+    players = 5
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if back_button.is_clicked():
+            elif back_button.is_clicked(event):
                 state = "menu"
-                running_menu = False
-            if p2_button.is_clicked():
+                running = False
+            elif startgame_button.is_clicked(event):
+                state = "local_game"
+                running = False
+            elif p2_button.is_clicked(event):
                 p2id = (p2id + 1) % len(pa)
                 p2_button.text = pa[p2id]
 
-            if p3_button.is_clicked():
+            elif p3_button.is_clicked(event):
                 p3id = (p3id + 1) % len(pa)
                 p3_button.text = pa[p3id]
 
-            if p4_button.is_clicked():
+            elif p4_button.is_clicked(event):
                 p4id = (p4id + 1) % len(pan)
                 p4_button.text = pan[p4id]
 
-            if p5_button.is_clicked():
+            elif p5_button.is_clicked(event):
                 p5id = (p5id + 1) % len(pan)
                 p5_button.text = pan[p5id]
+            players = 5 - (1 if p5id == 2 else 0) - (1 if p4id == 2 else 0)
 
 
             screen.fill((30, 30, 30))
@@ -105,4 +137,4 @@ def draw_local_game_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
             t5.draw(screen)
             startgame_button.draw(screen)
             pygame.display.flip()
-    return state, running
+    return state, players

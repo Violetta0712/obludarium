@@ -8,6 +8,7 @@ class Button:
         self.idle_color = idle_color
         self.hover_color = hover_color
         self.text_color = text_color
+        
 
     def draw(self, surface):
         mouse_pos = pygame.mouse.get_pos()
@@ -22,5 +23,7 @@ class Button:
         label_rect = label.get_rect(center=self.rect.center)
         surface.blit(label, label_rect)
 
-    def is_clicked(self):
-        return self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]
+    def is_clicked(self, event): 
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: 
+            return self.rect.collidepoint(event.pos) 
+        return False
