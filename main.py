@@ -28,7 +28,6 @@ def main():
         elif state == "local_game":
             state, players = u.draw_game(screen,SCREEN_WIDTH, SCREEN_HEIGHT, players)
         else:
-            print("EXITING because state =", state)
             running = False
 
     pygame.quit()

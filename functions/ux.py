@@ -2,6 +2,8 @@
 import pygame
 import classes.ux.Button as button
 import classes.ux.TextBox as textbox
+import classes.logic.Game as game
+import classes.logic.Player as player
 def draw_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
     running = True
     state = "menu"
@@ -44,6 +46,7 @@ def draw_game(screen, SCREEN_WIDTH, SCREEN_HEIGHT, players):
     back_b_y = back_b_height // 2
     back_button = button.Button(back_b_x, back_b_y, back_b_width, back_b_height, "Back", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
     t1 = textbox.TextBox(b_x, b_y, b_width, b_height, str(players), pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+    local_game = game.Game(players)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -56,6 +59,7 @@ def draw_game(screen, SCREEN_WIDTH, SCREEN_HEIGHT, players):
             t1.draw(screen)
             pygame.display.flip()
     return state, players
+
 def draw_local_game_menu(screen, SCREEN_WIDTH, SCREEN_HEIGHT):
     running = True
     state = "local_game_menu"

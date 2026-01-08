@@ -13,6 +13,15 @@ def load_deck():
             deck.extend(ids)
     return deck
 
+def load_card_ref():
+    ref = []
+    for all_json in p.all_jsons:
+        with open(all_json, 'r', encoding='utf-8') as file:
+            cards = json.load(file)
+            ref.extend(cards)
+    final_ref = {r['id']:r for r in ref}
+    return final_ref
+
 def deal_hands(deck, players, hand_size):
     hands = []
     for i in range(players):
