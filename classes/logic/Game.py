@@ -16,7 +16,7 @@ class Game:
             for j in new_hand.cardids:
                 self.game_deck.remove(j)
             self.hands.append(new_hand)
-        print(self.hands[0].cards)
+        
 
 
     

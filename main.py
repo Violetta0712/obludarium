@@ -21,14 +21,15 @@ def main():
     running = True
     while running:
         clock.tick(60)
-        if state == "menu":
-            state = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
-        elif state == "local_game_menu":
-            state, players = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
-        elif state == "local_game":
-            state, players = u.draw_game(screen,SCREEN_WIDTH, SCREEN_HEIGHT, players)
-        else:
-            running = False
+        match state:
+            case "menu":
+                state = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+            case "local_game_menu":
+                state, players = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
+            case "local_game":
+                state, players = u.draw_game(screen,SCREEN_WIDTH, SCREEN_HEIGHT, players)
+            case _:
+                running = False
 
     pygame.quit()
     sys.exit() 

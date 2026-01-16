@@ -1,11 +1,19 @@
+import functions.functions as f
+import pandas as pd
+import json
 import random 
+import params as p
+import functions.ux as u
+import pygame
+import sys
+import classes.ux.Button as button
+import classes.ux.TextBox as textbox
 import classes.logic.Card as card
-class Deck:
-    def __init__(self, id, game_deck, card_ref):
-        self.id = id
-        self.cardids = random.sample(game_deck, 8)
-        self.cards = []
-        for cardid in self.cardids:
+
+card_ref = f.load_card_ref()
+cardids = f.load_deck()
+
+for cardid in cardids:
             cardinfo = card_ref[cardid]
             match cardinfo['typ']:
                 case 'K':
@@ -22,7 +30,4 @@ class Deck:
                 case 'U':
                     new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'])
                 case _:
-                    new_card = cardinfo['typ'] + cardinfo['jmeno']
-            self.cards.append(new_card)
-
-        
+                    print(cardinfo['typ'] + cardinfo['jmeno'])

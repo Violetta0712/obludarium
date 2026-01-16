@@ -45,7 +45,6 @@ def draw_game(screen, SCREEN_WIDTH, SCREEN_HEIGHT, players):
     back_b_x = back_b_width // 4
     back_b_y = back_b_height // 2
     back_button = button.Button(back_b_x, back_b_y, back_b_width, back_b_height, "Back", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
-    t1 = textbox.TextBox(b_x, b_y, b_width, b_height, str(players), pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
     local_game = game.Game(players)
     while running:
         for event in pygame.event.get():
@@ -56,7 +55,6 @@ def draw_game(screen, SCREEN_WIDTH, SCREEN_HEIGHT, players):
                 state = "local_game_menu"
             screen.fill((30, 30, 30))
             back_button.draw(screen)
-            t1.draw(screen)
             pygame.display.flip()
     return state, players
 

@@ -32,3 +32,8 @@ class ObjectiveCard(Card):
     def __init__(self, id, name):
         super().__init__(id, name)
         self.card_type = "objective"
+
+class EventCard(Card):
+    def __init__(self, id, name):
+        super().__init__(id, name)
+        self.card_type = 'event'
