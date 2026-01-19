@@ -5,13 +5,16 @@ class Game:
     def __init__(self, player_num):
         self.players = []
         self.round = 1
+        self.turn = 1
         self.hands = []
         self.game_deck = f.load_deck()
         self.reference = f.load_card_ref()
         for i in range(player_num):
             new_player = player.Player(i, "Human")
             self.players.append(new_player)
-        for i in range(player_num):
+        
+    def start_round(self):
+        for i in range(len(self.players)):
             new_hand = deck.Deck(i, self.game_deck, self.reference)
             for j in new_hand.cardids:
                 self.game_deck.remove(j)
