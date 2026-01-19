@@ -8,6 +8,9 @@ import pygame
 import sys
 import classes.ux.Button as button
 import classes.ux.TextBox as textbox
+import classes.states.Menu as menu
+import classes.states.LocalGameMenu as localgamemenu
+import classes.states.GameScene as gamescene
 
 def main():
     pygame.init()
@@ -17,19 +20,28 @@ def main():
     pygame.display.set_caption("Obludárium")
 
     clock = pygame.time.Clock()
+    last_state = 'start'
     state = "menu"
     running = True
+    players = 5
     while running:
         clock.tick(60)
-        match state:
-            case "menu":
-                state = u.draw_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
-            case "local_game_menu":
-                state, players = u.draw_local_game_menu(screen,SCREEN_WIDTH, SCREEN_HEIGHT)
-            case "local_game":
-                state, players = u.draw_game(screen,SCREEN_WIDTH, SCREEN_HEIGHT, players)
-            case _:
-                running = False
+        if last_state != state:
+            match state:
+                case "menu":
+                    app = menu.Menu(SCREEN_HEIGHT, SCREEN_WIDTH)
+                case "local_game_menu":
+                    app = localgamemenu.LocalGameMenu(SCREEN_HEIGHT, SCREEN_WIDTH)
+                case "local_game":
+                    app = gamescene.GameScene(SCREEN_HEIGHT, SCREEN_WIDTH, players)
+                case _:
+                    running = False
+            last_state = state
+        app.update(screen)
+        state = app.state
+        running = app.running
+        if hasattr(app, "players"):
+            players = app.players
 
     pygame.quit()
     sys.exit() 
