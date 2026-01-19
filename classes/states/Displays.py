@@ -1,4 +1,5 @@
 import classes.ux.Button as button
+import classes.ux.CardImage as img
 import pygame
 class Display:
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state):
@@ -17,3 +18,21 @@ class Display:
             self.state = "local_game_menu"
     def draw(self, screen):
         self.back_button.draw(screen)
+
+    
+class Season(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, cardid):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state)
+        card_width = SCREEN_WIDTH // 6
+        card_x = (SCREEN_WIDTH - card_width)/2
+        card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
+        self.seasoncard = img.CardImage(card_x,card_y, card_width, cardid)
+
+
+    
+    def draw(self, screen):
+        super().draw(screen)
+        self.seasoncard.draw(screen)
+
+    def check(self, event):
+        super().check(event)
