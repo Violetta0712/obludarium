@@ -14,9 +14,9 @@ class GameScene():
     def update(self, screen):
         match self.phase:
             case 'season':
-                self.scene = dis.Season(self.s_height, self.s_width,self.state, self.phase, self.local_game.season,  )
-            case 'turn':
-                self.scene = dis.Display(self.s_height, self.s_width,self.state, self.phase)
+                self.scene = dis.Season(self.s_height, self.s_width,self.state, self.phase, self.local_game.season  )
+            case 'turn-deck':
+                self.scene = dis.TurnDeck(self.s_height, self.s_width,self.state, self.phase, self.local_game.players[self.local_game.current_player], self.local_game.hands[0])
 
         for event in pygame.event.get():
             self.scene.check(event)
