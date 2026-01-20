@@ -40,6 +40,24 @@ def load_seasons():
     final_deck = [r['id'] for r in deck]
     return final_deck
 
+def load_DK_ref():
+    deck = []
+    for s_json in p.DK_jsons:
+        with open(s_json, 'r', encoding='utf-8') as file:
+            cards = json.load(file)
+            deck.extend(cards)
+    final_deck = {r['id']:r for r in deck}
+    return final_deck
+
+def load_DK():
+    deck = []
+    for deck_json in p.DK_jsons:
+        with open(deck_json, 'r', encoding='utf-8') as file:
+            cards = json.load(file)
+            ids = [item["id"] for item in cards for _ in range(item["mnozstvi"])]
+            deck.extend(ids)
+    return deck
+
 
 def deal_hands(deck, players, hand_size):
     hands = []

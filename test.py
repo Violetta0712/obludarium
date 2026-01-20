@@ -9,8 +9,8 @@ import sys
 import classes.ux.Button as button
 import classes.ux.TextBox as textbox
 import classes.logic.Card as card
+import classes.logic.Deck as deck
+import classes.logic.Player as player
+import classes.ux.TextBall as textball
 
-deck = f.load_seasons()
-s = random.sample(deck, 1)[0]
-deck.remove(s)
-print(s, deck)
+

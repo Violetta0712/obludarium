@@ -2,6 +2,8 @@ class Card:
     def __init__(self, id, name):
         self.id = id
         self.name = name
+    def play(self):
+        print("Played" + str(self.name))
 
 
 class MonsterCard(Card): 
@@ -37,3 +39,12 @@ class EventCard(Card):
     def __init__(self, id, name):
         super().__init__(id, name)
         self.card_type = 'event'
+
+class HomeBiomCard(Card):
+    def __init__(self, id, name, color, level): 
+        super().__init__(id, name) 
+        self.card_type="biom"
+        self.color = color
+        self.level = level
+    def play(self, person):
+        person.bioms[self.color][0] += 1

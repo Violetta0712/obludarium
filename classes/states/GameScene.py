@@ -14,10 +14,13 @@ class GameScene():
     def update(self, screen):
         match self.phase:
             case 'season':
-                self.scene = dis.Season(self.s_height, self.s_width,self.state,self.local_game.season )
+                self.scene = dis.Season(self.s_height, self.s_width,self.state, self.phase, self.local_game.season,  )
+            case 'turn':
+                self.scene = dis.Display(self.s_height, self.s_width,self.state, self.phase)
 
         for event in pygame.event.get():
             self.scene.check(event)
+        self.phase = self.scene.phase
         self.state = self.scene.state
         self.running = self.scene.running
         screen.fill((30, 30, 30))

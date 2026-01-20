@@ -1,10 +1,20 @@
 import random 
 import classes.logic.Card as card
 class Deck:
+    def __init__(self):
+        self.cards = []
+        
+    
+    def play_card(self, id, person):
+            played_card = self.cards.pop(id)
+            played_card.play(person)
+
+
+class PlayerDeck(Deck):
     def __init__(self, id, game_deck, card_ref):
+        super().__init__()
         self.id = id
         self.cardids = random.sample(game_deck, 8)
-        self.cards = []
         for cardid in self.cardids:
             cardinfo = card_ref[cardid]
             match cardinfo['typ']:
@@ -25,4 +35,11 @@ class Deck:
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             self.cards.append(new_card)
 
-        
+class DKDeck(Deck):
+    def __init__(self, game_deck, card_ref):
+        super().__init__()
+        self.cardids = game_deck
+        for cardid in self.cardids:
+            cardinfo = card_ref[cardid]
+            new_card = card.HomeBiomCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['pruzkum'])
+            self.cards.append(new_card)
