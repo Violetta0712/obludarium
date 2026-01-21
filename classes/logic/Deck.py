@@ -14,6 +14,7 @@ class PlayerDeck(Deck):
     def __init__(self, id, game_deck, card_ref):
         super().__init__()
         self.id = id
+        self.isplayable = True
         self.cardids = random.sample(game_deck, 8)
         for cardid in self.cardids:
             cardinfo = card_ref[cardid]
@@ -24,7 +25,10 @@ class PlayerDeck(Deck):
                 case 'O':
                     fury = cardinfo.get("besneni", 0)
                     extra = cardinfo.get("karty", 0)
-                    new_card = card.MonsterCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['uroven'], cardinfo['body'], fury, extra)
+                    if cardinfo['barva'] == 'fialova':
+                        new_card = card.PurpleMonsterCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['uroven'], cardinfo['body'], fury, extra)
+                    else:
+                        new_card = card.MonsterCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['uroven'], cardinfo['body'], fury, extra)
                 case 'P':
                     new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"])
                 case 'TU':

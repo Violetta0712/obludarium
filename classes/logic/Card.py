@@ -2,11 +2,22 @@ class Card:
     def __init__(self, id, name):
         self.id = id
         self.name = name
-    def play(self):
+    def play(self, person):
         print("Played" + str(self.name))
 
 
 class MonsterCard(Card): 
+    def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
+        super().__init__(id, name) 
+        self.isplayable = True
+        self.color = color
+        self.card_type="monster"
+        self.level = level
+        self.points = points
+        self.fury = fury
+        self.cards = cards
+
+class PurpleMonsterCard(Card):
     def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
         super().__init__(id, name) 
         self.color = color
