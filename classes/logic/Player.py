@@ -9,3 +9,5 @@ class Player:
         self.upgrades = deck.Deck()
         self.stored = deck.Deck()
         self.monsters = deck.Deck()
+        self.money = 4
+    

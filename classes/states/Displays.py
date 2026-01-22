@@ -84,6 +84,7 @@ class Turn(Display):
         self.buttons = []
         self.playbuttons = []
         self.playid = []
+        self.storebuttons = []
         self.page = page
         w = SCREEN_WIDTH
         h = (SCREEN_HEIGHT -self.offset)/2
@@ -112,10 +113,13 @@ class Turn(Display):
         for i in range(it-6, min(it, len(hand.cards))):
             karta = img.CardImage(cx, cy, cw, hand.cards[i].id)
             self.karty.append(karta)
-            if hand.isplayable and getattr(hand.cards[i], "isplayable", False):
+            if hand.isplayable and hand.cards[i].isplayable(self.person):
                 t = button.Button(cx, cy +ch, cw/2, cw/4, "Hrát", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
                 self.playbuttons.append(t)
                 self.playid.append(i)
+            if hand.isstorable:
+                t = button.Button(cx+cw/2, cy +ch, cw/2, cw/4, "Uložit", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+                self.storebuttons.append(t)
             cx += ((cw+self.offset))
     
     def draw(self, screen):
@@ -129,6 +133,8 @@ class Turn(Display):
             b.draw(screen)
         for b in self.playbuttons:
             b.draw(screen)
+        for b in self.storebuttons:
+            b.draw(screen)
     def check(self, event):
         super().check(event)
         if self.b1 and self.b1.is_clicked(event):
@@ -139,6 +145,10 @@ class Turn(Display):
         for i in range(len(self.playbuttons)):
             if self.playbuttons[i].is_clicked(event):
                 self.hand.play_card(self.playid[i], self.person)
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], 1)
+        for i in range(len(self.storebuttons)):
+            if self.storebuttons[i].is_clicked(event):
+                self.hand.store_card(i, self.person)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], 1)
         return self 
 

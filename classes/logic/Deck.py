@@ -6,8 +6,11 @@ class Deck:
         
     
     def play_card(self, id, person):
-            played_card = self.cards.pop(id)
-            played_card.play(person)
+        played_card = self.cards.pop(id)
+        played_card.play(person)
+    def store_card(self, id, person):
+        played_card = self.cards.pop(id)
+        person.stored.cards.append(played_card)
 
 
 class PlayerDeck(Deck):
@@ -15,6 +18,7 @@ class PlayerDeck(Deck):
         super().__init__()
         self.id = id
         self.isplayable = True
+        self.isstorable = True
         self.cardids = random.sample(game_deck, 8)
         for cardid in self.cardids:
             cardinfo = card_ref[cardid]
