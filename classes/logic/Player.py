@@ -10,4 +10,15 @@ class Player:
         self.stored = deck.Deck()
         self.monsters = deck.Deck()
         self.money = 4
-    
+        self.loans = 0
+    def pay(self, price):
+        if self.money >= price:
+            self.money -= price
+        
+
+
+
+            
+
+
+            

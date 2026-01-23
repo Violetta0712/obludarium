@@ -64,7 +64,7 @@ class EmployeeCard(Card):
     def isplayable(self, person):
         return True
     def play(self, person):
-        person.upgrades.cardsj.append(self.name)
+        person.upgrades.cards.append(self.name)
 
 class ObjectiveCard(Card):
     def __init__(self, id, name):
