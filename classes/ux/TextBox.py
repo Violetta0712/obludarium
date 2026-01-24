@@ -7,7 +7,7 @@ class TextBox:
         self.font = font
         self.color = color
         self.text_color = text_color
-
+ 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect, border_radius=10)
         pygame.draw.rect(surface, self.text_color, self.rect, 2, border_radius=10)

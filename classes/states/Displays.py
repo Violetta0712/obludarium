@@ -184,6 +184,8 @@ class TurnDeck(Turn):
             self.bs.append(self.b_next)
         else:
             self.b_next = None
+        player_id = textbox.TextBox((SCREEN_WIDTH-self.offset*4)/2,(SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Hráč" + str(person.id + 1), pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.bs.append(player_id)
     def draw(self, screen):
         super().draw(screen)
         for b in self.bs:
@@ -202,6 +204,12 @@ class TurnDeck(Turn):
             self.person.had_played = False
             self.hand.isplayable = True
             self.hand.isstorable = True
-            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.local_game.hands[self.local_game.current_deck])
+            match self.local_game.next_player():
+                case "turn":
+                    return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
+                case "season":
+                    return Season(self.s_height, self.s_width,self.state, self.local_game, self.local_game.season)
+                case "end":
+                    self.state = "menu"
         return self
         
