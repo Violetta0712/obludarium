@@ -14,4 +14,4 @@ import classes.logic.Player as player
 import classes.ux.TextBall as textball
 
 
-print(sum([1,3]))
+print(3400/250)

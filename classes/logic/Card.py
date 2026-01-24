@@ -1,3 +1,5 @@
+import classes.ux.TextBox as textbox
+import pygame
 class Card:
     def __init__(self, id, name):
         self.id = id
@@ -22,6 +24,10 @@ class MonsterCard(Card):
             return True
         else:
             return False
+    def play(self, person):
+        person.occupied[self.color].append(PlayedMonster(self.level, self.name, self.fury, self.points))
+        person.played.cards.append(self)
+        person.pay_biom(self.level, self.color)
 
 class PurpleMonsterCard(Card):
     def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
@@ -64,6 +70,7 @@ class EmployeeCard(Card):
     def isplayable(self, person):
         return True
     def play(self, person):
+        person.pay(self.price)
         person.upgrades.cards.append(self.name)
 
 class ObjectiveCard(Card):
@@ -87,3 +94,15 @@ class HomeBiomCard(Card):
         self.level = level
     def play(self, person):
         person.bioms[self.color][0] += 1
+
+class PlayedMonster:
+    def __init__(self, level, name, besneni, points):
+        self.level = level
+        self.name = name
+        self.besneni = besneni
+        self.points = points
+    def create_visual(self, x, y, w, h):
+        vs = []
+        v = textbox.TextBox(x, y, w, h, str(self.level)+str(self.name)+str(self.besneni)+str(self.points),pygame.font.SysFont(None, 48), (255, 204, 153),(102, 180, 0))
+        vs.append(v)
+        return(vs)

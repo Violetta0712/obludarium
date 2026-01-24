@@ -8,6 +8,7 @@ class Game:
         self.round = 1
         self.turn = 1
         self.current_player = 0
+        self.firstplayerdeck = 0
         self.hands = []
         self.seasondeck = f.load_seasons()
         self.s_ref = f.load_season_ref()
@@ -23,6 +24,7 @@ class Game:
                 dk_card = random.sample(range(len(DK_deck.cards)), 1)[0]
                 DK_deck.play_card(dk_card, new_player)
             self.players.append(new_player)
+        self.current_deck = (self.current_player+self.firstplayerdeck)%5
         
     def start_round(self):
         self.season = random.sample(self.seasondeck, 1)[0]
@@ -32,6 +34,9 @@ class Game:
             for j in new_hand.cardids:
                 self.game_deck.remove(j)
             self.hands.append(new_hand)
+    
+    
+
         
         
 

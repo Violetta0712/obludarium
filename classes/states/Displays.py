@@ -47,9 +47,11 @@ class Season(Display):
         self.okbutton.draw(screen)
 
     def check(self, event):
-        super().check(event)
+        result = super().check(event)
+        if result is not self:
+            return result
         if self.okbutton.is_clicked(event):
-            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0])
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self
 
 class Turn(Display):
@@ -60,6 +62,12 @@ class Turn(Display):
         r = (SCREEN_WIDTH-2*self.offset)/36
         x = self.offset+r
         y = self.offset+r
+        ww = (SCREEN_WIDTH-2*self.offset)/6
+        hh = self.offset
+        coin = textbox.TextBox(self.s_width- 3*self.offset, 0, 3*self.offset, self.offset, str(person.money), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        self.balls.append(coin)
+        loan = textbox.TextBox(self.s_width- 6*self.offset, 0, 3*self.offset, self.offset, str(person.loans), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        self.balls.append(loan)
         for barva,biom in person.bioms.items():
             match barva:
                 case "modra":
@@ -78,8 +86,12 @@ class Turn(Display):
             b = str(sum(biom))
             ball = textball.TextBall(x, y, r, a + '/' + b, pygame.font.SysFont(None, 48), col, (255, 255, 255))
             self.balls.append(ball)
+            y_card = y+ r
+            for oc in person.occupied[barva]:
+                self.balls.extend(oc.create_visual(x-r, y_card, ww, hh))
+                y_card+=hh
             x += (SCREEN_WIDTH-2*self.offset)/6
-            self.hand = hand
+        self.hand = hand
         self.karty = []
         self.buttons = []
         self.playbuttons = []
@@ -136,20 +148,22 @@ class Turn(Display):
         for b in self.storebuttons:
             b.draw(screen)
     def check(self, event):
-        super().check(event)
+        result = super().check(event)
+        if result is not self:
+            return result
         if self.b1 and self.b1.is_clicked(event):
-            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], self.page-1)
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, self.page-1)
 
         if self.b2 and self.b2.is_clicked(event):
-            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], self.page+1)
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, self.page+1)
         for i in range(len(self.playbuttons)):
             if self.playbuttons[i].is_clicked(event):
                 self.hand.play_card(self.playid[i], self.person)
-                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], 1)
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
                 self.hand.store_card(i, self.person)
-                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[0], 1)
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         return self 
 
 
@@ -157,4 +171,37 @@ class Turn(Display):
 class TurnDeck(Turn):
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, person, hand, page = 1):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, person, hand, page)
+        self.bs = []
+        self.now_playing = self.local_game.players[self.local_game.current_player]
+        self.b_deck = button.Button(0, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Balíček", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.bs.append(self.b_deck)
+        self.b_stored = button.Button(self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Uložené", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.bs.append(self.b_stored)
+        self.b_monsters = button.Button(self.offset*8, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Obludy", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.bs.append(self.b_monsters)
+        if person.had_played:
+            self.b_next = button.Button(SCREEN_WIDTH-self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+            self.bs.append(self.b_next)
+        else:
+            self.b_next = None
+    def draw(self, screen):
+        super().draw(screen)
+        for b in self.bs:
+            b.draw(screen)
+    def check(self, event):
+        result = super().check(event)
+        if result is not self:
+            return result
+        if self.b_deck.is_clicked(event):
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.local_game.hands[self.local_game.current_deck])
+        if self.b_stored.is_clicked(event):
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.stored)
+        if self.b_monsters.is_clicked(event):
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.monsters)
+        if self.b_next and self.b_next.is_clicked(event):
+            self.person.had_played = False
+            self.hand.isplayable = True
+            self.hand.isstorable = True
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.local_game.hands[self.local_game.current_deck])
+        return self
         
