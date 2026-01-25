@@ -14,4 +14,3 @@ import classes.logic.Player as player
 import classes.ux.TextBall as textball
 
 
-print(3400/250)

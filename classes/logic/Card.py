@@ -1,5 +1,6 @@
 import classes.ux.TextBox as textbox
 import pygame
+import functions.functions as f
 class Card:
     def __init__(self, id, name):
         self.id = id
@@ -28,6 +29,16 @@ class MonsterCard(Card):
         person.occupied[self.color].append(PlayedMonster(self.level, self.name, self.fury, self.points))
         person.played.cards.append(self)
         person.pay_biom(self.level, self.color)
+        if self.color in person.buffs:
+            person.money += 2
+        if 'agro' in person.buffs:
+            person.money += self.fury
+        if person.season_buff == self.color:
+            person.money += 2
+            person.season_buff = None
+        if person.season_buff == 'agro' and self.fury>0:
+            person.money += 2
+            person.season_buff = None
 
 class PurpleMonsterCard(Card):
     def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
@@ -45,7 +56,19 @@ class PurpleMonsterCard(Card):
         if all_bioms >= self.level:
             return True
         else:
-            return False
+            return True
+    def play(self,person):
+        return "párek"
+    def actually_play(self, person):
+        if 'agro' in person.buffs:
+            person.money += self.fury
+        if person.season_buff == self.color:
+            person.money += 2
+            person.season_buff = None
+        if person.season_buff == 'agro' and self.fury>0:
+            person.money += 2
+            person.season_buff = None
+
 
 class BiomCard(Card):
     def __init__(self, id, name, color, level, pre = 0): 
@@ -63,15 +86,18 @@ class BiomCard(Card):
         person.bioms[self.color][0] += self.level
 
 class EmployeeCard(Card):
-    def __init__(self, id, name, price):
+    def __init__(self, id, name, price, action):
         super().__init__(id, name)
         self.card_type="employee"
         self.price = price
+        self.action = action
     def isplayable(self, person):
         return True
     def play(self, person):
         person.pay(self.price)
-        person.upgrades.cards.append(self.name)
+        person.upgrades.cards.append(self)
+        func = f.ACTIONS[self.action]
+        func(person)
 
 class ObjectiveCard(Card):
     def __init__(self, id, name):
@@ -80,11 +106,18 @@ class ObjectiveCard(Card):
     
 
 class EventCard(Card):
-    def __init__(self, id, name):
+    def __init__(self, id, name, action):
         super().__init__(id, name)
         self.card_type = 'event'
+        self.action = action
     def isplayable(self, person):
         return True
+    def play(self, person):
+        func = f.ACTIONS[self.action]
+        func(person)
+        if 'event' in person.buffs:
+            person.money += 1
+
 
 class HomeBiomCard(Card):
     def __init__(self, id, name, color, level): 

@@ -7,7 +7,7 @@ class Deck:
         self.isstorable = False
     def play_card(self, id, person):
         played_card = self.cards.pop(id)
-        played_card.play(person)
+        return played_card.play(person)
     def store_card(self, id, person, price = 1):
         played_card = self.cards.pop(id)
         person.pay(price)
@@ -35,19 +35,21 @@ class PlayerDeck(Deck):
                     else:
                         new_card = card.MonsterCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['uroven'], cardinfo['body'], fury, extra)
                 case 'P':
-                    new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"])
+                    new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"], cardinfo['akce'])
                 case 'TU':
                     new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'])
                 case 'U':
-                    new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'])
+                    new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case _:
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             self.cards.append(new_card)
     def play_card(self, id, person):
-        super().play_card(id, person)
+        result = super().play_card(id, person)
         self.isplayable = False
         self.isstorable = False
         person.had_played = True
+        if result:
+            return result
     def store_card(self, id, person, price=1):
         super().store_card(id, person, price)
         self.isplayable = False

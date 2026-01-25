@@ -68,6 +68,8 @@ class Turn(Display):
         self.balls.append(coin)
         loan = textbox.TextBox(self.s_width- 6*self.offset, 0, 3*self.offset, self.offset, str(person.loans), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
         self.balls.append(loan)
+        hunter = textbox.TextBox(self.s_width- 9*self.offset, 0, 3*self.offset, self.offset, str(person.cages), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        self.balls.append(hunter)
         for barva,biom in person.bioms.items():
             match barva:
                 case "modra":
@@ -158,7 +160,10 @@ class Turn(Display):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, self.page+1)
         for i in range(len(self.playbuttons)):
             if self.playbuttons[i].is_clicked(event):
-                self.hand.play_card(self.playid[i], self.person)
+                karta = self.hand.cards[self.playid[i]]
+                result = self.hand.play_card(self.playid[i], self.person)
+                if result=='párek':
+                    return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
@@ -179,6 +184,8 @@ class TurnDeck(Turn):
         self.bs.append(self.b_stored)
         self.b_monsters = button.Button(self.offset*8, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Obludy", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
         self.bs.append(self.b_monsters)
+        self.b_upgrades = button.Button(self.offset*12, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Lidi", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.bs.append(self.b_upgrades)
         if person.had_played:
             self.b_next = button.Button(SCREEN_WIDTH-self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
             self.bs.append(self.b_next)
@@ -200,6 +207,8 @@ class TurnDeck(Turn):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.stored)
         if self.b_monsters.is_clicked(event):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.monsters)
+        if self.b_upgrades.is_clicked(event):
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.upgrades)
         if self.b_next and self.b_next.is_clicked(event):
             self.person.had_played = False
             self.hand.isplayable = True
@@ -212,4 +221,23 @@ class TurnDeck(Turn):
                 case "end":
                     self.state = "menu"
         return self
+
+class PurpleDisplay(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        self.person = self.local_game.players[self.local_game.current_player]
+        card_width = SCREEN_WIDTH // 6
+        card_x = (SCREEN_WIDTH - card_width)/4
+        card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
+        self.purplecard = img.CardImage(card_x,card_y, card_width, karta.id)
         
+
+    def draw(self, screen):
+        super().draw(screen)
+        self.purplecard.draw(screen)
+
+    def check(self, event):
+        result = super().check(event)
+        if result is not self:
+            return result
+        return self

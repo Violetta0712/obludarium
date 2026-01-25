@@ -29,6 +29,8 @@ class Game:
     def start_round(self):
         self.season = random.sample(self.seasondeck, 1)[0]
         self.seasondeck.remove(self.season)
+        for p in self.players:
+            p.season_buff = self.s_ref[self.season]['akce']
         self.hands = []
         for i in range(len(self.players)):
             new_hand = deck.PlayerDeck(i, self.game_deck, self.reference)

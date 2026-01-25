@@ -6,6 +6,7 @@
         "text": "Kdykoli zahrajete obludu z Hlubin získáte 2 tolary.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_blue_buff",
         "mnozstvi": 1
     },
     {
@@ -15,6 +16,7 @@
         "text": "Kdykoli zahrajete obludu z Temnozemě získáte 2 tolary.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_black_buff",
         "mnozstvi": 1
     },
     {
@@ -24,6 +26,7 @@
         "text": "Kdykoli zahrajete obludu z Jeskyní získáte 2 tolary.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_brown_buff",
         "mnozstvi": 1
     },
     {
@@ -33,6 +36,7 @@
         "text": "Kdykoli zahrajete obludu z Začarovaného lesa získáte 2 tolary.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_green_buff",
         "mnozstvi": 1
     },
     {
@@ -42,6 +46,7 @@
         "text": "Kdykoli zahrajete obludu z Povětří získáte 2 tolary.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_yellow_buff",
         "mnozstvi": 1
     },
     {
@@ -51,6 +56,7 @@
         "text": "Za každou kartu události, kterou zahrajete, získáte 1 tolar.",
         "cena": 3,
         "typ": "P",
+        "akce": "add_event_buff",
         "mnozstvi": 1
     },
     {
@@ -60,6 +66,7 @@
         "text": "Za každý symbol běsnění obludy, kterou zahrajete, získáte 1 tolar.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_agro_buff",
         "mnozstvi": 1
     },
     {
@@ -69,6 +76,7 @@
         "text": "Každou sezónu můžete ignorovat jeden symbol běsnění.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_safe_buff",
         "mnozstvi": 1
     },
     {
@@ -78,6 +86,7 @@
         "text": "Každou sezónu můžete ignorovat jeden symbol běsnění.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_safe_buff",
         "mnozstvi": 1
     },
     {
@@ -87,6 +96,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_blue_buff",
         "mnozstvi": 1
     },
     {
@@ -96,6 +106,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_blue_buff",
         "mnozstvi": 1
     },
     {
@@ -105,6 +116,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_blue_buff",
         "mnozstvi": 1
     },
     {
@@ -114,6 +126,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
+        "akce": "add_blue_buff",
         "mnozstvi": 1
     }
 

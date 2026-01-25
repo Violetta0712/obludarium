@@ -4,6 +4,7 @@
         "jmeno": "Prohlídka Hlubin",
         "text": "Za každý svůj bod průzkumu Hlubin ve hře získáváte 1 tolar.",
         "typ": "U",
+        "akce": "give_blue_coins",
         "mnozstvi": 1
     },
     {
@@ -11,6 +12,7 @@
         "jmeno": "Prohlídka Temnozemě",
         "text": "Za každý svůj bod průzkumu Temnozemě ve hře získáváte 1 tolar.",
         "typ": "U",
+        "akce": "give_black_coins",
         "mnozstvi": 1
     },
     {
@@ -18,6 +20,7 @@
         "jmeno": "Prohlídka Jeskyní",
         "text": "Za každý svůj bod průzkumu Jeskyní ve hře získáváte 1 tolar.",
         "typ": "U",
+        "akce": "give_brown_coins",
         "mnozstvi": 1
     },
     {
@@ -25,6 +28,7 @@
         "jmeno": "Prohlídka Začarovaného lesa",
         "text": "Za každý svůj bod průzkumu Začarovaného lesa ve hře získáváte 1 tolar.",
         "typ": "U",
+        "akce": "give_green_coins",
         "mnozstvi": 1
     },
     {
@@ -32,6 +36,7 @@
         "jmeno": "Prohlídka Povětří",
         "text": "Za každý svůj bod průzkumu Povětří ve hře získáváte 1 tolar.",
         "typ": "U",
+        "akce": "give_yellow_coins",
         "mnozstvi": 1
     },
     {
@@ -39,6 +44,7 @@
         "jmeno": "Přednáška monstrologie",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -46,6 +52,7 @@
         "jmeno": "Báječné představení",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -53,6 +60,7 @@
         "jmeno": "Akademická expedice",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -60,6 +68,7 @@
         "jmeno": "Zámožní sponzoři",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -67,6 +76,7 @@
         "jmeno": "Objev roku",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -74,6 +84,7 @@
         "jmeno": "Nové vedení",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -81,6 +92,7 @@
         "jmeno": "Senzační vědecká prezentace",
         "text": "Získáváte 2 tolary.",
         "typ": "U",
+        "akce": "give_two_coins",
         "mnozstvi": 1
     },
     {
@@ -88,6 +100,7 @@
         "jmeno": "Nejlepší obrana je útok",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -95,6 +108,7 @@
         "jmeno": "Vybroušená lovecká technika",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -102,6 +116,7 @@
         "jmeno": "Zoologický průzkum",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -109,6 +124,7 @@
         "jmeno": "Špičkové vybavení",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -116,6 +132,7 @@
         "jmeno": "Nejnovější vědecké objevy",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -123,6 +140,7 @@
         "jmeno": "Bezpečnostní opatření",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -130,6 +148,7 @@
         "jmeno": "Bezpečnostní trénink",
         "text": "Získáváte 1 žeton lovce.",
         "typ": "U",
+        "akce": "give_cage",
         "mnozstvi": 1
     },
     {
@@ -137,6 +156,7 @@
         "jmeno": "Předpremiéra",
         "text": "Ukažte libovolný počet OBLUD ze svých uložených karet (ne Obludária) a vraťte je mezi uložené. Získáváte 1 tolar za každou z nich.",
         "typ": "U",
+        "akce": "give_monster_coins",
         "mnozstvi": 1
     },
     {
@@ -144,6 +164,7 @@
         "jmeno": "Představení pro novináře",
         "text": "Ukažte libovolný počet OBLUD ze svých uložených karet (ne Obludária) a vraťte je mezi uložené. Získáváte 1 tolar za každou z nich.",
         "typ": "U",
+        "akce": "give_monster_coins",
         "mnozstvi": 1
     },
     {
@@ -151,6 +172,7 @@
         "jmeno": "Večírek pro zaměstnance",
         "text": "Za každou vyloženou kartu personálu získáváte 2 tolary.", 
         "typ": "U",
+        "akce": "give_employee_coins",
         "mnozstvi": 1
     }
     

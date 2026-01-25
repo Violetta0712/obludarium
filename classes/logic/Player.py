@@ -8,10 +8,13 @@ class Player:
         self.bioms = {"modra":[0,0], "cerna":[0,0], "hneda":[0,0], "zelena":[0,0], "zlata":[0,0], "fialova":[0,0]}
         self.occupied = {"modra":[], "cerna":[], "hneda":[], "zelena":[], "zlata":[], "fialova":[]}
         self.upgrades = deck.Deck()
+        self.buffs = []
+        self.season_buff = None
         self.stored = deck.StoredDeck()
         self.monsters = deck.Deck()
         self.money = 4
         self.loans = 0
+        self.cages = 0
         self.had_played = False
     def pay(self, price):
         if self.money >= price:
