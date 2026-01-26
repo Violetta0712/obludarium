@@ -223,21 +223,82 @@ class TurnDeck(Turn):
         return self
 
 class PurpleDisplay(Display):
-    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta, selected = [0, 0, 0, 0, 0, 0]):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        self.karta = karta
         self.person = self.local_game.players[self.local_game.current_player]
         card_width = SCREEN_WIDTH // 6
         card_x = (SCREEN_WIDTH - card_width)/4
         card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
         self.purplecard = img.CardImage(card_x,card_y, card_width, karta.id)
-        
+        self.selected_bioms = selected
+        self.goal = karta.level
+        self.achieved = sum(self.selected_bioms)
+        self.ballbuttons = []
+        self.balls = []
+        self.maxs = []
+        r = (SCREEN_WIDTH-2*self.offset)/36
+        x = SCREEN_WIDTH/2 + r/2
+        y = (SCREEN_HEIGHT - len(self.person.bioms) * 2 * r) / 2
+        t = textbox.TextBox(x, y-r-self.offset-self.offset*3, self.offset*3, self.offset*3, str(self.achieved)+'/'+str(self.goal),pygame.font.SysFont(None, 48), (255, 204, 153),(255, 255, 255))
+        if self.goal == self.achieved:
+            self.confirm_b = button.Button(x+self.offset*3, y-r-self.offset-self.offset*3, self.offset*3, self.offset*3, 'OK',pygame.font.SysFont(None, 48), (255, 204, 153),(255, 255, 255))
+        else:
+            self.confirm_b = None
+        self.balls.append(t)
+        for id, (barva, biom) in enumerate(self.person.bioms.items()):
+            match barva:
+                case "modra":
+                    col = (58, 170, 255)
+                case "cerna":
+                    col = (102, 110,117)
+                case "hneda":
+                    col = (153, 76, 0)
+                case "zelena":
+                    col = (76, 153, 0)
+                case "zlata":
+                    col = (255, 255, 51)
+                case "fialova":
+                    col = (153, 0, 153)
+            self.maxs.append(biom[0])
+            ball = textball.TextBall(x, y, r, str(self.selected_bioms[id])+'/'+str(biom[0]), pygame.font.SysFont(None, 48), col, (255, 255, 255))
+            self.balls.append(ball)
+            b1 = button.Button(x-r-self.offset, y-self.offset/2, self.offset, self.offset, '<', pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153))
+            b2 = button.Button(x+r, y-self.offset/2, self.offset, self.offset, '>', pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153))
+            self.ballbuttons.append(b1)
+            self.ballbuttons.append(b2)
+
+            y+= 2*r
+
+
 
     def draw(self, screen):
         super().draw(screen)
         self.purplecard.draw(screen)
+        for b in self.balls:
+            b.draw(screen)
+        for b in self.ballbuttons:
+            b.draw(screen)
+        if self.confirm_b:
+            self.confirm_b.draw(screen)
 
     def check(self, event):
         result = super().check(event)
         if result is not self:
             return result
+        for i in range(len(self.ballbuttons)):
+            if self.ballbuttons[i].is_clicked(event):
+                if i%2==0:
+                    index = int(i/2)
+                    if self.selected_bioms[index]>0:
+                        self.selected_bioms[index] -= 1
+                        return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, self.karta, self.selected_bioms)
+                else:
+                    index = int((i-1)/2)
+                    if self.selected_bioms[index]<self.maxs[index]:
+                        self.selected_bioms[index] += 1
+                        return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, self.karta, self.selected_bioms)
+        if self.confirm_b and self.confirm_b.is_clicked(event):
+            self.karta.actually_play(self.person, self.selected_bioms)
+            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self

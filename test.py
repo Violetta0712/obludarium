@@ -14,3 +14,4 @@ import classes.logic.Player as player
 import classes.ux.TextBall as textball
 
 
+print(0%2==0)

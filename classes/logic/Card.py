@@ -56,10 +56,12 @@ class PurpleMonsterCard(Card):
         if all_bioms >= self.level:
             return True
         else:
-            return True
+            return False
     def play(self,person):
         return "párek"
-    def actually_play(self, person):
+    def actually_play(self, person, selected):
+        person.played.cards.append(self)
+        barvy= [c for c in person.bioms]
         if 'agro' in person.buffs:
             person.money += self.fury
         if person.season_buff == self.color:
@@ -68,6 +70,13 @@ class PurpleMonsterCard(Card):
         if person.season_buff == 'agro' and self.fury>0:
             person.money += 2
             person.season_buff = None
+        for i in range(len(selected)):
+            if selected[i]>0:
+                col = barvy[i]
+                person.bioms[col][0]-=selected[i]
+                person.bioms[col][1]+=selected[i]
+                person.occupied[col].append(PlayedMonster(selected[i], self.name, self.fury, self.points))
+
 
 
 class BiomCard(Card):
