@@ -124,6 +124,9 @@ def add_agro_buff(person):
 def add_safe_buff(person):
     person.buffs.append('safe')
 
+def add_biom(person):
+    return 'kolděda'
+
 
 ACTIONS = {
     "give_two_coins": give_two_coins,
@@ -142,5 +145,6 @@ ACTIONS = {
     "add_yellow_buff": add_yellow_buff,
     "add_event_buff": add_event_buff,
     "add_agro_buff": add_agro_buff,
-    "add_safe_buff": add_safe_buff
+    "add_safe_buff": add_safe_buff,
+    "add_biom": add_biom
 }

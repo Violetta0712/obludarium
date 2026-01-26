@@ -93,6 +93,7 @@ class BiomCard(Card):
             return False
     def play(self, person):
         person.bioms[self.color][0] += self.level
+        person.for_scoring.cards.append(self)
 
 class EmployeeCard(Card):
     def __init__(self, id, name, price, action):
@@ -106,7 +107,9 @@ class EmployeeCard(Card):
         person.pay(self.price)
         person.upgrades.cards.append(self)
         func = f.ACTIONS[self.action]
-        func(person)
+        return func(person)
+    def actually_play(self, person, barva):
+        person.bioms[barva][0] += 1
 
 class ObjectiveCard(Card):
     def __init__(self, id, name):

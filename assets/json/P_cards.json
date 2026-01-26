@@ -96,7 +96,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
-        "akce": "add_blue_buff",
+        "akce": "add_biom",
         "mnozstvi": 1
     },
     {
@@ -106,7 +106,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
-        "akce": "add_blue_buff",
+        "akce": "add_biom",
         "mnozstvi": 1
     },
     {
@@ -116,7 +116,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
-        "akce": "add_blue_buff",
+        "akce": "add_biom",
         "mnozstvi": 1
     },
     {
@@ -126,7 +126,7 @@
         "text": "Neznámý kraj. Při zahrání určete, který kraj představuje.",
         "cena": 2,
         "typ": "P",
-        "akce": "add_blue_buff",
+        "akce": "add_biom",
         "mnozstvi": 1
     }
 

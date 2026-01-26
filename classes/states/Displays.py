@@ -2,7 +2,9 @@ import classes.ux.Button as button
 import classes.ux.CardImage as img
 import classes.ux.TextBall as textball
 import classes.ux.TextBox as textbox
+import classes.logic.Deck as deck
 import pygame
+import random
 class Display:
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
         self.running = True
@@ -162,8 +164,12 @@ class Turn(Display):
             if self.playbuttons[i].is_clicked(event):
                 karta = self.hand.cards[self.playid[i]]
                 result = self.hand.play_card(self.playid[i], self.person)
+                if karta.card_type == "monster" and karta.cards>0:
+                    deck.sample_cards(self.local_game, self.person, karta.cards)
                 if result=='párek':
                     return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
+                if result == 'kolděda':
+                    return KoldedaDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
@@ -302,3 +308,53 @@ class PurpleDisplay(Display):
             self.karta.actually_play(self.person, self.selected_bioms)
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self
+    
+class KoldedaDisplay(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        self.karta = karta
+        self.person = self.local_game.players[self.local_game.current_player]
+        card_width = SCREEN_WIDTH // 6
+        card_x = (SCREEN_WIDTH - card_width)/4
+        card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
+        self.purplecard = img.CardImage(card_x,card_y, card_width, karta.id)
+        self.balls = []
+        r = (SCREEN_WIDTH-2*self.offset)/36
+        x = SCREEN_WIDTH/2 + r/2
+        y = (SCREEN_HEIGHT - len(self.person.bioms) * 2 * r) / 2
+        self.colors = []
+        for id, (barva, biom) in enumerate(self.person.bioms.items()):
+            match barva:
+                case "modra":
+                    col = (58, 170, 255)
+                case "cerna":
+                    col = (102, 110,117)
+                case "hneda":
+                    col = (153, 76, 0)
+                case "zelena":
+                    col = (76, 153, 0)
+                case "zlata":
+                    col = (255, 255, 51)
+                case "fialova":
+                    col = (153, 0, 153)
+            self.colors.append(barva)
+            ball = button.Button(x, y, r,r, '', pygame.font.SysFont(None, 48), col, (255, 255, 255))
+            self.balls.append(ball)
+            y+= 2*r
+
+    def draw(self, screen):
+        super().draw(screen)
+        self.purplecard.draw(screen)
+        for b in self.balls:
+            b.draw(screen)
+
+    def check(self, event):
+        result = super().check(event)
+        if result is not self:
+            return result
+        for i in range(len(self.balls)):
+            if self.balls[i].is_clicked(event):
+                self.karta.actually_play(self.person, self.colors[i])
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
+        return self
+        

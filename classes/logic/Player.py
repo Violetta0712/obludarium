@@ -8,6 +8,7 @@ class Player:
         self.bioms = {"modra":[2,0], "cerna":[2,0], "hneda":[2,0], "zelena":[2,0], "zlata":[2,0], "fialova":[2,0]}
         self.occupied = {"modra":[], "cerna":[], "hneda":[], "zelena":[], "zlata":[], "fialova":[]}
         self.upgrades = deck.Deck()
+        self.for_scoring = deck.Deck()
         self.buffs = []
         self.season_buff = None
         self.stored = deck.StoredDeck()
