@@ -127,6 +127,79 @@ def add_safe_buff(person):
 def add_biom(person):
     return 'kolděda'
 
+def score_blue(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'modra':
+            points +=2
+    return points
+
+def score_black(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'cerna':
+            points +=2
+    return points
+
+def score_brown(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'hneda':
+            points +=2
+    return points
+
+def score_green(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'zelena':
+            points +=2
+    return points
+
+def score_yellow(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'zlata':
+            points +=2
+    return points
+
+def score_purple(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.color == 'fialova':
+            points +=2
+    return points
+
+def score_small(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.level == 1:
+            points +=1
+    return points
+
+def score_big(person):
+    points = 0
+    for monster in person.monsters.cards:
+        if monster.level == 3:
+            points +=2
+        elif monster.level >=4:
+            points += 3
+    return points
+
+def score_employees(person):
+    points = len(person.upgrades.cards)*3
+    return points
+
+def score_big_biom(person):
+    for biom in person.bioms:
+        if sum(person.bioms[biom])>=7:
+            return 7
+    return 0
+
+def score_purple_biom(person):
+    points = 0
+    for card in person.for_scoring:
+        
+
 
 ACTIONS = {
     "give_two_coins": give_two_coins,
@@ -146,5 +219,26 @@ ACTIONS = {
     "add_event_buff": add_event_buff,
     "add_agro_buff": add_agro_buff,
     "add_safe_buff": add_safe_buff,
-    "add_biom": add_biom
+    "add_biom": add_biom,
+    "score_blue": score_blue,
+    "score_black": score_black,
+    "score_brown": score_brown,
+    "score_green": score_green,
+    "score_yellow": score_yellow,
+    "score_purple": score_purple,
+    "score_small": score_small,
+    "score_big": score_big,
+    "score_employees": score_employees,
+    "score_big_biom": score_big_biom,
+    "score_purple_biom": score_purple_biom,
+    "score_distant_bioms": score_distant_bioms,
+    "score_many_bioms": score_many_bioms,
+    "score_few_bioms": score_few_bioms,
+    "score_second": score_second,
+    "score_objectives": score_objectives,
+    "score_cages": score_cages,
+    "score_many_loans": score_many_loans,
+    "score_fury": score_fury,
+    "score_no_loans": score_no_loans,
+    "score_four": score_four,
 }

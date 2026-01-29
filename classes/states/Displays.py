@@ -464,5 +464,10 @@ class EndSeason(Display):
                 case 'season':
                     return Season(self.s_height, self.s_width,self.state, self.local_game, self.local_game.season)
                 case 'end':
-                    self.running = False
+                    return End(self.s_height, self.s_width,self.state, self.local_game)
         return self
+    
+
+class End(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)

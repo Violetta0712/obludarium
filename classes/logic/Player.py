@@ -30,6 +30,7 @@ class Player:
         self.bioms[color][0]-=level
         self.bioms[color][1]+=level
     def end_season(self, grant, season):
+        grant += self.buffs.count('safe')
         fury = 0
         s_goal = 0
         if season== "agro":
@@ -58,6 +59,20 @@ class Player:
             loans_taken = fury
             fury = 0
         return [initial_fury, cages_used, money_used, loans_taken, s_goal]
+    
+    def score(self):
+        monster_points = 0
+        objective_points = 0
+        money_points = self.money
+        cage_points = self.cages
+        season_points = self.seasons_won *3
+        loan_penalty = self.loans* -5
+        for monster in self.monsters.cards:
+            monster_points += monster.points
+        for ob in self.stored.cards: 
+            if ob.card_type == "objective":
+                objective_points += ob.score(self)
+        return [monster_points, objective_points, money_points, cage_points, season_points, loan_penalty]
         
 
         

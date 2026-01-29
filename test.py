@@ -14,4 +14,4 @@ import classes.logic.Player as player
 import classes.ux.TextBall as textball
 
 list = [3, 2, 3]
-print(list.count(max(list)))
+print(list.count(4))

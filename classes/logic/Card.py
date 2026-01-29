@@ -112,9 +112,13 @@ class EmployeeCard(Card):
         person.bioms[barva][0] += 1
 
 class ObjectiveCard(Card):
-    def __init__(self, id, name):
+    def __init__(self, id, name, action):
         super().__init__(id, name)
         self.card_type = "objective"
+        self.action = action
+    def score(self, person):
+        func = f.ACTIONS[self.action]
+        return func(person)
     
 
 class EventCard(Card):

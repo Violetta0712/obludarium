@@ -55,6 +55,9 @@ class Game:
             for player in self.players:
                 player.monsters.cards.extend(player.played.cards)
                 player.played.cards = []
+                for biom in player.bioms:
+                    player.bioms[biom][0] += player.bioms[biom][1]
+                    player.bioms[biom][1] = 0
             self.start_round()
             return "season"
         else:

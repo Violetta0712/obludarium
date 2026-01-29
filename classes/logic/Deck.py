@@ -37,7 +37,7 @@ class PlayerDeck(Deck):
                 case 'P':
                     new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"], cardinfo['akce'])
                 case 'TU':
-                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'])
+                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case 'U':
                     new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case _:
