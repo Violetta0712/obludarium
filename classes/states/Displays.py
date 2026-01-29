@@ -167,7 +167,7 @@ class Turn(Display):
                 if karta.card_type == "monster" and karta.cards>0:
                     deck.sample_cards(self.local_game, self.person, karta.cards)
                 if result=='párek':
-                    return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
+                    return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, karta, [0, 0, 0, 0, 0, 0])
                 if result == 'kolděda':
                     return KoldedaDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
@@ -223,7 +223,7 @@ class TurnDeck(Turn):
                 case "turn":
                     return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
                 case "season":
-                    return Season(self.s_height, self.s_width,self.state, self.local_game, self.local_game.season)
+                    return EndSeason(self.s_height, self.s_width,self.state, self.local_game)
                 case "end":
                     self.state = "menu"
         return self
@@ -358,3 +358,111 @@ class KoldedaDisplay(Display):
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self
         
+
+class EndSeason(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+
+        dice = random.sample([0,0,0,0,1,2], 1)[0] + random.sample([0,0,0,0,1,2], 1)[0]
+
+        self.boxes = []
+        font = pygame.font.SysFont(None, 36)
+        goals =[]
+        x = self.offset
+        y = self.offset * 3
+        h = self.offset
+        w = self.offset * 3
+        gap = self.offset // 2
+
+        for pid, play in enumerate(local_game.players):
+            fury, cages, money, loans, goal = play.end_season(
+                dice, local_game.s_ref[local_game.season]['akce']
+            )
+            goals.append(goal)
+
+            self.boxes.append(
+                textbox.TextBox(
+                    x, y, w, h,
+                    f"Hráč {pid + 1}",
+                    font,
+                    (76, 153, 0),
+                    (255, 255, 255)
+                )
+            )
+
+            values = [fury, cages, money, loans, goal]
+
+            xx = x + w + gap
+            for val in values:
+                self.boxes.append(
+                    textbox.TextBox(
+                        xx, y, w, h,
+                        str(val),
+                        font,
+                        (255, 204, 153),
+                        (255, 255, 255)
+                    )
+                )
+                xx += w + gap
+
+            y += h + gap
+        
+        if goals.count(max(goals))==1:
+            index = goals.index(max(goals))
+            local_game.players[index].seasons_won +=1
+            message = f"Hráč {index +1} vyhrál sezónu"
+        else:
+            message = "Sezónu nezískal nikdo"
+
+        self.ok_button = button.Button(
+            SCREEN_WIDTH - self.offset * 4,
+            SCREEN_HEIGHT - self.offset * 2,
+            self.offset * 4,
+            self.offset,
+            "OK",
+            pygame.font.SysFont(None, 48),
+            (76, 153, 0),
+            (102, 180, 0)
+        )
+        self.boxes.append(
+                textbox.TextBox(
+                    self.offset,
+                    self.offset,
+                    self.offset * 3,
+                    self.offset,
+                    f"Kostky: {dice}",
+                    font,
+                    (153, 76, 0),
+                    (255, 255, 255)
+                )
+            )
+        self.boxes.append(
+            textbox.TextBox(
+                self.offset * 5,         
+                self.offset,             
+                self.offset * 6,          
+                self.offset,             
+                message,
+                pygame.font.SysFont(None, 40),
+                (0, 100, 200),           
+                (255, 255, 255)           
+            )
+        )
+
+    def draw(self, screen):
+        super().draw(screen)
+        for b in self.boxes:
+            b.draw(screen)
+        self.ok_button.draw(screen)
+
+    def check(self, event):
+        result = super().check(event)
+        if result is not self:
+            return result
+        if self.ok_button.is_clicked(event):
+            match self.local_game.end_round():
+                case 'season':
+                    return Season(self.s_height, self.s_width,self.state, self.local_game, self.local_game.season)
+                case 'end':
+                    self.running = False
+        return self

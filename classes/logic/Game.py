@@ -39,7 +39,7 @@ class Game:
             self.hands.append(new_hand)
 
     def next_turn(self):
-        if self.turn <8:
+        if self.turn <1:
             self.turn += 1
             self.firstplayerdeck = (self.firstplayerdeck+len(self.hands)+(-1)**self.round)%len(self.players)
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
@@ -48,13 +48,17 @@ class Game:
             self.turn = 1
             self.firstplayerdeck = 0
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
-            if self.round <4:
-                self.round+=1
-                self.start_round()
-                return "season"
-            else:
-                return "end"
-
+            return 'season'
+    def end_round(self):
+        if self.round <4:
+            self.round+=1
+            for player in self.players:
+                player.monsters.cards.extend(player.played.cards)
+                player.played.cards = []
+            self.start_round()
+            return "season"
+        else:
+            return "end"
 
     def next_player(self):
         if self.current_player < len(self.players)-1:

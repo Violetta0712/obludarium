@@ -10,6 +10,7 @@ class Player:
         self.upgrades = deck.Deck()
         self.for_scoring = deck.Deck()
         self.buffs = []
+        self.seasons_won = 0
         self.season_buff = None
         self.stored = deck.StoredDeck()
         self.monsters = deck.Deck()
@@ -28,6 +29,36 @@ class Player:
     def pay_biom(self, level, color):
         self.bioms[color][0]-=level
         self.bioms[color][1]+=level
+    def end_season(self, grant, season):
+        fury = 0
+        s_goal = 0
+        if season== "agro":
+            for card in self.played.cards:
+                fury += card.fury
+                s_goal += card.fury
+        else:
+            for card in self.played.cards:
+                fury += card.fury
+                s_goal += (1 if season == card.color else 0)*card.points
+        initial_fury = fury
+        fury -= grant
+        cages_used = 0
+        money_used = 0
+        loans_taken = 0
+        while fury > 0 and self.cages >0:
+            self.cages -= 1
+            fury -= 1
+            cages_used += 1
+        while fury >0 and self.money >2:
+            self.money -= 3
+            fury -= 1
+            money_used += 3
+        if fury >0:
+            self.loans += fury
+            loans_taken = fury
+            fury = 0
+        return [initial_fury, cages_used, money_used, loans_taken, s_goal]
+        
 
         
 
