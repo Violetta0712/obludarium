@@ -198,9 +198,66 @@ def score_big_biom(person):
 def score_purple_biom(person):
     points = 0
     for card in person.for_scoring:
-        
+        if card.card_type == "biom" and card.color == 'fialova':
+            points += 2
+    return points
 
+def score_distant_bioms(person):
+    points = 0
+    for card in person.for_scoring:
+        if card.card_type == "biom" and card.pre >0:
+            points += 2
+    return points
 
+def score_many_bioms(person):
+    points = 0
+    for biom in person.bioms:
+        if sum(person.bioms[biom]) >1 and biom != 'fialova':
+            points += 2
+    return points
+def score_few_bioms(person):
+    biom_num = 0
+    for biom in person.bioms:
+        if sum(person.bioms[biom]) >0:
+            biom_num += 1
+    if biom_num <= 3:
+        return 7
+    elif biom_num == 4:
+        return 4
+    else:
+        return 0
+    
+def score_second(person):
+    person.buffs.append('second')
+    return 0
+
+def score_objectives(person):
+    points = 0
+    for card in person.stored.cards:
+        if card.cards_type == 'objective':
+            points += 2
+    return points
+
+def score_cages(person):
+    return person.cages
+
+def score_many_loans(person):
+    return person.loans *2
+
+def score_fury(person):
+    points = 0
+    for card in person.monsters.cards:
+        points += card.fury
+    return points
+
+def score_no_loans(person):
+    if person.loans == 0:
+        return 6
+    else:
+        return 0
+    
+def score_four(person):
+    return 4
 ACTIONS = {
     "give_two_coins": give_two_coins,
     "give_blue_coins": give_blue_coins,

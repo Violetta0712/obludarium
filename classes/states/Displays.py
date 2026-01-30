@@ -464,6 +464,7 @@ class EndSeason(Display):
                 case 'season':
                     return Season(self.s_height, self.s_width,self.state, self.local_game, self.local_game.season)
                 case 'end':
+                    self.local_game.end_game()
                     return End(self.s_height, self.s_width,self.state, self.local_game)
         return self
     

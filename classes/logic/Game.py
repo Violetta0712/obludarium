@@ -7,6 +7,7 @@ class Game:
         self.players = []
         self.round = 1
         self.turn = 1
+        self.results = []
         self.current_player = 0
         self.firstplayerdeck = 0
         self.hands = []
@@ -71,6 +72,8 @@ class Game:
         else:
             self.current_player = 0
             return self.next_turn()
+        
+    def end_game(self):
         
         
 
