@@ -8,6 +8,7 @@ class Game:
         self.round = 1
         self.turn = 1
         self.results = []
+        self.order = []
         self.current_player = 0
         self.firstplayerdeck = 0
         self.hands = []
@@ -40,18 +41,22 @@ class Game:
             self.hands.append(new_hand)
 
     def next_turn(self):
-        if self.turn <1:
+        if self.turn <8: 
             self.turn += 1
             self.firstplayerdeck = (self.firstplayerdeck+len(self.hands)+(-1)**self.round)%len(self.players)
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+            self.hands[self.current_deck].isplayable = True
+            self.hands[self.current_deck].isstorable = True
             return "turn"
         else:
             self.turn = 1
             self.firstplayerdeck = 0
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+            self.hands[self.current_deck].isplayable = True
+            self.hands[self.current_deck].isstorable = True
             return 'season'
     def end_round(self):
-        if self.round <4:
+        if self.round <4: 
             self.round+=1
             for player in self.players:
                 player.monsters.cards.extend(player.played.cards)
@@ -68,13 +73,33 @@ class Game:
         if self.current_player < len(self.players)-1:
             self.current_player += 1
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+            self.hands[self.current_deck].isplayable = True
+            self.hands[self.current_deck].isstorable = True
             return "turn"
         else:
             self.current_player = 0
             return self.next_turn()
         
     def end_game(self):
+        results = []
+        for pl in self.players:
+            results.append(pl.score())
+        order = sorted(
+            range(len(results)),
+            key=lambda i: sum(results[i]),
+            reverse=True
+        )
+        if 'second' in self.players[order[1]].buffs:
+            results[order[1]][1]+= 7
+        order = sorted(
+            range(len(results)),
+            key=lambda i: sum(results[i]),
+            reverse=True
+        )
+        self.results = results
+        self.order = order
         
+
         
 
 

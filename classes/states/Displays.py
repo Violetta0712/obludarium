@@ -183,6 +183,7 @@ class TurnDeck(Turn):
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, person, hand, page = 1):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, person, hand, page)
         self.bs = []
+        self.person = person
         self.now_playing = self.local_game.players[self.local_game.current_player]
         self.b_deck = button.Button(0, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Balíček", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
         self.bs.append(self.b_deck)
@@ -192,11 +193,6 @@ class TurnDeck(Turn):
         self.bs.append(self.b_monsters)
         self.b_upgrades = button.Button(self.offset*12, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Lidi", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
         self.bs.append(self.b_upgrades)
-        if person.had_played:
-            self.b_next = button.Button(SCREEN_WIDTH-self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
-            self.bs.append(self.b_next)
-        else:
-            self.b_next = None
         player_id = textbox.TextBox((SCREEN_WIDTH-self.offset*4)/2,(SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Hráč" + str(person.id + 1), pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
         self.bs.append(player_id)
     def draw(self, screen):
@@ -204,6 +200,11 @@ class TurnDeck(Turn):
         for b in self.bs:
             b.draw(screen)
     def check(self, event):
+        if self.person.had_played:
+            self.b_next = button.Button(self.s_width-self.offset*4, (self.s_height-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+            self.bs.append(self.b_next)
+        else:
+            self.b_next = None
         result = super().check(event)
         if result is not self:
             return result
@@ -229,15 +230,17 @@ class TurnDeck(Turn):
         return self
 
 class PurpleDisplay(Display):
-    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta, selected = [0, 0, 0, 0, 0, 0]):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta, selected=None):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        if selected is None:
+            selected = [0, 0, 0, 0, 0, 0]
+        self.selected_bioms = list(selected)
         self.karta = karta
         self.person = self.local_game.players[self.local_game.current_player]
         card_width = SCREEN_WIDTH // 6
         card_x = (SCREEN_WIDTH - card_width)/4
         card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
         self.purplecard = img.CardImage(card_x,card_y, card_width, karta.id)
-        self.selected_bioms = selected
         self.goal = karta.level
         self.achieved = sum(self.selected_bioms)
         self.ballbuttons = []
@@ -472,3 +475,28 @@ class EndSeason(Display):
 class End(Display):
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        order = self.local_game.order
+        results = self.local_game.results
+        x = self.s_width /4
+        y = 0
+        w = x*2
+        h = self.s_height/10
+        self.visuals = []
+        self.visuals.append(textbox.TextBox(x, y, w,h, 'Výsledky', pygame.font.SysFont('gabriola', 46), (128, 128, 128), (255, 215, 0) ))
+        y += h
+        for o in range(len(order)):
+            xi = x
+            self.visuals.append(textbox.TextBox(xi, y, w/10,h, str(o+1), pygame.font.SysFont('gabriola', 46), (255, 215, 0), (128, 128, 128) ))
+            xi += w/10
+            self.visuals.append(textbox.TextBox(xi, y, w/5,h, 'Hráč ' +str(order[o]+1), pygame.font.SysFont('gabriola', 46), (255, 215, 0), (128, 128, 128) ))
+            xi += w/5
+            for r in results[order[o]]:
+                self.visuals.append(textbox.TextBox(xi, y, w/10,h, str(r), pygame.font.SysFont('gabriola', 46), (255, 215, 0), (128, 128, 128) ))
+                xi += w/10
+            self.visuals.append(textbox.TextBox(xi, y, w/10,h, str(sum(results[order[o]])), pygame.font.SysFont('gabriola', 46), (255, 215, 0), (128, 128, 128) ))        
+            y +=h
+    def draw(self, screen):
+        super().draw(screen)
+        for v in self.visuals:
+            v.draw(screen)
+    
