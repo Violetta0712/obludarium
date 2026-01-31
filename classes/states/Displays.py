@@ -66,12 +66,14 @@ class Turn(Display):
         y = self.offset+r
         ww = (SCREEN_WIDTH-2*self.offset)/6
         hh = self.offset
-        coin = textbox.TextBox(self.s_width- 3*self.offset, 0, 3*self.offset, self.offset, str(person.money), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        coin = textbox.TextBox(self.s_width- self.offset, 0, self.offset, self.offset, str(person.money), pygame.font.SysFont('gabriola', 40), (232, 213, 0), (0, 0, 0))
         self.balls.append(coin)
-        loan = textbox.TextBox(self.s_width- 6*self.offset, 0, 3*self.offset, self.offset, str(person.loans), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        loan = textbox.TextBox(self.s_width- 2*self.offset, 0, self.offset, self.offset, str(person.loans), pygame.font.SysFont('gabriola', 40), (222, 0, 0), (0,0,0))
         self.balls.append(loan)
-        hunter = textbox.TextBox(self.s_width- 9*self.offset, 0, 3*self.offset, self.offset, str(person.cages), pygame.font.SysFont(None, 48), (255, 204, 153), (255, 255, 255))
+        hunter = textbox.TextBox(self.s_width- 3*self.offset, 0, self.offset, self.offset, str(person.cages), pygame.font.SysFont('gabriola', 40), (161, 151, 151), (0,0,0))
         self.balls.append(hunter)
+        seas = textbox.TextBox((self.s_width- 8*self.offset)/2, 0, self.offset*8, self.offset, str(local_game.s_ref[local_game.season]['jmeno']), pygame.font.SysFont('gabriola', 36), (204, 190, 57), (0,0,0))
+        self.balls.append(seas)
         for barva,biom in person.bioms.items():
             match barva:
                 case "modra":

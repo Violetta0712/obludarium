@@ -152,6 +152,12 @@ class PlayedMonster:
         self.points = points
     def create_visual(self, x, y, w, h):
         vs = []
-        v = textbox.TextBox(x, y, w, h, str(self.level)+str(self.name)+str(self.besneni)+str(self.points),pygame.font.SysFont(None, 48), (255, 204, 153),(102, 180, 0))
-        vs.append(v)
+        level = textbox.TextBox(x, y, w/6, h, str(self.level),pygame.font.SysFont('gabriola', 30), (161, 151, 151),(0,0,0))
+        vs.append(level)
+        text = textbox.TextBox(x+w/6, y, 3*w/6, h, str(self.name),pygame.font.SysFont('gabriola', 20), (161, 151, 151),(0,0,0))
+        vs.append(text)
+        fury = textbox.TextBox(x+4*w/6, y, w/6, h, str(self.besneni),pygame.font.SysFont('gabriola', 30), (219, 0, 0),(0,0,0))
+        vs.append(fury)
+        points = textbox.TextBox(x+5*w/6, y, w/6, h, str(self.points),pygame.font.SysFont('gabriola', 30), (219, 182, 0),(0,0,0))
+        vs.append(points)
         return(vs)
