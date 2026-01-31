@@ -16,7 +16,7 @@ class GameScene():
             self.scene = self.scene.check(event)
         self.state = self.scene.state
         self.running = self.scene.running
-        screen.fill((30, 30, 30))
+        screen.fill((168, 150, 150))
         self.scene.draw(screen)
         pygame.display.flip()
 

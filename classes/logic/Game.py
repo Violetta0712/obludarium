@@ -45,15 +45,11 @@ class Game:
             self.turn += 1
             self.firstplayerdeck = (self.firstplayerdeck+len(self.hands)+(-1)**self.round)%len(self.players)
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
-            self.hands[self.current_deck].isplayable = True
-            self.hands[self.current_deck].isstorable = True
             return "turn"
         else:
             self.turn = 1
             self.firstplayerdeck = 0
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
-            self.hands[self.current_deck].isplayable = True
-            self.hands[self.current_deck].isstorable = True
             return 'season'
     def end_round(self):
         if self.round <4: 
@@ -61,6 +57,7 @@ class Game:
             for player in self.players:
                 player.monsters.cards.extend(player.played.cards)
                 player.played.cards = []
+                player.occupied ={"modra":[], "cerna":[], "hneda":[], "zelena":[], "zlata":[], "fialova":[]}
                 for biom in player.bioms:
                     player.bioms[biom][0] += player.bioms[biom][1]
                     player.bioms[biom][1] = 0
@@ -73,8 +70,6 @@ class Game:
         if self.current_player < len(self.players)-1:
             self.current_player += 1
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
-            self.hands[self.current_deck].isplayable = True
-            self.hands[self.current_deck].isstorable = True
             return "turn"
         else:
             self.current_player = 0

@@ -40,7 +40,7 @@ class Season(Display):
         ok_height = SCREEN_HEIGHT // 15
         ok_x = card_x
         ok_y = card_y + (13/9)*card_width + SCREEN_HEIGHT // 30
-        self.okbutton = button.Button( ok_x,ok_y,ok_width,ok_height,"OK", pygame.font.SysFont(None, 36),(70, 130, 180),(100, 160, 210))
+        self.okbutton = button.Button( ok_x,ok_y,ok_width,ok_height,"OK", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
 
     
     def draw(self, screen):
@@ -88,7 +88,7 @@ class Turn(Display):
                     col = (153, 0, 153)
             a = str(biom[0])
             b = str(sum(biom))
-            ball = textball.TextBall(x, y, r, a + '/' + b, pygame.font.SysFont(None, 48), col, (255, 255, 255))
+            ball = textball.TextBall(x, y, r, a + '/' + b, pygame.font.SysFont(None, 48), col, (0, 0, 0))
             self.balls.append(ball)
             y_card = y+ r
             for oc in person.occupied[barva]:
@@ -113,15 +113,13 @@ class Turn(Display):
         cy = y+ self.offset
         bw = self.offset
         by = (SCREEN_HEIGHT/2)+(h/2)
-        self.b1 = button.Button(0, by, bw, bw, "<", pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153) )
-        self.b2 = button.Button(SCREEN_WIDTH-bw, by, bw, bw, ">", pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153) )
+        self.b1 = button.Button(0, by, bw, bw, "<", pygame.font.SysFont('gabriola', 48), (204, 190, 57), (247, 235, 131) )
+        self.b2 = button.Button(SCREEN_WIDTH-bw, by, bw, bw, ">", pygame.font.SysFont('gabriola', 48), (204, 190, 57), (247, 235, 131) )
         if self.page > 1:
-            self.b1 = button.Button(0, by, bw, bw, "<", pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153) )
             self.buttons.append(self.b1)
         else:
             self.b1 = None
         if self.page * 6 < len(hand.cards):
-            self.b2 = button.Button(SCREEN_WIDTH-bw, by, bw, bw, ">", pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153) )
             self.buttons.append(self.b2)
         else:
             self.b2 = None
@@ -130,11 +128,11 @@ class Turn(Display):
             karta = img.CardImage(cx, cy, cw, hand.cards[i].id)
             self.karty.append(karta)
             if hand.isplayable and hand.cards[i].isplayable(self.person):
-                t = button.Button(cx, cy +ch, cw/2, cw/4, "Hrát", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+                t = button.Button(cx, cy +ch, cw/2, cw/4, "Hrát", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131) )
                 self.playbuttons.append(t)
                 self.playid.append(i)
             if hand.isstorable:
-                t = button.Button(cx+cw/2, cy +ch, cw/2, cw/4, "Uložit", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+                t = button.Button(cx+cw/2, cy +ch, cw/2, cw/4, "Uložit", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131) )
                 self.storebuttons.append(t)
             cx += ((cw+self.offset))
     
@@ -185,15 +183,15 @@ class TurnDeck(Turn):
         self.bs = []
         self.person = person
         self.now_playing = self.local_game.players[self.local_game.current_player]
-        self.b_deck = button.Button(0, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Balíček", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.b_deck = button.Button(0, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Balíček", pygame.font.SysFont('gabriola', 30), (204, 190, 57), (247, 235, 131) )
         self.bs.append(self.b_deck)
-        self.b_stored = button.Button(self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Uložené", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.b_stored = button.Button(self.offset*4, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Uložené", pygame.font.SysFont('gabriola', 30), (204, 190, 57), (247, 235, 131) )
         self.bs.append(self.b_stored)
-        self.b_monsters = button.Button(self.offset*8, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Obludy", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.b_monsters = button.Button(self.offset*8, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Obludy", pygame.font.SysFont('gabriola', 30), (204, 190, 57), (247, 235, 131) )
         self.bs.append(self.b_monsters)
-        self.b_upgrades = button.Button(self.offset*12, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Lidi", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        self.b_upgrades = button.Button(self.offset*12, (SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Lidi", pygame.font.SysFont('gabriola', 30), (204, 190, 57), (247, 235, 131) )
         self.bs.append(self.b_upgrades)
-        player_id = textbox.TextBox((SCREEN_WIDTH-self.offset*4)/2,(SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Hráč" + str(person.id + 1), pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+        player_id = textbox.TextBox((SCREEN_WIDTH-self.offset*4)/2,(SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Hráč " + str(person.id + 1), pygame.font.SysFont('gabriola', 30), (204, 190, 57), (0, 0, 0) )
         self.bs.append(player_id)
     def draw(self, screen):
         super().draw(screen)
@@ -201,7 +199,7 @@ class TurnDeck(Turn):
             b.draw(screen)
     def check(self, event):
         if self.person.had_played:
-            self.b_next = button.Button(self.s_width-self.offset*4, (self.s_height-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont(None, 48), (76, 153, 0), (102, 180, 0) )
+            self.b_next = button.Button(self.s_width-self.offset*4, (self.s_height-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont('gabriola', 30), (168, 61, 61), (194, 116, 116) )
             self.bs.append(self.b_next)
         else:
             self.b_next = None
@@ -218,8 +216,8 @@ class TurnDeck(Turn):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.upgrades)
         if self.b_next and self.b_next.is_clicked(event):
             self.person.had_played = False
-            self.hand.isplayable = True
-            self.hand.isstorable = True
+            self.local_game.hands[self.local_game.current_deck].isplayable = True
+            self.local_game.hands[self.local_game.current_deck].isstorable = True
             match self.local_game.next_player():
                 case "turn":
                     return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])

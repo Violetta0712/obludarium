@@ -197,14 +197,14 @@ def score_big_biom(person):
 
 def score_purple_biom(person):
     points = 0
-    for card in person.for_scoring:
+    for card in person.for_scoring.cards:
         if card.card_type == "biom" and card.color == 'fialova':
             points += 2
     return points
 
 def score_distant_bioms(person):
     points = 0
-    for card in person.for_scoring:
+    for card in person.for_scoring.cards:
         if card.card_type == "biom" and card.pre >0:
             points += 2
     return points

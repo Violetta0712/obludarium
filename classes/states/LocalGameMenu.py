@@ -11,7 +11,7 @@ class LocalGameMenu:
         back_b_height = SCREEN_HEIGHT // 12
         back_b_x = back_b_width // 4
         back_b_y = back_b_height // 2
-        self.back_button = button.Button(back_b_x, back_b_y, back_b_width, back_b_height, "Back", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+        self.back_button = button.Button(back_b_x, back_b_y, back_b_width, back_b_height, "Zpět",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.back_button)
         b_width = SCREEN_HEIGHT // 4
         b_height = SCREEN_HEIGHT // 12
@@ -26,33 +26,33 @@ class LocalGameMenu:
         self.p3id = 0   
         self.p4id = 0
         self.p5id = 0
-        t1 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 1", pygame.font.SysFont(None, 36), (200, 200, 200), (0,0,0))
+        t1 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 1",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0,0,0))
         self.textboxes.append(t1)
-        self.p1_button = button.Button(b_x, b_y, b_width, b_height, "Hráč", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))  
+        self.p1_button = button.Button(b_x, b_y, b_width, b_height, "Hráč", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))  
         self.buttons.append(self.p1_button)
         b_y = b_y + b_height + b_interval
-        t2 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 2", pygame.font.SysFont(None, 36), (200, 200, 200), (0,0,0))
+        t2 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 2",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0,0,0))
         self.textboxes.append(t2)
-        self.p2_button = button.Button(b_x, b_y, b_width, b_height, self.pa[self.p2id], pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))  
+        self.p2_button = button.Button(b_x, b_y, b_width, b_height, self.pa[self.p2id],  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))  
         self.buttons.append(self.p2_button)
         b_y = b_y + b_height + b_interval
-        t3 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 3", pygame.font.SysFont(None, 36), (200, 200, 200), (0,0,0))
+        t3 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 3",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0,0,0))
         self.textboxes.append(t3)
-        self.p3_button = button.Button(b_x, b_y, b_width, b_height, self.pa[self.p3id], pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+        self.p3_button = button.Button(b_x, b_y, b_width, b_height, self.pa[self.p3id],  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.p3_button)
         b_y = b_y + b_height + b_interval
-        t4 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 4", pygame.font.SysFont(None, 36), (200, 200, 200), (0,0,0))
+        t4 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 4",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0,0,0))
         self.textboxes.append(t4)
-        self.p4_button = button.Button(b_x, b_y, b_width, b_height, self.pan[self.p4id], pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+        self.p4_button = button.Button(b_x, b_y, b_width, b_height, self.pan[self.p4id],  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.p4_button)
         b_y = b_y + b_height + b_interval
-        t5 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 5", pygame.font.SysFont(None, 36), (200, 200, 200), (0,0,0))
+        t5 = textbox.TextBox(t_x, b_y, b_width, b_height, "Hráč 5",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0,0,0))
         self.textboxes.append(t5)
-        self.p5_button = button.Button(b_x, b_y, b_width, b_height, self.pan[self.p5id], pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+        self.p5_button = button.Button(b_x, b_y, b_width, b_height, self.pan[self.p5id],  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.p5_button)
         b_y = b_y + b_height + b_interval
         b_x = (SCREEN_WIDTH - b_width) // 2
-        self.startgame_button = button.Button(b_x, b_y, b_width, b_height, "Start Game", pygame.font.SysFont(None, 36), (70, 130, 180), (100, 160, 210))
+        self.startgame_button = button.Button(b_x, b_y, b_width, b_height, "Spustit hru",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.startgame_button)
         self.players = 5
     def update(self, screen):
@@ -81,7 +81,7 @@ class LocalGameMenu:
             self.players = 5 - (1 if self.p5id == 2 else 0) - (1 if self.p4id == 2 else 0)
 
 
-        screen.fill((30, 30, 30))
+        screen.fill((168, 150, 150))
         for b in self.buttons:
             b.draw(screen)
         for t in self.textboxes:
