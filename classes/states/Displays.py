@@ -247,9 +247,9 @@ class PurpleDisplay(Display):
         r = (SCREEN_WIDTH-2*self.offset)/36
         x = SCREEN_WIDTH/2 + r/2
         y = (SCREEN_HEIGHT - len(self.person.bioms) * 2 * r) / 2
-        t = textbox.TextBox(x, y-r-self.offset-self.offset*3, self.offset*3, self.offset*3, str(self.achieved)+'/'+str(self.goal),pygame.font.SysFont(None, 48), (255, 204, 153),(255, 255, 255))
+        t = textbox.TextBox(3*SCREEN_WIDTH/4,SCREEN_HEIGHT/2, self.offset*3, self.offset*2, str(self.achieved)+'/'+str(self.goal),pygame.font.SysFont('gabriola', 40), (204, 190, 57), (0, 0, 0))
         if self.goal == self.achieved:
-            self.confirm_b = button.Button(x+self.offset*3, y-r-self.offset-self.offset*3, self.offset*3, self.offset*3, 'OK',pygame.font.SysFont(None, 48), (255, 204, 153),(255, 255, 255))
+            self.confirm_b = button.Button(3*SCREEN_WIDTH/4+self.offset*4, SCREEN_HEIGHT/2, self.offset*3, self.offset*2, 'OK',pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         else:
             self.confirm_b = None
         self.balls.append(t)
@@ -268,10 +268,10 @@ class PurpleDisplay(Display):
                 case "fialova":
                     col = (153, 0, 153)
             self.maxs.append(biom[0])
-            ball = textball.TextBall(x, y, r, str(self.selected_bioms[id])+'/'+str(biom[0]), pygame.font.SysFont(None, 48), col, (255, 255, 255))
+            ball = textball.TextBall(x, y, r, str(self.selected_bioms[id])+'/'+str(biom[0]), pygame.font.SysFont('gabriola', 48), col, (0, 0, 0))
             self.balls.append(ball)
-            b1 = button.Button(x-r-self.offset, y-self.offset/2, self.offset, self.offset, '<', pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153))
-            b2 = button.Button(x+r, y-self.offset/2, self.offset, self.offset, '>', pygame.font.SysFont(None, 48), (255, 204, 153),(255, 204, 153))
+            b1 = button.Button(x-r-self.offset, y-self.offset/2, self.offset, self.offset, '<', pygame.font.SysFont('gabriola', 48), (204, 190, 57), (247, 235, 131))
+            b2 = button.Button(x+r, y-self.offset/2, self.offset, self.offset, '>', pygame.font.SysFont('gabriola', 48), (204, 190, 57), (247, 235, 131))
             self.ballbuttons.append(b1)
             self.ballbuttons.append(b2)
 
@@ -320,28 +320,34 @@ class KoldedaDisplay(Display):
         card_y = (SCREEN_HEIGHT - (13/9)*card_width)/2
         self.purplecard = img.CardImage(card_x,card_y, card_width, karta.id)
         self.balls = []
-        r = (SCREEN_WIDTH-2*self.offset)/36
+        r = (SCREEN_WIDTH-2*self.offset)/18
         x = SCREEN_WIDTH/2 + r/2
-        y = (SCREEN_HEIGHT - len(self.person.bioms) * 2 * r) / 2
+        y = (SCREEN_HEIGHT - len(self.person.bioms) * r) / 2
         self.colors = []
         for id, (barva, biom) in enumerate(self.person.bioms.items()):
             match barva:
                 case "modra":
                     col = (58, 170, 255)
+                    col2 = (128, 155, 255)
                 case "cerna":
                     col = (102, 110,117)
+                    col2 = (184, 184, 184)
                 case "hneda":
                     col = (153, 76, 0)
+                    col2 = (153, 107, 72)
                 case "zelena":
                     col = (76, 153, 0)
+                    col2 = (106, 199, 99)
                 case "zlata":
                     col = (255, 255, 51)
+                    col2 = (255, 238, 150)
                 case "fialova":
                     col = (153, 0, 153)
+                    col2 = (167, 118, 222)
             self.colors.append(barva)
-            ball = button.Button(x, y, r,r, '', pygame.font.SysFont(None, 48), col, (255, 255, 255))
+            ball = button.Button(x, y, r,r, '', pygame.font.SysFont('gabriola', 48), col, col2)
             self.balls.append(ball)
-            y+= 2*r
+            y+= r
 
     def draw(self, screen):
         super().draw(screen)
