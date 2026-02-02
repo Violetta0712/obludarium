@@ -58,7 +58,7 @@ class Player:
             self.loans += fury
             loans_taken = fury
             fury = 0
-        return [initial_fury, cages_used, money_used, loans_taken, s_goal]
+        return [initial_fury, grant, cages_used, money_used, loans_taken, s_goal]
     
     def score(self):
         monster_points = 0

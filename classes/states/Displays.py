@@ -72,7 +72,7 @@ class Turn(Display):
         self.balls.append(loan)
         hunter = textbox.TextBox(self.s_width- 3*self.offset, 0, self.offset, self.offset, str(person.cages), pygame.font.SysFont('gabriola', 40), (161, 151, 151), (0,0,0))
         self.balls.append(hunter)
-        seas = textbox.TextBox((self.s_width- 8*self.offset)/2, 0, self.offset*8, self.offset, str(local_game.s_ref[local_game.season]['jmeno']), pygame.font.SysFont('gabriola', 36), (204, 190, 57), (0,0,0))
+        seas = textbox.TextBox((self.s_width- 10*self.offset)/2, 0, self.offset*10, self.offset, str(local_game.s_ref[local_game.season]['jmeno']), pygame.font.SysFont('gabriola', 36), (204, 190, 57), (0,0,0))
         self.balls.append(seas)
         for barva,biom in person.bioms.items():
             match barva:
@@ -375,47 +375,116 @@ class EndSeason(Display):
         dice = random.sample([0,0,0,0,1,2], 1)[0] + random.sample([0,0,0,0,1,2], 1)[0]
 
         self.boxes = []
-        font = pygame.font.SysFont(None, 36)
+        font = pygame.font.SysFont('gabriola', 36)
         goals =[]
-        x = self.offset
+        x = (SCREEN_WIDTH-self.offset*42)/2
         y = self.offset * 3
-        h = self.offset
-        w = self.offset * 3
-        gap = self.offset // 2
-
-        for pid, play in enumerate(local_game.players):
-            fury, cages, money, loans, goal = play.end_season(
-                dice, local_game.s_ref[local_game.season]['akce']
-            )
-            goals.append(goal)
-
-            self.boxes.append(
-                textbox.TextBox(
-                    x, y, w, h,
-                    f"Hráč {pid + 1}",
+        h = self.offset*2
+        w = self.offset *6
+        self.boxes.append(textbox.TextBox(
+                    x,y,w,h,
+                    "Hráč",
                     font,
-                    (76, 153, 0),
-                    (255, 255, 255)
-                )
-            )
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ))
+        self.boxes.append(textbox.TextBox(
+                    x+w,y,w,h,
+                    "Běsnění",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+        self.boxes.append(textbox.TextBox(
+                    x+2*w,y,w,h,
+                    "Prominuté",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+        self.boxes.append(textbox.TextBox(
+                    x+3*w,y,w,h,
+                    "Klece",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+        self.boxes.append(textbox.TextBox(
+                    x+4*w,y,w,h,
+                    "Peníze",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+        self.boxes.append(textbox.TextBox(
+                    x+5*w,y,w,h,
+                    "Půjčky",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+        self.boxes.append(textbox.TextBox(
+                    x+6*w,y,w,h,
+                    "Cíl",
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
 
-            values = [fury, cages, money, loans, goal]
-
-            xx = x + w + gap
-            for val in values:
-                self.boxes.append(
-                    textbox.TextBox(
-                        xx, y, w, h,
-                        str(val),
+        y += h
+        for play in range(len(local_game.players)):
+            vals = local_game.players[play].end_season(dice,  local_game.s_ref[local_game.season]['akce'])
+            goals.append(vals[5])
+            self.boxes.append(textbox.TextBox(
+                    x,y,w,h,
+                    "Hráč "+str(play+1),
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ) )
+            self.boxes.append(textbox.TextBox(
+                    x+w,y,w,h,
+                    str(vals[0]),
+                    font,
+                    (204, 190, 57),
+                    (0, 0, 0)
+                ))
+            self.boxes.append(textbox.TextBox(
+                        x+2*w,y,w,h,
+                        str(vals[1]),
                         font,
-                        (255, 204, 153),
-                        (255, 255, 255)
-                    )
-                )
-                xx += w + gap
-
-            y += h + gap
-        
+                        (204, 190, 57),
+                        (0, 0, 0)
+                    ) )
+            self.boxes.append(textbox.TextBox(
+                        x+3*w,y,w,h,
+                        str(vals[2]),
+                        font,
+                        (204, 190, 57),
+                        (0, 0, 0)
+                    ) )
+            self.boxes.append(textbox.TextBox(
+                        x+4*w,y,w,h,
+                        str(vals[3]),
+                        font,
+                        (204, 190, 57),
+                        (0, 0, 0)
+                    ) )
+            self.boxes.append(textbox.TextBox(
+                        x+5*w,y,w,h,
+                        str(vals[4]),
+                        font,
+                        (204, 190, 57),
+                        (0, 0, 0)
+                    ) )
+            self.boxes.append(textbox.TextBox(
+                        x+6*w,y,w,h,
+                        str(vals[5]),
+                        font,
+                        (204, 190, 57),
+                        (0, 0, 0)
+                    ) )
+            y+=h
         if goals.count(max(goals))==1:
             index = goals.index(max(goals))
             local_game.players[index].seasons_won +=1
@@ -424,38 +493,37 @@ class EndSeason(Display):
             message = "Sezónu nezískal nikdo"
 
         self.ok_button = button.Button(
-            SCREEN_WIDTH - self.offset * 4,
+            (SCREEN_WIDTH - self.offset * 4)/2,
             SCREEN_HEIGHT - self.offset * 2,
             self.offset * 4,
             self.offset,
             "OK",
-            pygame.font.SysFont(None, 48),
-            (76, 153, 0),
-            (102, 180, 0)
+            pygame.font.SysFont('gabriola', 36),
+            (204, 190, 57), (247, 235, 131)
         )
         self.boxes.append(
                 textbox.TextBox(
+                    0,
                     self.offset,
-                    self.offset,
-                    self.offset * 3,
-                    self.offset,
+                    SCREEN_WIDTH/2,
+                    self.offset*2,
                     f"Kostky: {dice}",
                     font,
-                    (153, 76, 0),
-                    (255, 255, 255)
+                    (204, 190, 57),
+                    (0,0,0)
                 )
             )
         self.boxes.append(
             textbox.TextBox(
-                self.offset * 5,         
-                self.offset,             
-                self.offset * 6,          
-                self.offset,             
-                message,
-                pygame.font.SysFont(None, 40),
-                (0, 100, 200),           
-                (255, 255, 255)           
-            )
+                    SCREEN_WIDTH/2,
+                    self.offset,
+                    SCREEN_WIDTH/2,
+                    self.offset*2,
+                    message,
+                    font,
+                    (204, 190, 57),
+                    (0,0,0)
+                )
         )
 
     def draw(self, screen):
