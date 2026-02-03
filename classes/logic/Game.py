@@ -25,7 +25,7 @@ class Game:
                 if player_ents[i]=='Hráč':
                     new_player = player.Player(i, "Human")
                 else:
-                    new_player = player.Player(i, "AI")
+                    new_player = player.AIstupid(i, "AI")
                 for j in range(2):
                     dk_card = random.sample(range(len(DK_deck.cards)), 1)[0]
                     DK_deck.play_card(dk_card, new_player)
@@ -74,6 +74,8 @@ class Game:
         if self.current_player < len(self.players)-1:
             self.current_player += 1
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+            if self.players[self.current_player].player_type == 'AI':
+                return 'AI-turn'
             return "turn"
         else:
             self.current_player = 0

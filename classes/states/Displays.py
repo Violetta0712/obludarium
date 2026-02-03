@@ -237,6 +237,8 @@ class TurnDeck(Turn):
             match self.local_game.next_player():
                 case "turn":
                     return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
+                case "AI-turn":
+                    return AIDisplay(self.s_height, self.s_width,self.state, self.local_game)
                 case "season":
                     return EndSeason(self.s_height, self.s_width,self.state, self.local_game)
                 case "end":
@@ -591,3 +593,6 @@ class End(Display):
         for v in self.visuals:
             v.draw(screen)
     
+class AIDisplay(Display):
+    def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
+        super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
