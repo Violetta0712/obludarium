@@ -200,7 +200,7 @@ class TurnDeck(Turn):
         for b in self.bs:
             b.draw(screen)
     def check(self, event):
-        if self.person.had_played:
+        if self.now_playing.had_played:
             self.b_next = button.Button(self.s_width-self.offset*4, (self.s_height-self.offset)/2, self.offset*4, self.offset, "Konec", pygame.font.SysFont('gabriola', 30), (168, 61, 61), (194, 116, 116) )
             self.bs.append(self.b_next)
         else:
@@ -217,7 +217,7 @@ class TurnDeck(Turn):
         if self.b_upgrades.is_clicked(event):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.now_playing, self.now_playing.upgrades)
         if self.b_next and self.b_next.is_clicked(event):
-            self.person.had_played = False
+            self.now_playing.had_played = False
             self.local_game.hands[self.local_game.current_deck].isplayable = True
             self.local_game.hands[self.local_game.current_deck].isstorable = True
             match self.local_game.next_player():

@@ -87,7 +87,7 @@ class BiomCard(Card):
         self.level = level
         self.pre = pre
     def isplayable(self, person):
-        if self.pre <= person.bioms[self.color][0]:
+        if self.pre <= sum(person.bioms[self.color]):
             return True
         else:
             return False
