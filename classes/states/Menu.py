@@ -11,7 +11,7 @@ class Menu():
         b_number = 2
         b_x = (SCREEN_WIDTH - b_width) // 2
         b_y = (SCREEN_HEIGHT - (b_number * b_height + (b_number - 1) * b_interval)) // 2
-        self.local_button = button.Button(b_x, b_y, b_width, b_height, "Lokální hra", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))  
+        self.local_button = button.Button(b_x, b_y, b_width, b_height, "Hra", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))  
         self.buttons.append(self.local_button)
         b_y = b_y + b_height + b_interval
         self.quit_button = button.Button(b_x, b_y, b_width, b_height, "Ukončit", pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))

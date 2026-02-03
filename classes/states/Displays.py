@@ -195,9 +195,23 @@ class TurnDeck(Turn):
         self.bs.append(self.b_upgrades)
         player_id = textbox.TextBox((SCREEN_WIDTH-self.offset*4)/2,(SCREEN_HEIGHT-self.offset)/2, self.offset*4, self.offset, "Hráč " + str(person.id + 1), pygame.font.SysFont('gabriola', 30), (204, 190, 57), (0, 0, 0) )
         self.bs.append(player_id)
+        self.others = []
+        self.other_ids = []
+        xx = (SCREEN_WIDTH)/2 +2*self.offset
+        for i in range(len(self.local_game.players)):
+            if i != self.local_game.current_player:
+                self.other_ids.append(i)
+                self.others.append(button.Button(xx, (SCREEN_HEIGHT-self.offset)/2, self.offset*3, self.offset, 'Hráč'+str(i+1), pygame.font.SysFont('gabriola', 30), (204, 190, 57), (247, 235, 131) ))
+                xx += self.offset*3
+
+
+
+        
     def draw(self, screen):
         super().draw(screen)
         for b in self.bs:
+            b.draw(screen)
+        for b in self.others:
             b.draw(screen)
     def check(self, event):
         if self.now_playing.had_played:
@@ -227,6 +241,9 @@ class TurnDeck(Turn):
                     return EndSeason(self.s_height, self.s_width,self.state, self.local_game)
                 case "end":
                     self.state = "menu"
+        for b in range(len(self.others)):
+            if self.others[b].is_clicked(event):
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.other_ids[b]], self.local_game.players[self.other_ids[b]].upgrades)
         return self
 
 class PurpleDisplay(Display):

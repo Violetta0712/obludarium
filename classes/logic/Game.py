@@ -3,7 +3,7 @@ import classes.logic.Deck as deck
 import functions.functions as f
 import random
 class Game:
-    def __init__(self, player_num):
+    def __init__(self, player_ents):
         self.players = []
         self.round = 1
         self.turn = 1
@@ -20,12 +20,16 @@ class Game:
         DK = f.load_DK()
         DK_ref = f.load_DK_ref()
         DK_deck = deck.DKDeck(DK, DK_ref)
-        for i in range(player_num):
-            new_player = player.Player(i, "Human")
-            for j in range(2):
-                dk_card = random.sample(range(len(DK_deck.cards)), 1)[0]
-                DK_deck.play_card(dk_card, new_player)
-            self.players.append(new_player)
+        for i in range(len(player_ents)):
+            if player_ents[i] != 'Žádný':
+                if player_ents[i]=='Hráč':
+                    new_player = player.Player(i, "Human")
+                else:
+                    new_player = player.Player(i, "AI")
+                for j in range(2):
+                    dk_card = random.sample(range(len(DK_deck.cards)), 1)[0]
+                    DK_deck.play_card(dk_card, new_player)
+                self.players.append(new_player)
         self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
         
     def start_round(self):

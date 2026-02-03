@@ -54,7 +54,7 @@ class LocalGameMenu:
         b_x = (SCREEN_WIDTH - b_width) // 2
         self.startgame_button = button.Button(b_x, b_y, b_width, b_height, "Spustit hru",  pygame.font.SysFont('gabriola', 40), (204, 190, 57), (247, 235, 131))
         self.buttons.append(self.startgame_button)
-        self.players = 5
+        self.players = ["Hráč", self.pa[self.p2id],self.pa[self.p3id], self.pan[self.p4id], self.pan[self.p5id]]
     def update(self, screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -78,7 +78,7 @@ class LocalGameMenu:
             elif self.p5_button.is_clicked(event):
                 self.p5id = (self.p5id + 1) % len(self.pan)
                 self.p5_button.text = self.pan[self.p5id]
-            self.players = 5 - (1 if self.p5id == 2 else 0) - (1 if self.p4id == 2 else 0)
+            self.players = ["Hráč", self.pa[self.p2id],self.pa[self.p3id], self.pan[self.p4id], self.pan[self.p5id]]
 
 
         screen.fill((168, 150, 150))

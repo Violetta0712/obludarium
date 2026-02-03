@@ -77,8 +77,9 @@ class Player:
 
         
 
-
-
+class AIstupid(Player):
+    def __init__(self, id, player_type):
+        super().__init__(id, player_type)
             
 
 
