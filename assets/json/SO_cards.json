@@ -34,7 +34,8 @@
         "typ": "O",
         "mnozstvi": 1,
         "uroven": 6,
-        "body": 5
+        "body": 5,
+        "karty": 1
     },
     {
         "id": "SO_05",

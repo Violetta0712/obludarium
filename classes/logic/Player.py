@@ -1,5 +1,6 @@
 import classes.logic.Deck as deck
 import math
+import random
 class Player:
     def __init__(self, id, player_type):
         self.id = id
@@ -80,6 +81,78 @@ class Player:
 class AIstupid(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
+    
+    def choose(self, deck):
+        i = random.sample(range(len(deck.cards)),1)[0]
+        return i
+    
+    def want(self, card):
+        return True
+    
+    def play_párek(self, card):
+        selected = [0, 0, 0, 0, 0, 0]
+        maxs = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            maxs.append(biom[0])
+        if sum(selected)==sum(maxs):
+            selected == maxs
+        goal = card.level
+        selectable = []
+        while sum(selected)<goal:
+            selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+            col = random.sample(selectable, 1)[0]
+            if sum(selected)+maxs[col]> goal:
+                selected[col] += goal - sum(selected)
+            else:
+                selected[col] += maxs[col]
+                maxs[col] = 0
+        card.actually_play(self, selected)
+    
+    def play_kolděda(self, card):
+        colors = []
+        for id, (barva, biom) in enumerate(self.person.bioms.items()):
+            colors.append(barva)
+        col = random.sample(colors, 1)[0]
+        card.actually_play(self, col)
+
+        
+
+    
+class AIgamble(Player):
+    def __init__(self, id, player_type):
+        super().__init__(id, player_type)
+    
+    def choose(self, deck):
+        playables = []
+        for xi in range(len(deck.cards)):
+            if deck.cards[xi].isplayable(self):
+                playables.append(xi)
+        if playables == []:
+            playables = range(len(deck.cards))
+        i = random.sample(playables,1)[0]
+        return i
+    
+    def want(self, card):
+        return True
+    
+    def play_párek(self, card):
+        selected = [0, 0, 0, 0, 0, 0]
+        maxs = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            maxs.append(biom[0])
+        if sum(selected)==sum(maxs):
+            selected == maxs
+        goal = card.level
+        selectable = []
+        while sum(selected)<goal:
+            selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+            col = random.sample(selectable, 1)[0]
+            if sum(selected)+maxs[col]> goal:
+                selected[col] += goal - sum(selected)
+            else:
+                selected[col] += maxs[col]
+                maxs[col] = 0
+        card.actually_play(self, selected)
             
 
 

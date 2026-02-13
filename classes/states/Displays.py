@@ -596,3 +596,41 @@ class End(Display):
 class AIDisplay(Display):
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
+        self.person = self.local_game.players[self.local_game.current_player]
+        self.deck = self.local_game.hands[self.local_game.current_deck]
+        id = self.person.choose(self.deck)
+        if self.deck.cards[id].isplayable(self.person):
+            karta = self.deck.cards[id]
+            if karta.card_type == "monster" and karta.cards>0:
+                    deck.sample_cards(self.local_game, self.person, karta.cards)
+            msg = self.deck.play_card(id, self.person)
+            if msg == 'párek':
+                self.person.play_párek(karta)
+            if msg == 'kolděda':
+                self.person.play_kolděda(karta)
+        else:
+            self.deck.store_card(id, self.person)
+        i = 0 
+        while i < len(self.person.stored.cards):
+            if self.person.stored.cards[i].isplayable(self.person) and self.person.want(self.person.stored.cards[i]):
+                self.person.stored.play_card(i, self.person)
+            else:
+                i +=1
+                
+
+
+    def check(self, event):
+            self.person.had_played = False
+            self.local_game.hands[self.local_game.current_deck].isplayable = True
+            self.local_game.hands[self.local_game.current_deck].isstorable = True
+            match self.local_game.next_player():
+                case "turn":
+                    return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
+                case "AI-turn":
+                    return AIDisplay(self.s_height, self.s_width,self.state, self.local_game)
+                case "season":
+                    return EndSeason(self.s_height, self.s_width,self.state, self.local_game)
+                case "end":
+                    self.state = "menu"
+            return self
+

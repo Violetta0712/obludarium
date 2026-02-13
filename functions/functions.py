@@ -234,7 +234,7 @@ def score_second(person):
 def score_objectives(person):
     points = 0
     for card in person.stored.cards:
-        if card.cards_type == 'objective':
+        if card.card_type == 'objective':
             points += 2
     return points
 
