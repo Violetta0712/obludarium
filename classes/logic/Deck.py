@@ -75,6 +75,7 @@ def sample_cards(game, person, c_num):
     cardids = random.sample(game.game_deck, c_num)
     for cardid in cardids:
             cardinfo = game.reference[cardid]
+            game.game_deck.remove(cardid)
             match cardinfo['typ']:
                 case 'K':
                     pre = cardinfo.get("prerekvizity", 0)

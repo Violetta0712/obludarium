@@ -110,7 +110,7 @@ class AIstupid(Player):
     
     def play_kolděda(self, card):
         colors = []
-        for id, (barva, biom) in enumerate(self.person.bioms.items()):
+        for id, (barva, biom) in enumerate(self.bioms.items()):
             colors.append(barva)
         col = random.sample(colors, 1)[0]
         card.actually_play(self, col)
@@ -141,18 +141,31 @@ class AIgamble(Player):
         for id, (barva, biom) in enumerate(self.bioms.items()):
             maxs.append(biom[0])
         if sum(selected)==sum(maxs):
-            selected == maxs
-        goal = card.level
-        selectable = []
-        while sum(selected)<goal:
-            selectable = [idx for idx, val in enumerate(maxs) if val > 0]
-            col = random.sample(selectable, 1)[0]
-            if sum(selected)+maxs[col]> goal:
-                selected[col] += goal - sum(selected)
+            selected = maxs
+        else:
+            goal = card.level
+            selectable = []
+            if maxs[5]>=goal:
+                selected[5] = goal
             else:
-                selected[col] += maxs[col]
-                maxs[col] = 0
+                selected[5] = maxs[5]
+                maxs[5] = 0
+            while sum(selected)<goal:
+                selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+                col = random.sample(selectable, 1)[0]
+                if sum(selected)+maxs[col]> goal:
+                    selected[col] += goal - sum(selected)
+                else:
+                    selected[col] += maxs[col]
+                    maxs[col] = 0
         card.actually_play(self, selected)
+    
+    def play_kolděda(self, card):
+        colors = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            colors.append(barva)
+        col = random.sample(colors, 1)[0]
+        card.actually_play(self, col)
             
 
 
