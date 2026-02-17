@@ -82,12 +82,19 @@ class AIstupid(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
     
-    def choose(self, deck):
+    def choose(self, deck, game):
         i = random.sample(range(len(deck.cards)),1)[0]
         return i
     
-    def want(self, card):
-        return True
+    def want(self, game):
+        playables = []
+        for xi in range(len(self.stored.cards)):
+            if self.stored.cards[xi].isplayable(self):
+                playables.append(xi)
+        if playables == []:
+            return False, None
+        else:
+            return True, random.sample(playables,1)[0]
     
     def play_párek(self, card):
         selected = [0, 0, 0, 0, 0, 0]
@@ -122,7 +129,7 @@ class AIgamble(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
     
-    def choose(self, deck):
+    def choose(self, deck, game):
         playables = []
         for xi in range(len(deck.cards)):
             if deck.cards[xi].isplayable(self):
@@ -132,8 +139,88 @@ class AIgamble(Player):
         i = random.sample(playables,1)[0]
         return i
     
-    def want(self, card):
-        return True
+    def want(self, game):
+        playables = []
+        for xi in range(len(self.stored.cards)):
+            if self.stored.cards[xi].isplayable(self):
+                playables.append(xi)
+        if playables == []:
+            return False, None
+        else:
+            return True, random.sample(playables,1)[0]
+    
+    def play_párek(self, card):
+        selected = [0, 0, 0, 0, 0, 0]
+        maxs = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            maxs.append(biom[0])
+        if sum(selected)==sum(maxs):
+            selected = maxs
+        else:
+            goal = card.level
+            selectable = []
+            if maxs[5]>=goal:
+                selected[5] = goal
+            else:
+                selected[5] = maxs[5]
+                maxs[5] = 0
+            while sum(selected)<goal:
+                selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+                col = random.sample(selectable, 1)[0]
+                if sum(selected)+maxs[col]> goal:
+                    selected[col] += goal - sum(selected)
+                else:
+                    selected[col] += maxs[col]
+                    maxs[col] = 0
+        card.actually_play(self, selected)
+    
+    def play_kolděda(self, card):
+        colors = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            colors.append(barva)
+        col = random.sample(colors, 1)[0]
+        card.actually_play(self, col)
+
+    
+class AIminmax(Player):
+    def __init__(self, id, player_type):
+        super().__init__(id, player_type)
+    
+    def choose(self, deck, game):
+        maxpoints = -100
+        maxid = None
+        for i in range(len(deck.cards)):
+            card = deck.cards[i]
+            if not card.isplayable(self) and card.card_type == "objective":
+                points = card.score(self) -1
+            elif not card.isplayable(self):
+                points = -1
+            else:
+                match card.card_type:
+                    case "monster":
+                        points = card.points
+                        if card.color == self.season_buff:
+                            points += 2
+                        if card.color in self.buffs:
+                            points += 2
+                        if "agro" in self.buffs:
+                            points += card.fury
+                    case "biom":
+                        points = 0
+                    case "employee":
+                        points = - card.price
+            
+
+    
+    def want(self, game):
+        playables = []
+        for xi in range(len(self.stored.cards)):
+            if self.stored.cards[xi].isplayable(self):
+                playables.append(xi)
+        if playables == []:
+            return False, None
+        else:
+            return True, random.sample(playables,1)[0]
     
     def play_párek(self, card):
         selected = [0, 0, 0, 0, 0, 0]
