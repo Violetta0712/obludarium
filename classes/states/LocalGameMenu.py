@@ -20,8 +20,8 @@ class LocalGameMenu:
         b_x = (SCREEN_WIDTH + 2 * b_interval) // 2
         b_y = (SCREEN_HEIGHT - (b_number * b_height + (b_number - 1) * b_interval)) // 2
         t_x = (SCREEN_WIDTH - 2 * b_width - b_interval) // 2
-        self.pa = ["Hráč", "AI velmi snadné", "AI snadné"]
-        self.pan = ["Hráč", "AI velmi snadné", "AI snadné", "Žádný"]
+        self.pa = ["Hráč", "AI velmi snadné", "AI snadné", "AI střední"]
+        self.pan = ["Hráč", "AI velmi snadné", "AI snadné", "AI střední", "Žádný"]
         self.p2id = 0
         self.p3id = 0   
         self.p4id = 0

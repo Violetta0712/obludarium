@@ -24,6 +24,8 @@ class Game:
             if player_ents[i] != 'Žádný':
                 if player_ents[i]=='Hráč':
                     new_player = player.Player(i, "Human")
+                elif player_ents[i]=='AI střední':
+                    new_player = player.AIminmax(i, "AI")
                 elif player_ents[i]=='AI snadné':
                     new_player = player.AIgamble(i, "AI")
                 else:

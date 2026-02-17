@@ -11,6 +11,7 @@ class Player:
         self.upgrades = deck.Deck()
         self.for_scoring = deck.Deck()
         self.buffs = []
+        self.evaluation = []
         self.seasons_won = 0
         self.season_buff = None
         self.stored = deck.StoredDeck()
@@ -189,12 +190,20 @@ class AIminmax(Player):
     def choose(self, deck, game):
         maxpoints = -100
         maxid = None
+        zp = 0
+        p = 0
+        if 'zadne_pujcky' in self.evaluation and self.loans == 0:
+            zp = 6
+        if 'pujcky' in self.evaluation:
+            p = 2
         for i in range(len(deck.cards)):
             card = deck.cards[i]
             if not card.isplayable(self) and card.card_type == "objective":
-                points = card.score(self) -1
+                points = card.score(self) - (1 if self.money > 0 else (3 + p - zp))
+                if 'ukoly' in self.evaluation:
+                    points += 2
             elif not card.isplayable(self):
-                points = -1
+                points = -(1 if self.money > 0 else (3 + p - zp))
             else:
                 match card.card_type:
                     case "monster":
@@ -205,10 +214,52 @@ class AIminmax(Player):
                             points += 2
                         if "agro" in self.buffs:
                             points += card.fury
+                        if self.season_buff == "agro" and card.fury > 0:
+                            points += 2
+                        elif self.season_buff == card.color:
+                            points += 2
+                        if card.color in self.evaluation:
+                            points += 2
+                        if card.fury > 0 and "besneni" in self.evaluation:
+                            points += card.fury
+                        if card.level == 1 and "mala" in self.evaluation:
+                            points += 1
+                        if card.level == 3 and "velka" in self.evaluation:
+                            points += 2
+                        elif card.level >4 and "velka" in self.evaluation:
+                            points += 3
                     case "biom":
                         points = 0
+                        if 'velky_biom' in self.evaluation and sum(self.bioms[card.color]) < 7 and sum(self.bioms[card.color]) + card.level >= 7:
+                            points += 7
+                        if  'mnoho_biomů' in self.evaluation and sum(self.bioms[card.color]) == 1:
+                            points += 2
+                        if 'fialovy_biom' in self.evaluation and card.color == 'fialova':
+                            points += 2
+                        if 'vzdaleny_biom' in self.evaluation and card.pre > 0:
+                            points += 2
+                        if 'malo_biomů' in self.evaluation:
+                            biom_num = 0
+                            for biom in self.bioms:
+                                if sum(self.bioms[biom]) >0:
+                                    biom_num += 1
+                            if biom_num <= 3 and sum(self.bioms[card.color]) ==0:
+                                points -= 7
+                            elif biom_num == 4 and sum(self.bioms[card.color]) ==0:
+                                points -= 4
                     case "employee":
-                        points = - card.price
+                        points = (-card.price if self.money >= card.price else (-card.price - 2 + p - zp))
+                        if 'zamestnanci' in self.evaluation:
+                            points += 3
+                    case "event":
+                        points = card.evaluate(self)
+                        if 'event' in self.buffs:
+                            points += 1
+            if points > maxpoints:
+                maxpoints = points
+                maxid = i
+        return maxid
+                        
             
 
     

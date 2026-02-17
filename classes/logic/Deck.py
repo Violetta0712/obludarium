@@ -12,6 +12,8 @@ class Deck:
         played_card = self.cards.pop(id)
         person.pay(price)
         person.stored.cards.append(played_card)
+        if played_card.card_type == "objective":
+            person.evaluation.append(played_card.eval)
 
 
 class PlayerDeck(Deck):
@@ -37,7 +39,7 @@ class PlayerDeck(Deck):
                 case 'P':
                     new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"], cardinfo['akce'])
                 case 'TU':
-                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
+                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'], cardinfo['evaluace'])
                 case 'U':
                     new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case _:
@@ -90,7 +92,7 @@ def sample_cards(game, person, c_num):
                 case 'P':
                     new_card = card.EmployeeCard(cardinfo['id'], cardinfo['jmeno'],cardinfo["cena"], cardinfo['akce'])
                 case 'TU':
-                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
+                    new_card = card.ObjectiveCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'], cardinfo['evaluace'])
                 case 'U':
                     new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case _:

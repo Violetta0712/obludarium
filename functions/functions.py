@@ -69,36 +69,76 @@ def deal_hands(deck, players, hand_size):
     return deck, hands
 
 
-def give_two_coins(person):
-    person.money += 2
+def give_two_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += 2
+        case "eval":
+            return 2
 
-def give_blue_coins(person):
-    person.money += sum(person.bioms['modra'])
+def give_blue_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += sum(person.bioms['modra'])
+        case "eval":
+            return sum(person.bioms['modra'])
+        
+def give_black_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += sum(person.bioms['cerna'])
+        case "eval":
+            return sum(person.bioms['cerna'])
 
-def give_black_coins(person):
-    person.money += sum(person.bioms['cerna'])
+def give_brown_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += sum(person.bioms['hneda'])
+        case "eval":
+            return sum(person.bioms['hneda'])
 
-def give_brown_coins(person):
-    person.money += sum(person.bioms['hneda'])
+def give_green_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += sum(person.bioms['zelena'])
+        case "eval":
+            return sum(person.bioms['zelena'])
 
-def give_green_coins(person):
-    person.money += sum(person.bioms['zelena'])
+def give_yellow_coins(person, usage = "play"):
+    match usage:
+        case "play":
+            person.money += sum(person.bioms['zlata'])
+        case "eval":
+            return sum(person.bioms['zlata'])
 
-def give_yellow_coins(person):
-    person.money += sum(person.bioms['zlata'])
+def give_cage(person, usage ="play"):
+    match usage:
+        case "play":
+            person.cages += 1
+        case "eval":
+            if 'klece' in person.evaluation:
+                return 3
+            else:
+                return 1
 
-def give_cage(person):
-    person.cages += 1
-
-def give_monster_coins(person):
+def give_monster_coins(person, usage ="play"):
     monster_num = 0
     for i in person.stored.cards:
         if i.card_type == "monster":
             monster_num += 1
-    person.money += monster_num
-
-def give_employee_coins(person):
-    person.money += len(person.upgrades.cards)
+    match usage:
+        case "play":
+            person.money += monster_num
+        case "eval":
+            return monster_num
+        
+def give_employee_coins(person, usage ="play"):
+    match usage:
+        case "play":
+            person.money += len(person.upgrades.cards)
+        case "eval":
+            return len(person.upgrades.cards)
+        
 
 def add_blue_buff(person):
     person.buffs.append('modra')

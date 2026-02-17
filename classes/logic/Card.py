@@ -112,10 +112,11 @@ class EmployeeCard(Card):
         person.bioms[barva][0] += 1
 
 class ObjectiveCard(Card):
-    def __init__(self, id, name, action):
+    def __init__(self, id, name, action, eval):
         super().__init__(id, name)
         self.card_type = "objective"
         self.action = action
+        self.eval = eval
     def score(self, person):
         func = f.ACTIONS[self.action]
         return func(person)
@@ -133,6 +134,9 @@ class EventCard(Card):
         func(person)
         if 'event' in person.buffs:
             person.money += 1
+    def evaluate(self, person):
+        func = f.ACTIONS[self.action]
+        return func(person, "eval")
 
 
 class HomeBiomCard(Card):
