@@ -598,7 +598,8 @@ class AIDisplay(Display):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
         self.person = self.local_game.players[self.local_game.current_player]
         self.deck = self.local_game.hands[self.local_game.current_deck]
-        id = self.person.choose(self.deck, self.local_game)
+        info = self.person.choose(self.deck, self.local_game)
+        id = info[0]
         if self.deck.cards[id].isplayable(self.person):
             karta = self.deck.cards[id]
             if karta.card_type == "monster" and karta.cards>0:
@@ -607,7 +608,10 @@ class AIDisplay(Display):
             if msg == 'párek':
                 self.person.play_párek(karta)
             if msg == 'kolděda':
-                self.person.play_kolděda(karta)
+                if len(info)>1:
+                    self.person.play_kolděda(karta, info[1])
+                else:
+                    self.person.play_kolděda(karta)
         else:
             self.deck.store_card(id, self.person)
         playing = True

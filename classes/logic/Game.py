@@ -103,6 +103,23 @@ class Game:
         )
         self.results = results
         self.order = order
+
+    def will_win_seas(self, person, c):
+        season = self.s_ref[self.season]['akce']
+        s_goal = [0]* len(self.players)
+        if season== "agro":
+            for play in range(len(self.players)):
+                for card in self.players[play].played.cards:
+                    s_goal[play] += card.fury
+        else:
+            for play in range(len(self.players)):
+                for card in self.players[play].played.cards:
+                    s_goal[play] += (1 if season == card.color else 0)*card.points
+        if s_goal[person.id] < max(s_goal) and s_goal[person.id]+c.points > max(s_goal):
+            return 3
+        else:
+            return 0
+        
         
 
         

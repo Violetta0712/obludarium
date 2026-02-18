@@ -85,7 +85,7 @@ class AIstupid(Player):
     
     def choose(self, deck, game):
         i = random.sample(range(len(deck.cards)),1)[0]
-        return i
+        return [i]
     
     def want(self, game):
         playables = []
@@ -138,7 +138,7 @@ class AIgamble(Player):
         if playables == []:
             playables = range(len(deck.cards))
         i = random.sample(playables,1)[0]
-        return i
+        return [i]
     
     def want(self, game):
         playables = []
@@ -190,6 +190,7 @@ class AIminmax(Player):
     def choose(self, deck, game):
         maxpoints = -100
         maxid = None
+        barva = None
         zp = 0
         p = 0
         if 'zadne_pujcky' in self.evaluation and self.loans == 0:
@@ -208,6 +209,7 @@ class AIminmax(Player):
                 match card.card_type:
                     case "monster":
                         points = card.points
+                        points += game.will_win_seas(self, card)
                         if card.color == self.season_buff:
                             points += 2
                         if card.color in self.buffs:
@@ -251,6 +253,12 @@ class AIminmax(Player):
                         points = (-card.price if self.money >= card.price else (-card.price - 2 + p - zp))
                         if 'zamestnanci' in self.evaluation:
                             points += 3
+                        if card.action == "add_biom" and 'velky_biom' in self.evaluation and max([sum(b) for b in self.bioms.values()]) == 6:
+                            points += 7
+                            barva = next((k for k, v in self.bioms.items() if sum(v) == 6), None)
+                        elif card.action == "add_biom" and 'mnoho_biomů' in self.evaluation and 1 in [sum(b) for b in self.bioms.values()]:
+                            points += 2
+                            barva = next((k for k, v in self.bioms.items() if sum(v) == 1), None)
                     case "event":
                         points = card.evaluate(self)
                         if 'event' in self.buffs:
@@ -258,7 +266,7 @@ class AIminmax(Player):
             if points > maxpoints:
                 maxpoints = points
                 maxid = i
-        return maxid
+        return [maxid, barva]
                         
             
 
@@ -298,12 +306,15 @@ class AIminmax(Player):
                     maxs[col] = 0
         card.actually_play(self, selected)
     
-    def play_kolděda(self, card):
-        colors = []
-        for id, (barva, biom) in enumerate(self.bioms.items()):
-            colors.append(barva)
-        col = random.sample(colors, 1)[0]
-        card.actually_play(self, col)
+    def play_kolděda(self, card, barva = None):
+        if barva is not None:
+            card.actually_play(self, barva)
+        else:
+            colors = []
+            for id, (barva, biom) in enumerate(self.bioms.items()):
+                colors.append(barva)
+            col = random.sample(colors, 1)[0]
+            card.actually_play(self, col)
             
 
 
