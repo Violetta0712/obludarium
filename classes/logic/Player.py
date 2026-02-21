@@ -85,7 +85,7 @@ class AIstupid(Player):
     
     def choose(self, deck, game):
         i = random.sample(range(len(deck.cards)),1)[0]
-        return [i]
+        return [i, 'play', None]
     
     def want(self, game):
         playables = []
@@ -97,7 +97,7 @@ class AIstupid(Player):
         else:
             return True, random.sample(playables,1)[0]
     
-    def play_párek(self, card):
+    def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
         maxs = []
         for id, (barva, biom) in enumerate(self.bioms.items()):
@@ -116,7 +116,7 @@ class AIstupid(Player):
                 maxs[col] = 0
         card.actually_play(self, selected)
     
-    def play_kolděda(self, card):
+    def play_biom_e(self, card, barva = None):
         colors = []
         for id, (barva, biom) in enumerate(self.bioms.items()):
             colors.append(barva)
@@ -138,7 +138,7 @@ class AIgamble(Player):
         if playables == []:
             playables = range(len(deck.cards))
         i = random.sample(playables,1)[0]
-        return [i]
+        return [i, 'play', None]
     
     def want(self, game):
         playables = []
@@ -150,7 +150,7 @@ class AIgamble(Player):
         else:
             return True, random.sample(playables,1)[0]
     
-    def play_párek(self, card):
+    def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
         maxs = []
         for id, (barva, biom) in enumerate(self.bioms.items()):
@@ -175,7 +175,7 @@ class AIgamble(Player):
                     maxs[col] = 0
         card.actually_play(self, selected)
     
-    def play_kolděda(self, card):
+    def play_biom_e(self, card, barva = None):
         colors = []
         for id, (barva, biom) in enumerate(self.bioms.items()):
             colors.append(barva)
@@ -193,6 +193,7 @@ class AIminmax(Player):
         barva = None
         zp = 0
         p = 0
+        action = 'play'
         if 'zadne_pujcky' in self.evaluation and self.loans == 0:
             zp = 6
         if 'pujcky' in self.evaluation:
@@ -206,7 +207,25 @@ class AIminmax(Player):
             elif not card.isplayable(self):
                 points = -(1 if self.money > 0 else (3 + p - zp))
             else:
-                match card.card_type:
+                points, barva = self.evaluate_card(card, game)
+            if points > maxpoints:
+                maxpoints = points
+                maxid = i
+            if maxpoints < 0:
+                action = 'store'
+                maxid = random.sample(range(len(deck.cards)),1)[0]
+        return [maxid, action, barva]
+    
+    def evaluate_card(self, card, game):
+        points = 0
+        barva = None
+        zp = 0
+        p = 0
+        if 'zadne_pujcky' in self.evaluation and self.loans == 0:
+            zp = 6
+        if 'pujcky' in self.evaluation:
+            p = 2
+        match card.card_type:
                     case "monster":
                         points = card.points
                         points += game.will_win_seas(self, card)
@@ -263,10 +282,7 @@ class AIminmax(Player):
                         points = card.evaluate(self)
                         if 'event' in self.buffs:
                             points += 1
-            if points > maxpoints:
-                maxpoints = points
-                maxid = i
-        return [maxid, barva]
+        return points, barva
                         
             
 
@@ -279,9 +295,19 @@ class AIminmax(Player):
         if playables == []:
             return False, None
         else:
-            return True, random.sample(playables,1)[0]
+            maxpoints = -100
+            maxid = None
+            for xi in playables:
+                points, barva = self.evaluate_card(self.stored.cards[xi], game)
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = xi
+            if maxpoints > 0:
+                return True , maxid
+            else:
+                return False, None
     
-    def play_párek(self, card):
+    def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
         maxs = []
         for id, (barva, biom) in enumerate(self.bioms.items()):
@@ -306,7 +332,7 @@ class AIminmax(Player):
                     maxs[col] = 0
         card.actually_play(self, selected)
     
-    def play_kolděda(self, card, barva = None):
+    def play_biom_e(self, card, barva = None):
         if barva is not None:
             card.actually_play(self, barva)
         else:

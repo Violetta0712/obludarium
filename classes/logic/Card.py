@@ -58,7 +58,7 @@ class PurpleMonsterCard(Card):
         else:
             return False
     def play(self,person):
-        return "párek"
+        return "fialova"
     def actually_play(self, person, selected):
         person.played.cards.append(self)
         barvy= [c for c in person.bioms]

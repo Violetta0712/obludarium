@@ -165,7 +165,7 @@ def add_safe_buff(person):
     person.buffs.append('safe')
 
 def add_biom(person):
-    return 'kolděda'
+    return 'biom'
 
 def score_blue(person):
     points = 0

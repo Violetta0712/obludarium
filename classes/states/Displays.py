@@ -166,10 +166,10 @@ class Turn(Display):
                 result = self.hand.play_card(self.playid[i], self.person)
                 if karta.card_type == "monster" and karta.cards>0:
                     deck.sample_cards(self.local_game, self.person, karta.cards)
-                if result=='párek':
+                if result=='fialova':
                     return PurpleDisplay(self.s_height, self.s_width,self.state,self.local_game, karta, [0, 0, 0, 0, 0, 0])
-                if result == 'kolděda':
-                    return KoldedaDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
+                if result == 'biom':
+                    return BiomEDisplay(self.s_height, self.s_width,self.state,self.local_game, karta)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
@@ -331,7 +331,7 @@ class PurpleDisplay(Display):
             return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self
     
-class KoldedaDisplay(Display):
+class BiomEDisplay(Display):
     def __init__(self, SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game, karta):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
         self.karta = karta
@@ -600,18 +600,18 @@ class AIDisplay(Display):
         self.deck = self.local_game.hands[self.local_game.current_deck]
         info = self.person.choose(self.deck, self.local_game)
         id = info[0]
-        if self.deck.cards[id].isplayable(self.person):
+        if self.deck.cards[id].isplayable(self.person) and info[1] == 'play':
             karta = self.deck.cards[id]
             if karta.card_type == "monster" and karta.cards>0:
                     deck.sample_cards(self.local_game, self.person, karta.cards)
             msg = self.deck.play_card(id, self.person)
-            if msg == 'párek':
-                self.person.play_párek(karta)
-            if msg == 'kolděda':
+            if msg == 'fialova':
+                self.person.play_purple(karta)
+            if msg == 'biom':
                 if len(info)>1:
-                    self.person.play_kolděda(karta, info[1])
+                    self.person.play_biom_e(karta, info[2])
                 else:
-                    self.person.play_kolděda(karta)
+                    self.person.play_biom_e(karta)
         else:
             self.deck.store_card(id, self.person)
         playing = True
@@ -622,10 +622,10 @@ class AIDisplay(Display):
                 if karta.card_type == "monster" and karta.cards>0:
                         deck.sample_cards(self.local_game, self.person, karta.cards)
                 msg = self.person.stored.play_card(i, self.person)
-                if msg == 'párek':
-                    self.person.play_párek(karta)
-                if msg == 'kolděda':
-                    self.person.play_kolděda(karta)
+                if msg == 'fialova':
+                    self.person.play_purple(karta)
+                if msg == 'biom':
+                    self.person.play_biom_e(karta)
     
     
                 
