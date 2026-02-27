@@ -344,4 +344,58 @@ class AIminmax(Player):
             
 
 
-            
+class AIMCTS(Player):
+    def __init__(self, id, player_type, player_num):
+        super().__init__(id, player_type)
+        self.known = [[[] for _ in range(player_num)] for _ in range(4)]
+        self.seen = [-1] * player_num
+        self.sets = [[] for _ in range(player_num)]
+    
+    def start_turn(self, deck, game):
+        if self.seen[game.current_deck] != -1:
+            cardids = [card.id for card in deck.cards]
+            for id in self.known[game.round-1][game.current_deck][self.seen[game.current_deck]].copy():
+                if id not in cardids:
+                    self.known[game.round-1][game.current_deck][self.seen[game.current_deck]].remove(id)
+        self.known[game.round-1][game.current_deck].append([card.id for card in deck.cards])
+        self.seen[game.current_deck] += 1
+    
+    def choose(self, deck, game):
+        i = random.sample(range(len(deck.cards)),1)[0]
+        return [i, 'play', None]
+    
+    def want(self, game):
+        playables = []
+        for xi in range(len(self.stored.cards)):
+            if self.stored.cards[xi].isplayable(self):
+                playables.append(xi)
+        if playables == []:
+            return False, None
+        else:
+            return True, random.sample(playables,1)[0]
+    
+    def play_purple(self, card):
+        selected = [0, 0, 0, 0, 0, 0]
+        maxs = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            maxs.append(biom[0])
+        if sum(selected)==sum(maxs):
+            selected == maxs
+        goal = card.level
+        selectable = []
+        while sum(selected)<goal:
+            selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+            col = random.sample(selectable, 1)[0]
+            if sum(selected)+maxs[col]> goal:
+                selected[col] += goal - sum(selected)
+            else:
+                selected[col] += maxs[col]
+                maxs[col] = 0
+        card.actually_play(self, selected)
+    
+    def play_biom_e(self, card, barva = None):
+        colors = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            colors.append(barva)
+        col = random.sample(colors, 1)[0]
+        card.actually_play(self, col)

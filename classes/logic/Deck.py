@@ -5,15 +5,26 @@ class Deck:
         self.cards = []
         self.isplayable = False
         self.isstorable = False
-    def play_card(self, id, person):
+    def play_card(self, id, person, game):
         played_card = self.cards.pop(id)
         return played_card.play(person)
-    def store_card(self, id, person, price = 1):
+    def store_card(self, id, person, game, price = 1):
         played_card = self.cards.pop(id)
+        game.played_cards.append(played_card.id)
         person.pay(price)
-        person.stored.cards.append(played_card)
         if played_card.card_type == "objective":
             person.evaluation.append(played_card.eval)
+        for mct in game.mcts:
+            mcts = game.players[mct]
+            if mcts.seen[game.current_deck] == -1:
+                mcts.sets[person.id].append(0)
+                played_card.status[mct] = 0
+            else:
+                mctid = int(str(game.round-1)+str(game.current_deck)+str(mcts.seen[game.current_deck]))
+                mcts.sets[person.id].append(mctid)
+                played_card.status[mct] = mctid
+        
+        person.stored.cards.append(played_card)
 
 
 class PlayerDeck(Deck):
@@ -45,15 +56,15 @@ class PlayerDeck(Deck):
                 case _:
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             self.cards.append(new_card)
-    def play_card(self, id, person):
-        result = super().play_card(id, person)
+    def play_card(self, id, person, game):
+        result = super().play_card(id, person, game)
         self.isplayable = False
         self.isstorable = False
         person.had_played = True
         if result:
             return result
-    def store_card(self, id, person, price=1):
-        super().store_card(id, person, price)
+    def store_card(self, id, person, game, price=1):
+        super().store_card(id, person, game,  price)
         self.isplayable = False
         self.isstorable = False
         person.had_played = True
@@ -71,6 +82,15 @@ class StoredDeck(Deck):
         super().__init__()
         self.isplayable = True
         self.isstorable = False
+    def play_card(self, id, person, game):
+        played_card = self.cards.pop(id)
+        for mct in game.mcts:
+            mcts = game.players[mct]
+            if played_card.status[mct] != -1:
+                mcts.sets[person.id].remove(played_card.status[mct])
+        return played_card.play(person)
+
+    
 
 
 def sample_cards(game, person, c_num):
@@ -97,4 +117,8 @@ def sample_cards(game, person, c_num):
                     new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
                 case _:
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
+            for mct in game.mcts:
+                mcts = game.players[mct]
+                mcts.sets[person.id].append(0)
+                new_card.status[mct] = 0
             person.stored.cards.append(new_card)

@@ -163,7 +163,7 @@ class Turn(Display):
         for i in range(len(self.playbuttons)):
             if self.playbuttons[i].is_clicked(event):
                 karta = self.hand.cards[self.playid[i]]
-                result = self.hand.play_card(self.playid[i], self.person)
+                result = self.hand.play_card(self.playid[i], self.person, self.local_game)
                 if karta.card_type == "monster" and karta.cards>0:
                     deck.sample_cards(self.local_game, self.person, karta.cards)
                 if result=='fialova':
@@ -173,7 +173,7 @@ class Turn(Display):
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
-                self.hand.store_card(i, self.person)
+                self.hand.store_card(i, self.person, self.local_game)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         return self 
 
@@ -604,7 +604,7 @@ class AIDisplay(Display):
             karta = self.deck.cards[id]
             if karta.card_type == "monster" and karta.cards>0:
                     deck.sample_cards(self.local_game, self.person, karta.cards)
-            msg = self.deck.play_card(id, self.person)
+            msg = self.deck.play_card(id, self.person, self.local_game)
             if msg == 'fialova':
                 self.person.play_purple(karta)
             if msg == 'biom':
@@ -613,7 +613,7 @@ class AIDisplay(Display):
                 else:
                     self.person.play_biom_e(karta)
         else:
-            self.deck.store_card(id, self.person)
+            self.deck.store_card(id, self.person, local_game)
         playing = True
         while playing == True:
             playing, i = self.person.want(self.local_game)
@@ -621,7 +621,7 @@ class AIDisplay(Display):
                 karta = self.person.stored.cards[i]
                 if karta.card_type == "monster" and karta.cards>0:
                         deck.sample_cards(self.local_game, self.person, karta.cards)
-                msg = self.person.stored.play_card(i, self.person)
+                msg = self.person.stored.play_card(i, self.person, self.local_game)
                 if msg == 'fialova':
                     self.person.play_purple(karta)
                 if msg == 'biom':
