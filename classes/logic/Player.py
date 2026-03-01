@@ -404,6 +404,19 @@ class AIMCTS(Player):
             colors.append(barva)
         col = random.sample(colors, 1)[0]
         card.actually_play(self, col)
+
+    def choose_child(self, children, sim_num):
+        best_score = float('-inf')
+        best_child = None
+        for child in children:
+            if child.visits == 0:
+                score = float('inf')
+            else:
+                score = child.wins/child.visits + math.sqrt(2 * math.log(sim_num) / child.visits)
+            if score > best_score:
+                best_score = score
+                best_child = child
+        return best_child
     
 
 
@@ -466,58 +479,28 @@ class Root:
                 new_hand = mcts.known[self.round-1][i][-1]
             self.hands.append(new_hand)
     
+    
     def create_children(self):
         if self.round == 5:
             return
         if self.biom_card is not None:
             for color in self.colors:
-                new_child = Child(self)
-                self.biom_card.actually_play(new_child.state.players[new_child.state.current_player], color)
-                new_child.state.biom_card = None
+                new_child = Child(self, ['biom', color])
                 self.children.append(new_child)
         else:
             for c in range(len(self.players[self.current_player].stored.cards)):
                 if self.players[self.current_player].stored.cards[c].isplayable(self.players[self.current_player]):
-                    new_child = Child(self)
-                    played_card = self.players[self.current_player].stored.cards[c]
-                    msg = new_child.state.players[self.current_player].stored.play_card(c, new_child.state.players[self.current_player],new_child.state)
-                    if played_card.card_type == "monster" and played_card.cards>0:
-                        for i in range(played_card.cards):
-                            deck.make_card(new_child.state, new_child.state.players[self.current_player], new_child.state.game_deck[0])
-                            new_child.state.game_deck.pop(0)
-                    if msg == "biom":
-                        new_child.state.biom_card = played_card
-                    elif msg == "purple":
-                        choice = self.choose_purple(played_card)
-                        played_card.actually_play(new_child.state.players[self.current_player], choice)
+                    new_child = Child(self, ['play_stored', c])
                     self.children.append(new_child)
             if self.players[self.current_player].had_played == False:
                 for c in range(len(self.hands[self.current_deck].cards)):
                     if self.hands[self.current_deck].cards[c].isplayable(self.players[self.current_player]):
-                        new_child = Child(self)
-                        played_card = self.hands[self.current_deck].cards[c]
-                        msg = new_child.state.hands[self.current_deck].play_card(c, new_child.state.players[new_child.state.current_player],new_child.state)
-                        if played_card.card_type == "monster" and played_card.cards>0:
-                            for i in range(played_card.cards):
-                                deck.make_card(new_child.state, new_child.state.players[self.current_player], new_child.state.game_deck[0])
-                                new_child.state.game_deck.pop(0)
-                        if played_card.card_type == "monster" and played_card.cards>0:
-                            for i in range(played_card.cards):
-                                deck.make_card(new_child.state, new_child.state.players[self.current_player], new_child.state.game_deck[0])
-                                new_child.state.game_deck.pop(0)
-                        if msg == "biom":
-                            new_child.state.msg = "biom"
-                        elif msg == "purple":
-                            choice = self.choose_purple(played_card)
-                            played_card.actually_play(new_child.state.players[self.current_player], choice)
+                        new_child = Child(self, ['play_hand', c])
                         self.children.append(new_child)
-                    new_child = Child(self)
-                    new_child.state.hands[self.current_deck].store_card(c, new_child.state.players[new_child.state.current_player],new_child.state)
+                    new_child = Child(self, ['store_hand', c])
                     self.children.append(new_child)
             else:
-                new_child = Child(self)
-                new_child.state.players[new_child.state.current_player].had_played = False
-                self.progress(new_child.state)
+                new_child = Child(self, ['end_turn', None])
                 self.children.append(new_child)
 
     def choose_purple(self, card):
@@ -583,9 +566,9 @@ class Root:
 
 
 class Child:
-    def __init__(self, game):
-        self.parent = game
-        self.state = copy.deepcopy(game)
+    def __init__(self, parent, action):
+        self.parent = parent
+        self.action = action
         self.children = []
         self.visits = 0
         self.wins = 0
