@@ -363,8 +363,6 @@ class AIMCTS(Player):
         self.known[game.round-1][game.current_deck].append([card.id for card in deck.cards])
         self.seen[game.current_deck] += 1
     
-    def discretize(self, game):
-        pass
     def choose(self, deck, game):
         i = random.sample(range(len(deck.cards)),1)[0]
         return [i, 'play', None]
@@ -405,14 +403,14 @@ class AIMCTS(Player):
         col = random.sample(colors, 1)[0]
         card.actually_play(self, col)
 
-    def choose_child(self, children, sim_num):
+    def choose_child(self, children, sim_num, cur_player):
         best_score = float('-inf')
         best_child = None
         for child in children:
             if child.visits == 0:
                 score = float('inf')
             else:
-                score = child.wins/child.visits + math.sqrt(2 * math.log(sim_num) / child.visits)
+                score = child.wins[cur_player]/child.visits + math.sqrt(2 * math.log(sim_num) / child.visits)
             if score > best_score:
                 best_score = score
                 best_child = child
@@ -445,14 +443,14 @@ class Root:
         self.season = game.season
         self.reference = game.reference
         self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
-        game_deck = f.load_deck()
+        self.game_deck = f.load_deck()
         played = game.played_cards.copy()
         in_deck = [item for round in mcts.known
                     for player in round
                     for turn in player
                     for item in turn]
         played.extend(in_deck)
-        self.game_deck = [item for item in game_deck if item not in played]
+        self.game_deck = [item for item in self.game_deck if item not in played]
         random.shuffle(self.game_deck)
         for player in self.players:
             if player.id == mcts.id:
@@ -476,7 +474,7 @@ class Root:
                     self.game_deck.remove(cardid)
                 new_hand = deck.SimulDeck(i, self.game_deck, self.reference, cardids)
             else:
-                new_hand = mcts.known[self.round-1][i][-1]
+                new_hand = deck.SimulDeck(i, self.game_deck, self.reference, mcts.known[self.round-1][i][-1]) 
             self.hands.append(new_hand)
     
     
@@ -485,7 +483,7 @@ class Root:
             return
         if self.biom_card is not None:
             for color in self.colors:
-                new_child = Child(self, ['biom', color])
+                new_child = Child(self, ['biom',self.biom_card, color])
                 self.children.append(new_child)
         else:
             for c in range(len(self.players[self.current_player].stored.cards)):
@@ -503,14 +501,58 @@ class Root:
                 new_child = Child(self, ['end_turn', None])
                 self.children.append(new_child)
 
-    def choose_purple(self, card):
+            
+
+
+class Child:
+    def __init__(self, parent, action):
+        self.parent = parent
+        self.action = action
+        self.children = []
+        self.visits = 0
+        self.wins = [0, 0, 0, 0, 0, 0]
+    
+    def playout(self, game):
+        if self.action[0] == 'biom':
+            self.action[1].actually_play(game.players[game.current_player], self.action[2])
+            game.biom_card = None
+        elif self.action[0] == 'play_stored':
+            played_card = game.players[game.current_player].stored.cards[self.action[1]]
+            msg = game.players[game.current_player].stored.play_card(self.action[1], game.players[game.current_player], game)
+            if played_card.card_type == "monster" and played_card.cards>0:
+                for i in range(played_card.cards):
+                    deck.make_card(game, game.players[game.current_player], game.game_deck[0])
+                    game.game_deck.pop(0)
+            if msg == "biom":
+                game.biom_card = played_card
+            elif msg == "purple":
+                choice = self.choose_purple(played_card, game)
+                played_card.actually_play(game.players[game.current_player], choice)
+        elif self.action[0] == 'play_hand':
+            played_card = game.hands[game.current_deck].cards[self.action[1]]
+            msg = game.hands[game.current_deck].play_card(self.action[1], game.players[game.current_player], game)
+            if played_card.card_type == "monster" and played_card.cards>0:
+                for i in range(played_card.cards):
+                    deck.make_card(game, game.players[game.current_player], game.game_deck[0])
+                    game.game_deck.pop(0)
+            if msg == "biom":
+                game.biom_card = played_card
+            elif msg == "purple":
+                choice = self.choose_purple(played_card, game)
+                played_card.actually_play(game.players[game.current_player], choice)
+        elif self.action[0] == 'store_hand':
+            game.hands[game.current_deck].store_card(self.action[1], game.players[game.current_player], game)
+        elif self.action[0] == 'end_turn':
+            game.players[game.current_player].had_played = False
+            self.progress(game)
+
+    def choose_purple(self, card, game):
         selected = [0, 0, 0, 0, 0, 0]
         goal = card.level
         maxs = []
-        for id, (barva, biom) in enumerate(self.players[self.current_player].bioms.items()):
+        for id, (barva, biom) in enumerate(game.players[game.current_player].bioms.items()):
             maxs.append(biom[0])
         goal = card.level
-        selectable = []
         if maxs[5]>=goal:
             selected[5] = goal
         else:
@@ -518,7 +560,6 @@ class Root:
             maxs[5] = 0
         clr = 0
         while sum(selected)<goal:
-            selectable = [idx for idx, val in enumerate(maxs) if val > 0]
             col = self.colors[clr]
             if sum(selected)+maxs[col]> goal:
                 selected[col] += goal - sum(selected)
@@ -553,23 +594,61 @@ class Root:
                 game.season = game.seasondeck[0]
                 game.seasondeck.remove(game.season)
                 for p in game.players:
-                    p.season_buff = self.s_ref[game.season]['akce']
+                    p.season_buff = game.s_ref[game.season]['akce']
                 game.hands = []
                 for i in range(len(game.players)):
-                    cardids = game.deck[0:8]
+                    cardids = game.game_deck[0:8]
                     new_hand = deck.SimulDeck(i, game.game_deck, game.reference, cardids)
                     for cardid in cardids:
                         game.game_deck.remove(cardid)
                     game.hands.append(new_hand)
+    
+    def create_children(self, game):
+        if game.round == 5:
+            return
+        if game.biom_card is not None:
+            for color in game.colors:
+                new_child = Child(self, ['biom',game.biom_card, color])
+                self.children.append(new_child)
+        else:
+            for c in range(len(game.players[game.current_player].stored.cards)):
+                if game.players[game.current_player].stored.cards[c].isplayable(game.players[game.current_player]):
+                    new_child = Child(self, ['play_stored', c])
+                    self.children.append(new_child)
+            if game.players[game.current_player].had_played == False:
+                for c in range(len(game.hands[game.current_deck].cards)):
+                    if game.hands[game.current_deck].cards[c].isplayable(game.players[game.current_player]):
+                        new_child = Child(self, ['play_hand', c])
+                        self.children.append(new_child)
+                    new_child = Child(self, ['store_hand', c])
+                    self.children.append(new_child)
+            else:
+                new_child = Child(self, ['end_turn', None])
+                self.children.append(new_child)
+    def end_game(self, game):
+        results = []
+        for pl in game.players:
+            results.append(pl.score())
+        order = sorted(
+            range(len(results)),
+            key=lambda i: sum(results[i]),
+            reverse=True
+        )
+        if 'second' in game.players[order[1]].buffs:
+            results[order[1]][1]+= 7
+        order = sorted(
+            range(len(results)),
+            key=lambda i: sum(results[i]),
+            reverse=True
+        )
+        results = [sum(i) for i in results]
+        game.results = [(i-min(results))/(max(results)-min(results)) for i in results]
 
-            
-
-
-class Child:
-    def __init__(self, parent, action):
-        self.parent = parent
-        self.action = action
-        self.children = []
-        self.visits = 0
-        self.wins = 0
+    def backpropagate(self, results):
+        w = []
+        for i in range(len(results)):
+            res = (self.wins[i]*self.visits + results[i])/(self.visits+1)
+            w.append(res)
+        self.wins = w
+        self.visits += 1
         
