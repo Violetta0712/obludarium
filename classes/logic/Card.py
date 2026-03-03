@@ -32,6 +32,7 @@ class MonsterCard(Card):
         person.occupied[self.color].append(PlayedMonster(self.level, self.name, self.fury, self.points))
         person.played.cards.append(self)
         person.pay_biom(self.level, self.color)
+        self.cost = [0, 0, 0]
         if self.color in person.buffs:
             self.cost[0] += 2
         if 'agro' in person.buffs:
@@ -44,6 +45,9 @@ class MonsterCard(Card):
             self.cost[0] += 2
             person.season_buff = None
         person.money += self.cost[0]
+    def undo_play(self, person):
+        person.played.cards.remove(self)
+        person.unpay_biom(self.level, self.color)
 
 class PurpleMonsterCard(Card):
     def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
@@ -55,6 +59,7 @@ class PurpleMonsterCard(Card):
         self.fury = fury
         self.cards = cards
         self.s_buff_lost = None
+        self.selected = None
     def isplayable(self, person):
         all_bioms = 0
         for i in person.bioms.values():
@@ -66,8 +71,10 @@ class PurpleMonsterCard(Card):
     def play(self,person):
         return "fialova"
     def actually_play(self, person, selected):
+        self.selected = selected
         person.played.cards.append(self)
         barvy= [c for c in person.bioms]
+        self.cost = [0, 0, 0]
         if 'agro' in person.buffs:
             self.cost[0] += self.fury
         if person.season_buff == self.color:
@@ -84,6 +91,14 @@ class PurpleMonsterCard(Card):
                 person.bioms[col][0]-=selected[i]
                 person.bioms[col][1]+=selected[i]
                 person.occupied[col].append(PlayedMonster(selected[i], self.name, self.fury, self.points))
+    def undo_play(self, person, selected):
+        person.played.cards.remove(self)
+        barvy= [c for c in person.bioms]
+        for i in range(len(selected)):
+            if selected[i]>0:
+                col = barvy[i]
+                person.bioms[col][0]+=selected[i]
+                person.bioms[col][1]-=selected[i]
 
 
 
@@ -102,6 +117,9 @@ class BiomCard(Card):
     def play(self, person):
         person.bioms[self.color][0] += self.level
         person.for_scoring.cards.append(self)
+    def undo_play(self, person):
+        person.bioms[self.color][0] -= self.level
+        person.for_scoring.cards.remove(self)
 
 class EmployeeCard(Card):
     def __init__(self, id, name, price, action):
@@ -109,6 +127,7 @@ class EmployeeCard(Card):
         self.card_type="employee"
         self.price = price
         self.action = action
+        self.actual_color = None
     def isplayable(self, person):
         return True
     def play(self, person):
@@ -118,6 +137,14 @@ class EmployeeCard(Card):
         return func(person)
     def actually_play(self, person, barva):
         person.bioms[barva][0] += 1
+        self.actual_color = barva
+    def undo_play(self, person):
+        person.upgrades.cards.remove(self)
+        if self.actual_color is not None:
+            person.bioms[self.actual_color][0] -= 1
+            self.actual_color = None
+        
+    
 
 class ObjectiveCard(Card):
     def __init__(self, id, name, action, eval):
@@ -147,6 +174,8 @@ class EventCard(Card):
     def evaluate(self, person):
         func = f.ACTIONS[self.action]
         return func(person, "eval")
+    def undo_play(self, person):
+        person.for_scoring.cards.remove(self)
 
 
 class HomeBiomCard(Card):
