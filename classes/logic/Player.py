@@ -23,14 +23,20 @@ class Player:
         self.loans = 0
         self.cages = 0
         self.had_played = False
+    def start_turn(self, deck, game):
+        pass
     def pay(self, price):
+        info = [0, 0, 0]
         if self.money >= price:
             self.money -= price
+            info[0] = -price
         else:
             debt = self.money - price
             loan_num = math.ceil(-1*debt/3)
             self.loans += loan_num
             self.money = (debt + loan_num*3)
+            info = [debt + loan_num*3, loan_num, 0]
+        return info
     def pay_biom(self, level, color):
         self.bioms[color][0]-=level
         self.bioms[color][1]+=level
@@ -425,7 +431,7 @@ class Root:
         self.visits = 0
         self.wins = 0
         self.biom_card = b_card
-        self.players = game.players.copy()
+        self.players = copy.deepcopy(game.players)
         self.round = game.round
         self.turn = game.turn
         self.colors = ["modra", "cerna", "hneda", "zelena", "zlata"]
@@ -450,8 +456,10 @@ class Root:
                     for turn in player
                     for item in turn]
         played.extend(in_deck)
-        self.game_deck = [item for item in self.game_deck if item not in played]
+        for pl in played:
+            self.game_deck.remove(pl)
         random.shuffle(self.game_deck)
+        known = copy.deepcopy(mcts.known)
         for player in self.players:
             if player.id == mcts.id:
                 pass
@@ -459,22 +467,23 @@ class Root:
                 player.stored.cards = []
                 for card in mcts.sets[player.id]:
                     if card == 0:
-                        deck.sample_cards(self, player, 1)
+                        cardid = game.game_deck[0]
+                        game.game_deck.pop(0)
+                        deck.make_card(self, player, cardid)
                     else:
-                        random_card = random.sample(mcts.known[card[0]][card[1]][card[2]], 1)[0]
-                        mcts.known[card[0]][card[1]][card[2]].remove(random_card)
+                        random_card = random.sample(known[card[0]][card[1]][card[2]], 1)[0]
+                        known[card[0]][card[1]][card[2]].remove(random_card)
                         deck.make_card(self, player, random_card)
         self.hands = []
         for i in range(len(mcts.seen)):
             if mcts.seen[i] == -1:
-                modifier = 1 if (i if i > self.firstplayerdeck else i + self.firstplayerdeck) < (i if i > self.current_deck else i + self.current_deck) else 0
-                card_num = 9-self.turn - modifier
+                card_num = len(game.hands[i].cards)
                 cardids = random.sample(self.game_deck, card_num)
                 for cardid in cardids:
                     self.game_deck.remove(cardid)
                 new_hand = deck.SimulDeck(i, self.game_deck, self.reference, cardids)
             else:
-                new_hand = deck.SimulDeck(i, self.game_deck, self.reference, mcts.known[self.round-1][i][-1]) 
+                new_hand = deck.SimulDeck(i, self.game_deck, self.reference, known[self.round-1][i][-1]) 
             self.hands.append(new_hand)
     
     
@@ -488,14 +497,14 @@ class Root:
         else:
             for c in range(len(self.players[self.current_player].stored.cards)):
                 if self.players[self.current_player].stored.cards[c].isplayable(self.players[self.current_player]):
-                    new_child = Child(self, ['play_stored', c])
+                    new_child = Child(self, ['play_stored', self.players[self.current_player].stored.cards[c], c])
                     self.children.append(new_child)
             if self.players[self.current_player].had_played == False:
                 for c in range(len(self.hands[self.current_deck].cards)):
                     if self.hands[self.current_deck].cards[c].isplayable(self.players[self.current_player]):
-                        new_child = Child(self, ['play_hand', c])
+                        new_child = Child(self, ['play_hand', self.hands[self.current_deck].cards[c], c])
                         self.children.append(new_child)
-                    new_child = Child(self, ['store_hand', c])
+                    new_child = Child(self, ['store_hand', self.hands[self.current_deck].cards[c], c])
                     self.children.append(new_child)
             else:
                 new_child = Child(self, ['end_turn', None])
@@ -511,6 +520,10 @@ class Child:
         self.children = []
         self.visits = 0
         self.wins = [0, 0, 0, 0, 0, 0]
+        self.money_gain = 0
+        self.loan_gain = 0
+        self.cage_gain = 0
+        self.s_buff_lost = None
     
     def playout(self, game):
         if self.action[0] == 'biom':
@@ -541,10 +554,17 @@ class Child:
                 choice = self.choose_purple(played_card, game)
                 played_card.actually_play(game.players[game.current_player], choice)
         elif self.action[0] == 'store_hand':
+            played_card = game.hands[game.current_deck].cards[self.action[1]]
             game.hands[game.current_deck].store_card(self.action[1], game.players[game.current_player], game)
         elif self.action[0] == 'end_turn':
             game.players[game.current_player].had_played = False
             self.progress(game)
+        if self.action[0] in ['play_stored', 'play_hand', 'store_hand']:
+            self.money_gain = played_card.cost[0]
+            self.loan_gain = played_card.cost[1]
+            self.cage_gain = played_card.cost[2]
+            if played_card.card_type == "monster":
+                self.s_buff_lost = played_card.s_buff_lost
 
     def choose_purple(self, card, game):
         selected = [0, 0, 0, 0, 0, 0]

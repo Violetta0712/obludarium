@@ -71,6 +71,9 @@ class Game:
                 player.monsters.cards.extend(player.played.cards)
                 player.played.cards = []
                 player.occupied ={"modra":[], "cerna":[], "hneda":[], "zelena":[], "zlata":[], "fialova":[]}
+                for mct in self.mcts:
+                    mcts = self.players[mct]
+                    mcts.seen = [-1]*len(self.players)
                 for biom in player.bioms:
                     player.bioms[biom][0] += player.bioms[biom][1]
                     player.bioms[biom][1] = 0

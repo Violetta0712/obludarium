@@ -73,6 +73,7 @@ def give_two_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += 2
+            return [2, 0, 0]
         case "eval":
             return 2
 
@@ -80,6 +81,7 @@ def give_blue_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += sum(person.bioms['modra'])
+            return [sum(person.bioms['modra']), 0, 0]
         case "eval":
             return sum(person.bioms['modra'])
         
@@ -87,6 +89,7 @@ def give_black_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += sum(person.bioms['cerna'])
+            return [sum(person.bioms['cerna']), 0, 0]
         case "eval":
             return sum(person.bioms['cerna'])
 
@@ -94,6 +97,7 @@ def give_brown_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += sum(person.bioms['hneda'])
+            return [sum(person.bioms['hneda']), 0, 0]
         case "eval":
             return sum(person.bioms['hneda'])
 
@@ -101,6 +105,7 @@ def give_green_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += sum(person.bioms['zelena'])
+            return [sum(person.bioms['zelena']), 0, 0]
         case "eval":
             return sum(person.bioms['zelena'])
 
@@ -108,6 +113,7 @@ def give_yellow_coins(person, usage = "play"):
     match usage:
         case "play":
             person.money += sum(person.bioms['zlata'])
+            return [sum(person.bioms['zlata']), 0, 0]
         case "eval":
             return sum(person.bioms['zlata'])
 
@@ -115,6 +121,7 @@ def give_cage(person, usage ="play"):
     match usage:
         case "play":
             person.cages += 1
+            return [0, 0, 1]
         case "eval":
             if 'klece' in person.evaluation:
                 return 3
@@ -129,6 +136,7 @@ def give_monster_coins(person, usage ="play"):
     match usage:
         case "play":
             person.money += monster_num
+            return [monster_num, 0, 0]
         case "eval":
             return monster_num
         
@@ -136,6 +144,7 @@ def give_employee_coins(person, usage ="play"):
     match usage:
         case "play":
             person.money += len(person.upgrades.cards)
+            return [len(person.upgrades.cards), 0, 0]
         case "eval":
             return len(person.upgrades.cards)
         

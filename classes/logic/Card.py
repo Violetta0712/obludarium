@@ -6,6 +6,7 @@ class Card:
         self.id = id
         self.name = name
         self.status = [-1] *5
+        self.cost = [0, 0, 0]
     def play(self, person):
         print("Played" + str(self.name))
     def isplayable(self, person):
@@ -21,6 +22,7 @@ class MonsterCard(Card):
         self.points = points
         self.fury = fury
         self.cards = cards
+        self.s_buff_lost = None
     def isplayable(self, person):
         if person.bioms[self.color][0] >= self.level:
             return True
@@ -31,15 +33,17 @@ class MonsterCard(Card):
         person.played.cards.append(self)
         person.pay_biom(self.level, self.color)
         if self.color in person.buffs:
-            person.money += 2
+            self.cost[0] += 2
         if 'agro' in person.buffs:
-            person.money += self.fury
+            self.cost[0] += self.fury
         if person.season_buff == self.color:
-            person.money += 2
+            self.cost[0] += 2
+            self.s_buff_lost = person.season_buff
             person.season_buff = None
         if person.season_buff == 'agro' and self.fury>0:
-            person.money += 2
+            self.cost[0] += 2
             person.season_buff = None
+        person.money += self.cost[0]
 
 class PurpleMonsterCard(Card):
     def __init__(self, id, name, color, level, points, fury = 0, cards = 0): 
@@ -50,6 +54,7 @@ class PurpleMonsterCard(Card):
         self.points = points
         self.fury = fury
         self.cards = cards
+        self.s_buff_lost = None
     def isplayable(self, person):
         all_bioms = 0
         for i in person.bioms.values():
@@ -64,13 +69,15 @@ class PurpleMonsterCard(Card):
         person.played.cards.append(self)
         barvy= [c for c in person.bioms]
         if 'agro' in person.buffs:
-            person.money += self.fury
+            self.cost[0] += self.fury
         if person.season_buff == self.color:
-            person.money += 2
+            self.s_buff_lost = person.season_buff
+            self.cost[0] += 2
             person.season_buff = None
         if person.season_buff == 'agro' and self.fury>0:
-            person.money += 2
+            self.cost[0] += 2
             person.season_buff = None
+        person.money += self.cost[0]
         for i in range(len(selected)):
             if selected[i]>0:
                 col = barvy[i]
@@ -105,7 +112,7 @@ class EmployeeCard(Card):
     def isplayable(self, person):
         return True
     def play(self, person):
-        person.pay(self.price)
+        self.cost = person.pay(self.price)
         person.upgrades.cards.append(self)
         func = f.ACTIONS[self.action]
         return func(person)
@@ -132,9 +139,10 @@ class EventCard(Card):
         return True
     def play(self, person):
         func = f.ACTIONS[self.action]
-        func(person)
+        self.cost = func(person)
         if 'event' in person.buffs:
             person.money += 1
+            self.cost[0] += 1
         person.for_scoring.cards.append(self)
     def evaluate(self, person):
         func = f.ACTIONS[self.action]

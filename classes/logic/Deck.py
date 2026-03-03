@@ -5,24 +5,22 @@ class Deck:
         self.cards = []
         self.isplayable = False
         self.isstorable = False
-    def play_card(self, id, person, game):
-        played_card = self.cards.pop(id)
-        return played_card.play(person)
     def store_card(self, id, person, game, price = 1):
         played_card = self.cards.pop(id)
-        game.played_cards.append(played_card.id)
-        person.pay(price)
+        played_card.cost = person.pay(price)
         if played_card.card_type == "objective":
             person.evaluation.append(played_card.eval)
         for mct in game.mcts:
             mcts = game.players[mct]
-            if mcts.seen[game.current_deck] == -1:
-                mcts.sets[person.id].append(0)
-                played_card.status[mct] = 0
-            else:
-                mctid = int(str(game.round-1)+str(game.current_deck)+str(mcts.seen[game.current_deck]))
+            if mct != person.id:
+                if mcts.seen[game.current_deck] == -1:
+                    mctid = 0
+                else:
+                    mctid = (game.round-1, game.current_deck, mcts.seen[game.current_deck])
                 mcts.sets[person.id].append(mctid)
                 played_card.status[mct] = mctid
+            else:
+                mcts.known[game.round-1][game.current_deck][-1].remove(played_card.id)
         
         person.stored.cards.append(played_card)
 
@@ -57,7 +55,13 @@ class PlayerDeck(Deck):
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             self.cards.append(new_card)
     def play_card(self, id, person, game):
-        result = super().play_card(id, person, game)
+        played_card = self.cards.pop(id)
+        for mct in game.mcts:
+            mcts = game.players[mct]
+            if mcts.seen[game.current_deck] != -1:
+                mcts.known[game.round-1][game.current_deck][-1].remove(played_card.id)
+        game.played_cards.append(played_card.id)
+        result = played_card.play(person)
         self.isplayable = False
         self.isstorable = False
         person.had_played = True
@@ -76,6 +80,9 @@ class DKDeck(Deck):
             cardinfo = card_ref[cardid]
             new_card = card.HomeBiomCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['barva'], cardinfo['pruzkum'])
             self.cards.append(new_card)
+    def play_card(self, id, person, game):
+        played_card = self.cards.pop(id)
+        return played_card.play(person)
 
 class StoredDeck(Deck):
     def __init__(self):
@@ -84,15 +91,18 @@ class StoredDeck(Deck):
         self.isstorable = False
     def play_card(self, id, person, game):
         played_card = self.cards.pop(id)
+        game.played_cards.append(played_card.id)
         for mct in game.mcts:
-            mcts = game.players[mct]
-            if played_card.status[mct] != -1:
+            if mct != person.id:
+                mcts = game.players[mct]
                 mcts.sets[person.id].remove(played_card.status[mct])
+                stat = played_card.status[mct]
+                if stat != 0:
+                    mcts.known[stat[0]][stat[1]][stat[2]].remove(played_card.id)
         return played_card.play(person)
 
 def make_card(game, person, cardid):
     cardinfo = game.reference[cardid]
-    game.game_deck.remove(cardid)
     match cardinfo['typ']:
         case 'K':
             pre = cardinfo.get("prerekvizity", 0)
@@ -112,10 +122,6 @@ def make_card(game, person, cardid):
             new_card = card.EventCard(cardinfo['id'], cardinfo['jmeno'], cardinfo['akce'])
         case _:
             new_card = cardinfo['typ'] + cardinfo['jmeno']
-    for mct in game.mcts:
-        mcts = game.players[mct]
-        mcts.sets[person.id].append(0)
-        new_card.status[mct] = 0
     person.stored.cards.append(new_card)
 
 
@@ -144,9 +150,10 @@ def sample_cards(game, person, c_num):
                 case _:
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             for mct in game.mcts:
-                mcts = game.players[mct]
-                mcts.sets[person.id].append(0)
-                new_card.status[mct] = 0
+                if mct != person.id:
+                    mcts = game.players[mct]
+                    mcts.sets[person.id].append(0)
+                    new_card.status[mct] = 0
             person.stored.cards.append(new_card)
 
 
@@ -180,12 +187,11 @@ class SimulDeck(Deck):
                     new_card = cardinfo['typ'] + cardinfo['jmeno']
             self.cards.append(new_card)
     def play_card(self, id, person, game):
-        result = super().play_card(id, person, game)
+        played_card = self.cards.pop(id)
         self.isplayable = False
         self.isstorable = False
         person.had_played = True
-        if result:
-            return result
+        return played_card.play(person)
     def store_card(self, id, person, game, price=1):
         super().store_card(id, person, game,  price)
         self.isplayable = False

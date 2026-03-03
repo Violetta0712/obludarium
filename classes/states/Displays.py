@@ -598,6 +598,7 @@ class AIDisplay(Display):
         super().__init__(SCREEN_HEIGHT, SCREEN_WIDTH, state, local_game)
         self.person = self.local_game.players[self.local_game.current_player]
         self.deck = self.local_game.hands[self.local_game.current_deck]
+        self.person.start_turn(self.deck, self.local_game)
         info = self.person.choose(self.deck, self.local_game)
         id = info[0]
         if self.deck.cards[id].isplayable(self.person) and info[1] == 'play':
