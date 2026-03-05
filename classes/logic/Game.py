@@ -2,6 +2,7 @@ import classes.logic.Player as player
 import classes.logic.Deck as deck
 import functions.functions as f
 import random
+import copy
 class Game:
     def __init__(self, player_ents):
         self.players = []
@@ -128,7 +129,64 @@ class Game:
         else:
             return 0
         
-
+class SimGame:
+    def __init__(self, game, mcts, msg = None, b_card = None):
+        self.biom_card = b_card
+        self.players = copy.deepcopy(game.players)
+        self.round = game.round
+        self.turn = game.turn
+        self.colors = ["modra", "cerna", "hneda", "zelena", "zlata"]
+        random.shuffle(self.colors)
+        self.msg = msg
+        self.results = []
+        self.order = []
+        self.mcts = []
+        self.played_cards = []
+        self.current_player = game.current_player
+        self.firstplayerdeck = game.firstplayerdeck
+        self.seasondeck = game.seasondeck.copy()
+        random.shuffle(self.seasondeck)
+        self.s_ref = game.s_ref
+        self.season = game.season
+        self.reference = game.reference
+        self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+        self.granted = [random.sample([0,0,0,0,1,2], 1)[0] + random.sample([0,0,0,0,1,2], 1)[0]]*4
+        self.game_deck = f.load_deck()
+        played = game.played_cards.copy()
+        in_deck = [item for round in mcts.known
+                    for player in round
+                    for turn in player
+                    for item in turn]
+        played.extend(in_deck)
+        for pl in played:
+            self.game_deck.remove(pl)
+        random.shuffle(self.game_deck)
+        known = copy.deepcopy(mcts.known)
+        for player in self.players:
+            if player.id == mcts.id:
+                pass
+            else:
+                player.stored.cards = []
+                for card in mcts.sets[player.id]:
+                    if card == 0:
+                        cardid = game.game_deck[0]
+                        game.game_deck.pop(0)
+                        deck.make_card(self, player, cardid)
+                    else:
+                        random_card = random.sample(known[card[0]][card[1]][card[2]], 1)[0]
+                        known[card[0]][card[1]][card[2]].remove(random_card)
+                        deck.make_card(self, player, random_card)
+        self.hands = []
+        for i in range(len(mcts.seen)):
+            if mcts.seen[i] == -1:
+                card_num = len(game.hands[i].cards)
+                cardids = random.sample(self.game_deck, card_num)
+                for cardid in cardids:
+                    self.game_deck.remove(cardid)
+                new_hand = deck.SimulDeck(i, self.game_deck, self.reference, cardids)
+            else:
+                new_hand = deck.SimulDeck(i, self.game_deck, self.reference, known[self.round-1][i][-1]) 
+            self.hands.append(new_hand)
 
         
 
