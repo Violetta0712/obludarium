@@ -46,7 +46,8 @@ class MonsterCard(Card):
             person.season_buff = None
         person.money += self.cost[0]
     def undo_play(self, person):
-        person.played.cards.remove(self)
+        cid = [c.id for c in person.played.cards].index(self.id)
+        person.played.cards.pop(cid)
         person.unpay_biom(self.level, self.color)
 
 class PurpleMonsterCard(Card):
@@ -91,14 +92,15 @@ class PurpleMonsterCard(Card):
                 person.bioms[col][0]-=selected[i]
                 person.bioms[col][1]+=selected[i]
                 person.occupied[col].append(PlayedMonster(selected[i], self.name, self.fury, self.points))
-    def undo_play(self, person, selected):
-        person.played.cards.remove(self)
+    def undo_play(self, person):
+        cid = [c.id for c in person.played.cards].index(self.id)
+        person.played.cards.pop(cid)
         barvy= [c for c in person.bioms]
-        for i in range(len(selected)):
-            if selected[i]>0:
+        for i in range(len(self.selected)):
+            if self.selected[i]>0:
                 col = barvy[i]
-                person.bioms[col][0]+=selected[i]
-                person.bioms[col][1]-=selected[i]
+                person.bioms[col][0]+=self.selected[i]
+                person.bioms[col][1]-=self.selected[i]
 
 
 
@@ -118,8 +120,9 @@ class BiomCard(Card):
         person.bioms[self.color][0] += self.level
         person.for_scoring.cards.append(self)
     def undo_play(self, person):
+        cid = [c.id for c in person.for_scoring.cards].index(self.id)
+        person.for_scoring.cards.pop(cid)
         person.bioms[self.color][0] -= self.level
-        person.for_scoring.cards.remove(self)
 
 class EmployeeCard(Card):
     def __init__(self, id, name, price, action):
@@ -139,7 +142,8 @@ class EmployeeCard(Card):
         person.bioms[barva][0] += 1
         self.actual_color = barva
     def undo_play(self, person):
-        person.upgrades.cards.remove(self)
+        cid = [c.id for c in person.upgrades.cards].index(self.id)
+        person.upgrades.cards.pop(cid)
         if self.actual_color is not None:
             person.bioms[self.actual_color][0] -= 1
             self.actual_color = None
@@ -175,7 +179,8 @@ class EventCard(Card):
         func = f.ACTIONS[self.action]
         return func(person, "eval")
     def undo_play(self, person):
-        person.for_scoring.cards.remove(self)
+        cid = [c.id for c in person.for_scoring.cards].index(self.id)
+        person.for_scoring.cards.pop(cid)
 
 
 class HomeBiomCard(Card):

@@ -425,6 +425,7 @@ class AIMCTS(Player):
                 best_score = score
                 best_child = child
         return best_child
+
     
 
 
@@ -491,6 +492,23 @@ class Root:
                 new_hand = deck.SimulDeck(i, self.game_deck, self.reference, known[self.round-1][i][-1]) 
             self.hands.append(new_hand)
     
+    def refresh(self, ref):
+        for pl in self.players:
+            pl.played.cards = ref.players[pl.id].played.cards
+            self.bioms = ref.players[pl.id].bioms
+            self.occupied.cards = ref.players[pl.id].occupied
+            self.upgrades.cards = ref.players[pl.id].upgrades.cards
+            self.for_scoring.cards = ref.players[pl.id].for_scoring.cards
+            self.buffs = ref.players[pl.id].buffs
+            self.evaluation = []
+            self.seasons_won = 0
+            self.season_buff = None
+            self.stored = deck.StoredDeck()
+            self.monsters = deck.Deck()
+            self.money = 4
+            self.loans = 0
+            self.cages = 0
+            self.had_played = False
     
     def create_children(self):
         if self.round == 5:
@@ -502,14 +520,14 @@ class Root:
         else:
             for c in range(len(self.players[self.current_player].stored.cards)):
                 if self.players[self.current_player].stored.cards[c].isplayable(self.players[self.current_player]):
-                    new_child = Child(self, ['play_stored', self.players[self.current_player].stored.cards[c], c])
+                    new_child = Child(self, ['play_stored', self.players[self.current_player].stored.cards[c]])
                     self.children.append(new_child)
             if self.players[self.current_player].had_played == False:
                 for c in range(len(self.hands[self.current_deck].cards)):
                     if self.hands[self.current_deck].cards[c].isplayable(self.players[self.current_player]):
-                        new_child = Child(self, ['play_hand', self.hands[self.current_deck].cards[c], c])
+                        new_child = Child(self, ['play_hand', self.hands[self.current_deck].cards[c]])
                         self.children.append(new_child)
-                    new_child = Child(self, ['store_hand', self.hands[self.current_deck].cards[c], c])
+                    new_child = Child(self, ['store_hand', self.hands[self.current_deck].cards[c]])
                     self.children.append(new_child)
             else:
                 new_child = Child(self, ['end_turn', None])
@@ -542,8 +560,9 @@ class Child:
             self.action[1].actually_play(game.players[game.current_player], self.action[2])
             game.biom_card = None
         elif self.action[0] == 'play_stored':
-            played_card = game.players[game.current_player].stored.cards[self.action[2]]
-            msg = game.players[game.current_player].stored.play_card(self.action[2], game.players[game.current_player], game)
+            cid = [c.id for c in game.players[game.current_player].stored.cards].index(self.action[1].id)
+            played_card = game.players[game.current_player].stored.cards[cid]
+            msg = game.players[game.current_player].stored.play_card(cid, game.players[game.current_player], game)
             if played_card.card_type == "monster" and played_card.cards>0:
                 for i in range(played_card.cards):
                     deck.make_card(game, game.players[game.current_player], game.game_deck[0])
@@ -554,8 +573,9 @@ class Child:
                 choice = self.choose_purple(played_card, game)
                 played_card.actually_play(game.players[game.current_player], choice)
         elif self.action[0] == 'play_hand':
-            played_card = game.hands[game.current_deck].cards[self.action[2]]
-            msg = game.hands[game.current_deck].play_card(self.action[2], game.players[game.current_player], game)
+            cid = [c.id for c in game.hands[game.current_deck].cards].index(self.action[1].id)
+            played_card = game.hands[game.current_deck].cards[cid]
+            msg = game.hands[game.current_deck].play_card(cid, game.players[game.current_player], game)
             if played_card.card_type == "monster" and played_card.cards>0:
                 for i in range(played_card.cards):
                     deck.make_card(game, game.players[game.current_player], game.game_deck[0])
@@ -566,8 +586,9 @@ class Child:
                 choice = self.choose_purple(played_card, game)
                 played_card.actually_play(game.players[game.current_player], choice)
         elif self.action[0] == 'store_hand':
-            played_card = game.hands[game.current_deck].cards[self.action[2]]
-            game.hands[game.current_deck].store_card(self.action[2], game.players[game.current_player], game)
+            cid = [c.id for c in game.hands[game.current_deck].cards].index(self.action[1].id)
+            played_card = game.hands[game.current_deck].cards[cid]
+            game.hands[game.current_deck].store_card(cid, game.players[game.current_player], game)
         elif self.action[0] == 'end_turn':
             game.players[game.current_player].had_played = False
             self.progress(game)
@@ -582,20 +603,23 @@ class Child:
         for c in self.gained_cards:
             g_cards.append(c)
             game.players[game.current_player].stored.cards.pop()
-        game.game_deck = g_cards + game.game_decks
+        game.game_deck = g_cards + game.game_deck
         game.players[game.current_player].money -= self.money_gain
         game.players[game.current_player].loans -= self.loan_gain
         game.players[game.current_player].cages -= self.cage_gain
         if self.action[0] == 'play_stored':
             played_card = self.action[1]
             played_card.undo_play(game.players[game.current_player])
+            game.players[game.current_player].stored.cards.append(played_card)
         elif self.action[0] == 'play_hand':
             played_card = self.action[1]
             played_card.undo_play(game.players[game.current_player])
+            game.hands[game.current_deck].cards.append(played_card)
             game.players[game.current_player].had_played = False
         elif self.action[0] == 'store_hand':
             played_card = self.action[1]
             game.players[game.current_player].stored.cards.remove(played_card)
+            game.hands[game.current_deck].cards.append(played_card)
         elif self.action[0] == 'end_turn':  
             self.regress(game)
           
@@ -670,7 +694,7 @@ class Child:
                 game.hands = []
                 game.game_deck = self.hands + game.game_deck
                 for i in range(len(game.players)):
-                    game.hands.append([])
+                    game.hands.append(deck.SimulDeck(i, game.game_deck, game.reference, []))
     
     def progress(self, game):
         if game.current_player < len(game.players)-1:
@@ -684,8 +708,8 @@ class Child:
                 game.current_deck = (game.current_player+game.firstplayerdeck)%len(game.players)
             else:
                 for player in game.players:
-                    s_res =player.end_season(game.granted[game.round], game.s_ref[game.season]['akce'])
-                    self.s_results[player.id].append([s_res[3], s_res[4], s_res[2], s_res[5]])
+                    s_res =player.end_season(game.granted[game.round-1], game.s_ref[game.season]['akce'])
+                    self.s_results[player.id] = [s_res[3], s_res[4], s_res[2], s_res[5]]
                 goals = [r[-1] for r in self.s_results]
                 if goals.count(max(goals))==1:
                     index = goals.index(max(goals))
@@ -696,7 +720,7 @@ class Child:
                 game.current_deck = (game.current_player+game.firstplayerdeck)%len(game.players)
                 game.round+=1
                 for player in game.players:
-                    self.played_monsters
+                    self.played_monsters[player.id] = len(player.monsters.cards)
                     player.monsters.cards.extend(player.played.cards)
                     player.played.cards = []
                     player.occupied ={"modra":[], "cerna":[], "hneda":[], "zelena":[], "zlata":[], "fialova":[]}
