@@ -599,34 +599,26 @@ class AIDisplay(Display):
         self.person = self.local_game.players[self.local_game.current_player]
         self.deck = self.local_game.hands[self.local_game.current_deck]
         self.person.start_turn(self.deck, self.local_game)
-        info = self.person.choose(self.deck, self.local_game)
-        id = info[0]
-        if self.deck.cards[id].isplayable(self.person) and info[1] == 'play':
-            karta = self.deck.cards[id]
-            if karta.card_type == "monster" and karta.cards>0:
-                    deck.sample_cards(self.local_game, self.person, karta.cards)
-            msg = self.deck.play_card(id, self.person, self.local_game)
-            if msg == 'fialova':
-                self.person.play_purple(karta)
-            if msg == 'biom':
-                if len(info)>1:
-                    self.person.play_biom_e(karta, info[2])
-                else:
-                    self.person.play_biom_e(karta)
-        else:
-            self.deck.store_card(id, self.person, local_game)
-        playing = True
-        while playing == True:
-            playing, i = self.person.want(self.local_game)
-            if i is not None:
-                karta = self.person.stored.cards[i]
+        info = self.person.choose(local_game)
+        while info[0]!="end_turn":
+            d = self.deck
+            id = info[2]
+            if info[0]=="store_hand":
+                    d.store_card(id, self.person, local_game)
+            else:
+                if info[0]=="play_stored":
+                    d = self.person.stored
+                karta = d.cards[id]
                 if karta.card_type == "monster" and karta.cards>0:
-                        deck.sample_cards(self.local_game, self.person, karta.cards)
-                msg = self.person.stored.play_card(i, self.person, self.local_game)
+                        deck.sample_cards(local_game, self.person, karta.cards)
+                msg = d.play_card(id, self.person, local_game)
                 if msg == 'fialova':
                     self.person.play_purple(karta)
                 if msg == 'biom':
-                    self.person.play_biom_e(karta)
+                    if len(info)>1:
+                        self.person.play_biom_e(karta, info[2])
+            d = local_game.hands[local_game.current_deck]
+            info = self.person.choose(local_game)
     
     
                 
