@@ -173,7 +173,8 @@ class Turn(Display):
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         for i in range(len(self.storebuttons)):
             if self.storebuttons[i].is_clicked(event):
-                self.hand.store_card(i, self.person, self.local_game)
+                real_id = (self.page-1)*6 + i
+                self.hand.store_card(real_id, self.person, self.local_game)
                 return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.hand, 1)
         return self 
 

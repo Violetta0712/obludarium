@@ -29,15 +29,20 @@ class Game:
             if player_ents[i] != 'Žádný':
                 if player_ents[i]=='Hráč':
                     new_player = player.Player(i, "Human")
-                elif player_ents[i]=='AI střední':
-                    new_player = player.AIminmax(i, "AI")
-                elif player_ents[i]=='AI snadné':
-                    new_player = player.AIgamble(i, "AI")
-                elif player_ents[i]=='AI těžké':
-                    new_player = player.AIMCTS(i, "AI", len(player_ents))
+                elif player_ents[i]=='AI greedy':
+                    new_player = player.AIgreedy(i, "AI")
+                elif player_ents[i]=='AI playrandom':
+                    new_player = player.AIplayrandom(i, "AI")
+                elif player_ents[i]=='AI mcts short':
+                    new_player = player.AImcts(i, "AI", len(player_ents))
                     self.mcts.append(i)
+                elif player_ents[i]=='AI mcts long':
+                    new_player = player.AImcts(i, "AI", len(player_ents), "long")
+                    self.mcts.append(i)
+                elif player_ents[i]=='AI rule':
+                    new_player = player.AIrule(i, "AI")
                 else:
-                    new_player = player.AIstupid(i, "AI")
+                    new_player = player.AIrandom(i, "AI")
                 for j in range(2):
                     dk_card = random.sample(range(len(DK_deck.cards)), 1)[0]
                     DK_deck.play_card(dk_card, new_player, self)

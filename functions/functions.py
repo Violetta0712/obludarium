@@ -149,19 +149,19 @@ def give_employee_coins(person, usage ="play"):
             return len(person.upgrades.cards)
         
 
-def add_blue_buff(person):
+def add_modra_buff(person):
     person.buffs.append('modra')
 
-def add_black_buff(person):
+def add_cerna_buff(person):
     person.buffs.append('cerna')
 
-def add_brown_buff(person):
+def add_hneda_buff(person):
     person.buffs.append('hneda')
 
-def add_green_buff(person):
+def add_zelena_buff(person):
     person.buffs.append('zelena')
 
-def add_yellow_buff(person):
+def add_zlata_buff(person):
     person.buffs.append('zlata')
 
 def add_event_buff(person):
@@ -317,11 +317,11 @@ ACTIONS = {
     "give_cage": give_cage,
     "give_monster_coins": give_monster_coins,
     "give_employee_coins": give_employee_coins,
-    "add_blue_buff": add_blue_buff,
-    "add_black_buff": add_black_buff,
-    "add_brown_buff": add_brown_buff,
-    "add_green_buff": add_green_buff,
-    "add_yellow_buff": add_yellow_buff,
+    "add_modra_buff": add_modra_buff,
+    "add_cerna_buff": add_cerna_buff,
+    "add_hneda_buff": add_hneda_buff,
+    "add_zelena_buff": add_zelena_buff,
+    "add_zlata_buff": add_zlata_buff,
     "add_event_buff": add_event_buff,
     "add_agro_buff": add_agro_buff,
     "add_safe_buff": add_safe_buff,

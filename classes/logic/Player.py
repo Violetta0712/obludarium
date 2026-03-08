@@ -1,3 +1,5 @@
+import re
+
 import classes.logic.Deck as deck
 import math
 import random
@@ -93,7 +95,7 @@ class Player:
 
         
 
-class AIstupid(Player):
+class AIrandom(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
     
@@ -142,7 +144,7 @@ class AIstupid(Player):
         
 
     
-class AIgamble(Player):
+class AIplayrandom(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
     
@@ -201,7 +203,7 @@ class AIgamble(Player):
         card.actually_play(self, col)
 
     
-class AIminmax(Player):
+class AIgreedy(Player):
     def __init__(self, id, player_type):
         super().__init__(id, player_type)
     
@@ -232,7 +234,7 @@ class AIminmax(Player):
             if points > maxpoints:
                 maxpoints = points
                 maxchild = child
-        return child.action
+        return maxchild.action
     
     def evaluate_card(self, card, game):
         points = 0
@@ -359,15 +361,275 @@ class AIminmax(Player):
                 colors.append(barva)
             col = random.sample(colors, 1)[0]
             card.actually_play(self, col)
+
+class AIrule(Player):
+    def __init__(self, id, player_type):
+        super().__init__(id, player_type)
+    
+    def choose(self, game):
+        maxpoints = -100
+        maxid = None
+        barva = None
+        zp = 0
+        p = 0
+        node = Root()
+        node.create_children(game)
+        play_monsters = []
+        store_monsters = []
+        play_bioms = []
+        store_bioms = []
+        play_employees = []
+        store_employees = []
+        action_cards = []
+        objectives = []
+        rest = []
+        end_node = None
+        if 'zadne_pujcky' in self.evaluation and self.loans == 0:
+            zp = 6
+        if 'pujcky' in self.evaluation:
+            p = 2
+        if game.turn != 8:
+            node.children = [child for child in node.children if child.action[0] != 'play_stored']
+        for i in range(len(node.children)):
+            child = node.children[i]
+            card = child.action[1]
+            if (child.action[0]=='play_hand' or child.action[0]=='play_stored'):
+                match card.card_type:
+                    case "monster":
+                        play_monsters.append(i)
+                    case "biom":
+                        play_bioms.append(i)
+                    case "employee":
+                        play_employees.append(i)
+                    case "event":
+                        action_cards.append(i)
+                    case _:
+                        rest.append(i)
+            elif child.action[0]=='store_card':
+                match card.card_type:
+                    case "monster":
+                        store_monsters.append(i)
+                    case "biom":
+                        store_bioms.append(i)
+                    case "employee":
+                        store_employees.append(i)
+                    case "objective":
+                        objectives.append(i)
+                    case _:
+                        rest.append(i)
+            elif child.action[0]=="end_turn":
+                end_node = child
+            else:
+                rest.append(i)
+        if play_monsters != []:
+            chosen_set = play_monsters
+            for i in chosen_set:
+                card = node.children[i].action[1]
+                points, barva = self.evaluate_card(card, game)
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = i
+            return node.children[maxid].action
+        elif play_bioms != []:
+            chosen_set = play_bioms
+            clr_points = {"modra":0, "cerna":0, "hneda":0, "zelena":0, "zlata":0, "fialova":0}
+            for st_c in self.stored.cards:
+                if st_c.card_type == "monster":
+                    clr_points[st_c.color] += st_c.points
+            for i in play_bioms:
+                card = node.children[i].action[1]
+                points, barva = self.evaluate_card(card, game)
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = i
+            return node.children[maxid].action
+        elif action_cards != []:
+            chosen_set = action_cards
+            for i in chosen_set:
+                card = node.children[i].action[1]
+                points, barva = self.evaluate_card(card, game)
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = i
+            return node.children[maxid].action
+        elif objectives != []:
+            chosen_set = objectives
+            for i in chosen_set:
+                card = node.children[i].action[1]
+                points = card.score(self) - (1 if self.money > 0 else (3 + p - zp))
+                if 'ukoly' in self.evaluation:
+                    points += 2
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = i
+            return node.children[maxid].action
+        elif store_monsters != []:
+            chosen_set = store_monsters
+            min_diff = 100
+            diff = 0
+            for i in chosen_set:
+                card = node.children[i].action[1]
+                diff = card.level - sum(self.bioms[card.color])
+                if diff < min_diff:
+                    min_diff = diff
+                    maxid = i
+            return node.children[maxid].action
+        elif store_bioms != []:
+            chosen_set = store_bioms
+            chosen_set = play_bioms
+            clr_points = {"modra":0, "cerna":0, "hneda":0, "zelena":0, "zlata":0, "fialova":0}
+            for st_c in self.stored.cards:
+                if st_c.card_type == "monster":
+                    clr_points[st_c.color] += st_c.points
+            for i in play_bioms:
+                card = node.children[i].action[1]
+                points, barva = self.evaluate_card(card, game)
+                if points > maxpoints:
+                    maxpoints = points
+                    maxid = i
+            return node.children[maxid].action
+        elif play_employees != []:
+            chosen_set = play_employees
+            maxbioms = 0
+            bioms = 0
+            for i in chosen_set:
+                card = node.children[i].action[1]
+                if card.action == "add_safe_buff":
+                    return node.children[i].action
+                elif card.action == "add_biom":
+                    if [card for card in self.stored.cards if card.card_type == "monster"] != []:
+                        return node.children[i].action
+                elif (card.action == "add_event_buff" or card.action == "add_agro_buff") and game.round in [1, 2]:
+                    if [card for card in self.stored.cards if card.card_type == "monster"] != []:
+                        return node.children[i].action
+                else:
+                    if game.round in [1, 2] and sum(self.bioms[card.action.split("_")[1]])>0:
+                        bioms = sum(self.bioms[card.action.split("_")[1]])
+                        if bioms > maxbioms:
+                            maxbioms = bioms
+                            maxid = i
+            if maxid is not None:
+                return node.children[maxid].action
+
+        elif store_employees != []:
+            chosen_set = store_employees
+            i = random.sample(chosen_set, 1)[0]
+            return node.children[i].action
+            
+        elif end_node is not None:
+            return end_node.action
+        child = random.sample(node.children, 1)[0]
+        return child.action
+    
+    def evaluate_card(self, card, game):
+        points = 0
+        barva = None
+        zp = 0
+        p = 0
+        if 'zadne_pujcky' in self.evaluation and self.loans == 0:
+            zp = 6
+        if 'pujcky' in self.evaluation:
+            p = 2
+        match card.card_type:
+                    case "monster":
+                        points = card.points
+                        points += game.will_win_seas(self, card)
+                        if card.color == self.season_buff:
+                            points += 2
+                        if card.color in self.buffs:
+                            points += 2
+                        if "agro" in self.buffs:
+                            points += card.fury
+                        if self.season_buff == "agro" and card.fury > 0:
+                            points += 2
+                        elif self.season_buff == card.color:
+                            points += 2
+                        if card.color in self.evaluation:
+                            points += 2
+                        if card.fury > 0 and "besneni" in self.evaluation:
+                            points += card.fury
+                        if card.level == 1 and "mala" in self.evaluation:
+                            points += 1
+                        if card.level == 3 and "velka" in self.evaluation:
+                            points += 2
+                        elif card.level >4 and "velka" in self.evaluation:
+                            points += 3
+                    case "biom":
+                        points = 0
+                        if 'velky_biom' in self.evaluation and sum(self.bioms[card.color]) < 7 and sum(self.bioms[card.color]) + card.level >= 7:
+                            points += 7
+                        if  'mnoho_biomů' in self.evaluation and sum(self.bioms[card.color]) == 1:
+                            points += 2
+                        if 'fialovy_biom' in self.evaluation and card.color == 'fialova':
+                            points += 2
+                        if 'vzdaleny_biom' in self.evaluation and card.pre > 0:
+                            points += 2
+                        if 'malo_biomů' in self.evaluation:
+                            biom_num = 0
+                            for biom in self.bioms:
+                                if sum(self.bioms[biom]) >0:
+                                    biom_num += 1
+                            if biom_num <= 3 and sum(self.bioms[card.color]) ==0:
+                                points -= 7
+                            elif biom_num == 4 and sum(self.bioms[card.color]) ==0:
+                                points -= 4
+                    case "employee":
+                        points = (-card.price if self.money >= card.price else (-card.price - 2 + p - zp))
+                        if 'zamestnanci' in self.evaluation:
+                            points += 3
+                        if card.action == "add_biom" and 'velky_biom' in self.evaluation and max([sum(b) for b in self.bioms.values()]) == 6:
+                            points += 7
+                            barva = next((k for k, v in self.bioms.items() if sum(v) == 6), None)
+                        elif card.action == "add_biom" and 'mnoho_biomů' in self.evaluation and 1 in [sum(b) for b in self.bioms.values()]:
+                            points += 2
+                            barva = next((k for k, v in self.bioms.items() if sum(v) == 1), None)
+                    case "event":
+                        points = card.evaluate(self)
+                        if 'event' in self.buffs:
+                            points += 1
+        return points, barva
+    
+    def play_purple(self, card):
+        selected = [0, 0, 0, 0, 0, 0]
+        maxs = []
+        for id, (barva, biom) in enumerate(self.bioms.items()):
+            maxs.append(biom[0])
+        if sum(selected)==sum(maxs):
+            selected = maxs
+        else:
+            goal = card.level
+            selectable = []
+            if maxs[5]>=goal:
+                selected[5] = goal
+            else:
+                selected[5] = maxs[5]
+                maxs[5] = 0
+            while sum(selected)<goal:
+                selectable = [idx for idx, val in enumerate(maxs) if val > 0]
+                col = random.sample(selectable, 1)[0]
+                if sum(selected)+maxs[col]> goal:
+                    selected[col] += goal - sum(selected)
+                else:
+                    selected[col] += maxs[col]
+                    maxs[col] = 0
+        card.actually_play(self, selected)
+    
+    def play_biom_e(self, card, barva = None):
+            colors = []
+            for id, (barva, biom) in enumerate(self.bioms.items()):
+                colors.append(barva)
+            col = random.sample(colors, 1)[0]
+            card.actually_play(self, col)
             
 
 
-class AIMCTS(Player):
-    def __init__(self, id, player_type, player_num):
+class AImcts(Player):
+    def __init__(self, id, player_type, player_num, mct_type = "short"):
         super().__init__(id, player_type)
         self.known = [[[] for _ in range(player_num)] for _ in range(4)]
         self.seen = [-1] * player_num
         self.sets = [[] for _ in range(player_num)]
+        self.type = mct_type
     
     def start_turn(self, deck, game):
         if self.seen[game.current_deck] != -1:
@@ -614,6 +876,8 @@ class Child:
                     game.hands.append(new_hand)
     
     def create_children(self, game):
+        if game.mct_type == "short" and game.starting_round != game.round:
+            return
         if game.round == 5:
             return
         if game.biom_card is not None:
@@ -669,6 +933,7 @@ class SimGame:
         self.biom_card = b_card
         self.players = copy.deepcopy(game.players)
         self.round = game.round
+        self.starting_round = game.round
         self.turn = game.turn
         self.colors = ["modra", "cerna", "hneda", "zelena", "zlata"]
         random.shuffle(self.colors)
@@ -678,6 +943,7 @@ class SimGame:
         self.mcts = []
         self.played_cards = []
         self.current_player = game.current_player
+        self.mct_type = mcts.type
         self.firstplayerdeck = game.firstplayerdeck
         self.seasondeck = game.seasondeck.copy()
         random.shuffle(self.seasondeck)
