@@ -6,6 +6,7 @@ import random
 import functions.functions as f
 import copy
 import time
+import params as p
 
 class Player:
     def __init__(self, id, player_type):
@@ -103,17 +104,8 @@ class AIrandom(Player):
         node = Root()
         node.create_children(game)
         i = random.sample(range(len(node.children)),1)[0]
-        return node.children[i].action
-    
-    def want(self, game):
-        playables = []
-        for xi in range(len(self.stored.cards)):
-            if self.stored.cards[xi].isplayable(self):
-                playables.append(xi)
-        if playables == []:
-            return False, None
-        else:
-            return True, random.sample(playables,1)[0]
+        return node.children[i]
+
     
     def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
@@ -153,23 +145,13 @@ class AIplayrandom(Player):
         node.create_children(game)
         playables = []
         for child in node.children:
-            if child.action[0] == 'play_hand' or child.action[0] == 'play_stored':
+            if child[0] == 'play_hand' or child[0] == 'play_stored':
                 playables.append(child)
         if playables == []:
             playables = node.children
         chosen = random.sample(playables,1)[0]
-        return chosen.action
-    
-    def want(self, game):
-        playables = []
-        for xi in range(len(self.stored.cards)):
-            if self.stored.cards[xi].isplayable(self):
-                playables.append(xi)
-        if playables == []:
-            return False, None
-        else:
-            return True, random.sample(playables,1)[0]
-    
+        return chosen
+   
     def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
         maxs = []
@@ -220,21 +202,21 @@ class AIgreedy(Player):
         if 'pujcky' in self.evaluation:
             p = 2
         for child in node.children:
-            card = child.action[1]
-            if child.action[0]=='store_card' and card.card_type == "objective":
+            card = child[1]
+            if child[0]=='store_card' and card.card_type == "objective":
                 points = card.score(self) - (1 if self.money > 0 else (3 + p - zp))
                 if 'ukoly' in self.evaluation:
                     points += 2
-            elif child.action[0]=='store_card':
+            elif child[0]=='store_card':
                 points = -(1 if self.money > 0 else (3 + p - zp))
-            elif child.action[0]=="end_turn":
+            elif child[0]=="end_turn":
                 points = 0
             else:
                 points, barva = self.evaluate_card(card, game)
             if points > maxpoints:
                 maxpoints = points
                 maxchild = child
-        return maxchild.action
+        return maxchild
     
     def evaluate_card(self, card, game):
         points = 0
@@ -304,28 +286,7 @@ class AIgreedy(Player):
                             points += 1
         return points, barva
                         
-            
-
     
-    def want(self, game):
-        playables = []
-        for xi in range(len(self.stored.cards)):
-            if self.stored.cards[xi].isplayable(self):
-                playables.append(xi)
-        if playables == []:
-            return False, None
-        else:
-            maxpoints = -100
-            maxid = None
-            for xi in playables:
-                points, barva = self.evaluate_card(self.stored.cards[xi], game)
-                if points > maxpoints:
-                    maxpoints = points
-                    maxid = xi
-            if maxpoints > 0:
-                return True , maxid
-            else:
-                return False, None
     
     def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
@@ -389,11 +350,11 @@ class AIrule(Player):
         if 'pujcky' in self.evaluation:
             p = 2
         if game.turn != 8:
-            node.children = [child for child in node.children if child.action[0] != 'play_stored']
+            node.children = [child for child in node.children if child[0] != 'play_stored']
         for i in range(len(node.children)):
             child = node.children[i]
-            card = child.action[1]
-            if (child.action[0]=='play_hand' or child.action[0]=='play_stored'):
+            card = child[1]
+            if (child[0]=='play_hand' or child[0]=='play_stored'):
                 match card.card_type:
                     case "monster":
                         play_monsters.append(i)
@@ -405,7 +366,7 @@ class AIrule(Player):
                         action_cards.append(i)
                     case _:
                         rest.append(i)
-            elif child.action[0]=='store_card':
+            elif child[0]=='store_card':
                 match card.card_type:
                     case "monster":
                         store_monsters.append(i)
@@ -417,19 +378,19 @@ class AIrule(Player):
                         objectives.append(i)
                     case _:
                         rest.append(i)
-            elif child.action[0]=="end_turn":
+            elif child[0]=="end_turn":
                 end_node = child
             else:
                 rest.append(i)
         if play_monsters != []:
             chosen_set = play_monsters
             for i in chosen_set:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 points, barva = self.evaluate_card(card, game)
                 if points > maxpoints:
                     maxpoints = points
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif play_bioms != []:
             chosen_set = play_bioms
             clr_points = {"modra":0, "cerna":0, "hneda":0, "zelena":0, "zlata":0, "fialova":0}
@@ -437,43 +398,43 @@ class AIrule(Player):
                 if st_c.card_type == "monster":
                     clr_points[st_c.color] += st_c.points
             for i in play_bioms:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 points, barva = self.evaluate_card(card, game)
                 if points > maxpoints:
                     maxpoints = points
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif action_cards != []:
             chosen_set = action_cards
             for i in chosen_set:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 points, barva = self.evaluate_card(card, game)
                 if points > maxpoints:
                     maxpoints = points
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif objectives != []:
             chosen_set = objectives
             for i in chosen_set:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 points = card.score(self) - (1 if self.money > 0 else (3 + p - zp))
                 if 'ukoly' in self.evaluation:
                     points += 2
                 if points > maxpoints:
                     maxpoints = points
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif store_monsters != []:
             chosen_set = store_monsters
             min_diff = 100
             diff = 0
             for i in chosen_set:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 diff = card.level - sum(self.bioms[card.color])
                 if diff < min_diff:
                     min_diff = diff
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif store_bioms != []:
             chosen_set = store_bioms
             chosen_set = play_bioms
@@ -482,26 +443,26 @@ class AIrule(Player):
                 if st_c.card_type == "monster":
                     clr_points[st_c.color] += st_c.points
             for i in play_bioms:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 points, barva = self.evaluate_card(card, game)
                 if points > maxpoints:
                     maxpoints = points
                     maxid = i
-            return node.children[maxid].action
+            return node.children[maxid]
         elif play_employees != []:
             chosen_set = play_employees
             maxbioms = 0
             bioms = 0
             for i in chosen_set:
-                card = node.children[i].action[1]
+                card = node.children[i][1]
                 if card.action == "add_safe_buff":
-                    return node.children[i].action
+                    return node.children[i]
                 elif card.action == "add_biom":
                     if [card for card in self.stored.cards if card.card_type == "monster"] != []:
-                        return node.children[i].action
+                        return node.children[i]
                 elif (card.action == "add_event_buff" or card.action == "add_agro_buff") and game.round in [1, 2]:
                     if [card for card in self.stored.cards if card.card_type == "monster"] != []:
-                        return node.children[i].action
+                        return node.children[i]
                 else:
                     if game.round in [1, 2] and sum(self.bioms[card.action.split("_")[1]])>0:
                         bioms = sum(self.bioms[card.action.split("_")[1]])
@@ -509,17 +470,17 @@ class AIrule(Player):
                             maxbioms = bioms
                             maxid = i
             if maxid is not None:
-                return node.children[maxid].action
+                return node.children[maxid]
 
         elif store_employees != []:
             chosen_set = store_employees
             i = random.sample(chosen_set, 1)[0]
-            return node.children[i].action
+            return node.children[i]
             
         elif end_node is not None:
-            return end_node.action
+            return end_node
         child = random.sample(node.children, 1)[0]
-        return child.action
+        return child
     
     def evaluate_card(self, card, game):
         points = 0
@@ -624,12 +585,14 @@ class AIrule(Player):
 
 
 class AImcts(Player):
-    def __init__(self, id, player_type, player_num, mct_type = "short"):
+    def __init__(self, id, player_type, player_num, hp, mct_type = "short"):
         super().__init__(id, player_type)
         self.known = [[[] for _ in range(player_num)] for _ in range(4)]
         self.seen = [-1] * player_num
         self.sets = [[] for _ in range(player_num)]
         self.type = mct_type
+        self.disk = hp[0]
+        self.sims = hp[1]
     
     def start_turn(self, deck, game):
         if self.seen[game.current_deck] != -1:
@@ -643,19 +606,17 @@ class AImcts(Player):
     def choose(self, game):
         results = []
         wins = []
-        for disc in range(1):   
-            start_time = time.time()
-            max_time = 2.0 
+        for disc in range(self.disk):
             ref_game =SimGame(game, self)
             node = Root()
             node.create_children(ref_game)
             if len(node.children)==1:
-                return node.children[0].action
+                return node.children[0]
             sim = 0
-            while time.time() - start_time < max_time:
+            while sim <self.sims:
                 passable_game = copy.deepcopy(ref_game)
                 while node.children != []:
-                    node = self.choose_child(node.children, sim, passable_game.current_player)
+                    node = self.choose_child(node, sim, passable_game.current_player)
                     node.playout(passable_game)
                     if node.children == []:
                         node.create_children(passable_game)
@@ -671,17 +632,10 @@ class AImcts(Player):
         res = [sum(col) for col in zip(*results)]
         final_res = [res[i]+winterm[i] for i in range(len(res))]
         maxid = final_res.index(max(final_res))
+        if type(node.children[maxid]) == list:
+            return node.children[maxid]
         return node.children[maxid].action
     
-    def want(self, game):
-        playables = []
-        for xi in range(len(self.stored.cards)):
-            if self.stored.cards[xi].isplayable(self):
-                playables.append(xi)
-        if playables == []:
-            return False, None
-        else:
-            return True, random.sample(playables,1)[0]
     
     def play_purple(self, card):
         selected = [0, 0, 0, 0, 0, 0]
@@ -709,18 +663,24 @@ class AImcts(Player):
         col = random.sample(colors, 1)[0]
         card.actually_play(self, col)
 
-    def choose_child(self, children, sim_num, cur_player):
+    def choose_child(self, parent, sim_num, cur_player):
+        children = parent.children
         best_score = float('-inf')
         best_child = None
-        for child in children:
-            if child.visits == 0:
+        best_id = 0
+        for i in range(len(children)):
+            child = children[i]
+            if type(child) == list:
                 score = float('inf')
             else:
                 score = child.wins[cur_player]/child.visits + math.sqrt(2 * math.log(sim_num) / child.visits)
             if score > best_score:
                 best_score = score
                 best_child = child
-        return best_child
+                best_id = i
+        if type(best_child) == list:
+            children[best_id] = Child(parent, best_child)
+        return children[best_id]
 
     
 
@@ -738,22 +698,22 @@ class Root:
             return
         if game.biom_card is not None:
             for color in game.colors:
-                new_child = Child(self, ['biom',game.biom_card, color])
+                new_child = ['biom',game.biom_card, color]
                 self.children.append(new_child)
         else:
             for c in range(len(game.players[game.current_player].stored.cards)):
                 if game.players[game.current_player].stored.cards[c].isplayable(game.players[game.current_player]):
-                    new_child = Child(self, ['play_stored', game.players[game.current_player].stored.cards[c], c])
+                    new_child = ['play_stored', game.players[game.current_player].stored.cards[c], c]
                     self.children.append(new_child)
             if game.players[game.current_player].had_played == False:
                 for c in range(len(game.hands[game.current_deck].cards)):
                     if game.hands[game.current_deck].cards[c].isplayable(game.players[game.current_player]):
-                        new_child = Child(self, ['play_hand', game.hands[game.current_deck].cards[c], c])
+                        new_child = ['play_hand', game.hands[game.current_deck].cards[c], c]
                         self.children.append(new_child)
-                    new_child = Child(self, ['store_hand', game.hands[game.current_deck].cards[c], c])
+                    new_child = ['store_hand', game.hands[game.current_deck].cards[c], c]
                     self.children.append(new_child)
             else:
-                new_child = Child(self, ['end_turn', None])
+                new_child = ['end_turn', None]
                 self.children.append(new_child)
 
             
@@ -882,22 +842,22 @@ class Child:
             return
         if game.biom_card is not None:
             for color in game.colors:
-                new_child = Child(self, ['biom',game.biom_card, color])
+                new_child = ['biom',game.biom_card, color]
                 self.children.append(new_child)
         else:
             for c in range(len(game.players[game.current_player].stored.cards)):
                 if game.players[game.current_player].stored.cards[c].isplayable(game.players[game.current_player]):
-                    new_child = Child(self, ['play_stored', game.players[game.current_player].stored.cards[c], c])
+                    new_child = ['play_stored', game.players[game.current_player].stored.cards[c], c]
                     self.children.append(new_child)
             if game.players[game.current_player].had_played == False:
                 for c in range(len(game.hands[game.current_deck].cards)):
                     if game.hands[game.current_deck].cards[c].isplayable(game.players[game.current_player]):
-                        new_child = Child(self, ['play_hand', game.hands[game.current_deck].cards[c], c])
+                        new_child = ['play_hand', game.hands[game.current_deck].cards[c], c]
                         self.children.append(new_child)
-                    new_child = Child(self, ['store_hand', game.hands[game.current_deck].cards[c], c])
+                    new_child = ['store_hand', game.hands[game.current_deck].cards[c], c]
                     self.children.append(new_child)
             else:
-                new_child = Child(self, ['end_turn', None])
+                new_child = ['end_turn', None]
                 self.children.append(new_child)
     def end_game(self, game):
         results = []
@@ -989,7 +949,32 @@ class SimGame:
                 new_hand = deck.SimulDeck(i, self.game_deck, self.reference, known[self.round-1][i][-1]) 
             self.hands.append(new_hand)
 
-        
+class SimGameCopy:
+    def __init__(self, game):
+        self.biom_card = game.biom_card
+        self.players = copy.deepcopy(game.players)
+        self.round = game.round
+        self.starting_round = game.round
+        self.turn = game.turn
+        self.colors = game.colors.copy()
+        self.msg = game.msg
+        self.results = []
+        self.order = []
+        self.mcts = []
+        self.played_cards = game.played_cards
+        self.current_player = game.current_player
+        self.mct_type = game.mct_type
+        self.firstplayerdeck = game.firstplayerdeck
+        self.seasondeck = game.seasondeck.copy()
+        random.shuffle(self.seasondeck)
+        self.s_ref = game.s_ref
+        self.season = game.season
+        self.reference = game.reference
+        self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+        self.granted = game.granted
+        self.game_deck = game.game_deck.copy()
+        self.hands = copy.deepcopy(game.hands)
+
 
         
 

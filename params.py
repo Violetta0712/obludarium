@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import math
 img_format = ".jpg"
 
 BASE_DIR = Path(__file__).parent
@@ -25,4 +26,6 @@ all_jsons = deck_jsons + [DK_json, S_json]
 season_jsons = [S_json]
 DK_jsons = [DK_json]
 hand_size = 8
+
+hp = [10, 100, math.sqrt(2)]
 

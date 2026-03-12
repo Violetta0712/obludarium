@@ -4,7 +4,7 @@ import functions.functions as f
 import random
 import copy
 class Game:
-    def __init__(self, player_ents):
+    def __init__(self, player_ents, hp = None):
         self.players = []
         self.round = 1
         self.turn = 1
@@ -15,6 +15,7 @@ class Game:
         self.played_cards = []
         self.current_player = 0
         self.firstplayerdeck = 0
+        self.first_player = 0
         self.hands = []
         self.seasondeck = f.load_seasons()
         self.s_ref = f.load_season_ref()
@@ -34,10 +35,10 @@ class Game:
                 elif player_ents[i]=='AI playrandom':
                     new_player = player.AIplayrandom(i, "AI")
                 elif player_ents[i]=='AI mcts short':
-                    new_player = player.AImcts(i, "AI", len(player_ents))
+                    new_player = player.AImcts(i, "AI", len(player_ents), hp)
                     self.mcts.append(i)
                 elif player_ents[i]=='AI mcts long':
-                    new_player = player.AImcts(i, "AI", len(player_ents), "long")
+                    new_player = player.AImcts(i, "AI", len(player_ents), hp, "long")
                     self.mcts.append(i)
                 elif player_ents[i]=='AI rule':
                     new_player = player.AIrule(i, "AI")
@@ -66,10 +67,14 @@ class Game:
             self.turn += 1
             self.firstplayerdeck = (self.firstplayerdeck+len(self.hands)+(-1)**self.round)%len(self.players)
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
+            if self.players[self.current_player].player_type == 'AI':
+                return 'AI-turn'
             return "turn"
         else:
             self.turn = 1
             self.firstplayerdeck = 0
+            self.first_player = (self.first_player + 1) % len(self.players)
+            self.current_player = self.first_player
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
             return 'season'
     def end_round(self):
@@ -93,12 +98,14 @@ class Game:
     def next_player(self):
         if self.current_player < len(self.players)-1:
             self.current_player += 1
+        else:
+            self.current_player = 0
+        if self.current_player != self.first_player:
             self.current_deck = (self.current_player+self.firstplayerdeck)%len(self.players)
             if self.players[self.current_player].player_type == 'AI':
                 return 'AI-turn'
             return "turn"
         else:
-            self.current_player = 0
             return self.next_turn()
         
     def end_game(self):

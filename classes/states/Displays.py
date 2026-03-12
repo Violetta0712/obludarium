@@ -53,7 +53,10 @@ class Season(Display):
         if result is not self:
             return result
         if self.okbutton.is_clicked(event):
-            return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
+            if self.local_game.players[self.local_game.current_player].player_type == 'AI':
+                return AIDisplay(self.s_height, self.s_width,self.state, self.local_game)
+            else:
+                return TurnDeck(self.s_height, self.s_width,self.state, self.local_game, self.local_game.players[self.local_game.current_player], self.local_game.hands[self.local_game.current_deck])
         return self
 
 class Turn(Display):
