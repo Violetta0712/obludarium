@@ -3,6 +3,8 @@ import params as p
 
 class CardImage:
     def __init__(self, x, y, width, cardid, radius=14, border_color=(0,0,0), border_thickness=6):
+        if cardid[0] == 'K':
+            cardid = "_".join(cardid.split("_")[:2])
         self.path = (p.IMG_DIR / cardid).with_suffix(p.img_format)
 
         height = int(width * 13 / 9)

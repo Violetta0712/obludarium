@@ -1,11 +1,83 @@
 [
     {
-        "id": "K_01",
+        "id": "K_01_01",
         "jmeno": "Hlubiny",
         "pruzkum": 1,
         "barva": "modra",
         "typ": "K",
-        "mnozstvi": 10
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_02",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_03",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_04",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_05",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_06",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_07",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_08",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_09",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_01_10",
+        "jmeno": "Hlubiny",
+        "pruzkum": 1,
+        "barva": "modra",
+        "typ": "K",
+        "mnozstvi": 1
     },
     {
         "id": "K_02",
@@ -38,12 +110,84 @@
         "mnozstvi": 1
     },
     {
-        "id": "K_05",
+        "id": "K_05_01",
         "jmeno": "Temnozem",
         "pruzkum": 1,
         "barva": "cerna",
         "typ": "K",
-        "mnozstvi": 10
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_02",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_03",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_04",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_05",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_06",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_07",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_08",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_09",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_05_10",
+        "jmeno": "Temnozem",
+        "pruzkum": 1,
+        "barva": "cerna",
+        "typ": "K",
+        "mnozstvi": 1
     },
     {
         "id": "K_06",
@@ -76,12 +220,84 @@
         "mnozstvi": 1
     },
     {
-        "id": "K_09",
+        "id": "K_09_01",
         "jmeno": "Jeskyně",
         "pruzkum": 1,
         "barva": "hneda",
         "typ": "K",
-        "mnozstvi": 10
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_02",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_03",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_04",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_05",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_06",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_07",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_08",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_09",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_09_10",
+        "jmeno": "Jeskyně",
+        "pruzkum": 1,
+        "barva": "hneda",
+        "typ": "K",
+        "mnozstvi": 1
     },
     {
         "id": "K_10",
@@ -114,12 +330,84 @@
         "mnozstvi": 1
     },
     {
-        "id": "K_13",
+        "id": "K_13_01",
         "jmeno": "Začarovaný les",
         "pruzkum": 1,
         "barva": "zelena",
         "typ": "K",
-        "mnozstvi": 10
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_02",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_03",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_04",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_05",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_06",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_07",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_08",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_09",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_13_10",
+        "jmeno": "Začarovaný les",
+        "pruzkum": 1,
+        "barva": "zelena",
+        "typ": "K",
+        "mnozstvi": 1
     },
     {
         "id": "K_14",
@@ -152,12 +440,84 @@
         "mnozstvi": 1
     },
     {
-        "id": "K_17",
+        "id": "K_17_01",
         "jmeno": "Povětří",
         "pruzkum": 1,
         "barva": "zlata",
         "typ": "K",
-        "mnozstvi": 10
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_02",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_03",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_04",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_05",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_06",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_07",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_08",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_09",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_17_10",
+        "jmeno": "Povětří",
+        "pruzkum": 1,
+        "barva": "zlata",
+        "typ": "K",
+        "mnozstvi": 1
     },
     {
         "id": "K_18",
@@ -190,11 +550,59 @@
         "mnozstvi": 1
     },
     {
-        "id": "K_21",
+        "id": "K_21_01",
         "jmeno": "Krajina snů",
         "pruzkum": 3,
         "barva": "fialova",
         "typ": "K",
-        "mnozstvi": 7
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_02",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_03",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_04",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_05",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_06",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
+    },
+    {
+        "id": "K_21_07",
+        "jmeno": "Krajina snů",
+        "pruzkum": 3,
+        "barva": "fialova",
+        "typ": "K",
+        "mnozstvi": 1
     }
 ]

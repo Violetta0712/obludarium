@@ -27,5 +27,7 @@ season_jsons = [S_json]
 DK_jsons = [DK_json]
 hand_size = 8
 
-hp = [10, 100, math.sqrt(2)]
+
+hp_short = [10, 50, math.sqrt(2)]
+hp_long = [10, 25, math.sqrt(2)]
 

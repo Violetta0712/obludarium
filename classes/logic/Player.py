@@ -591,6 +591,10 @@ class AImcts(Player):
         self.seen = [-1] * player_num
         self.sets = [[] for _ in range(player_num)]
         self.type = mct_type
+        if hp is None and mct_type == "short":
+            hp = p.hp_short
+        elif hp is None and mct_type == "long":
+            hp = p.hp_long
         self.disk = hp[0]
         self.sims = hp[1]
     
