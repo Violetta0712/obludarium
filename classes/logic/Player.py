@@ -671,7 +671,7 @@ class AImcts(Player):
         children = parent.children
         best_score = float('-inf')
         parent_visits = parent.visits 
-        best_child = None
+        best_child = []
         best_id = 0
         for i in range(len(children)):
             child = children[i]
@@ -680,9 +680,12 @@ class AImcts(Player):
             else:
                 score = child.wins[cur_player]/child.visits + math.sqrt(2 * math.log(parent_visits+1) / child.visits)
             if score > best_score:
+                best_child = [child]
                 best_score = score
-                best_child = child
                 best_id = i
+            elif score == best_score:
+                best_child.append(child)
+        best_child = random.sample(best_child, 1)[0]
         if type(best_child) == list:
             children[best_id] = Child(parent, best_child)
         return children[best_id]
